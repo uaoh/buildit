@@ -1,23 +1,25 @@
 #!/bin/bash
 
 export VM=ci
-export VG=virt
+export VG=ubuntu-vg
 
 function clean_old_vm(){
+    echo "*** Cleaning old VM ***"
     sudo virsh destroy $VM
     sudo virsh undefine $VM
 }
 
 function setup_storage(){
-    if [[ ! -e /dev/mapper/${VG}-thinpool-tpool ]]; then
+    echo "*** Setting up storage ***"
+    if ! sudo lvs -S 'lv_name = thinpool' -o lv_name --noheading |grep "^  thinpool$" > /dev/null; then
         echo No thin pool. Creating...
-        lvcreate -L 1G -T ${VG}/thinpool
+        lvcreate -L 1G -T ${VG}/thinpool || exit 1
     fi
     if [[ ! -e /dev/${VG}/${VM}-root ]]; then
         echo No root fs
         exit 1
     fi
-      
+
     lvremove -f /dev/${VG}/${VM}-root-snap
     lvcreate --snapshot --name ${VM}-root-snap --size 5G /dev/${VG}/${VM}-root
     # Make thin data and swap LVs
@@ -28,10 +30,12 @@ function setup_storage(){
 }
 
 function mount_guest(){
-    mount /dev/${VG}/${VM}-root-snap /mnt
+    echo "*** Mounting guest ***"
+    mount /dev/${VG}/${VM}-root-snap /mnt || exit 1
 }
 
 function fixup_snapshot() {
+    echo "*** Fixing up snapshot ***"
     cat <<EOF > /mnt/etc/fstab
 /dev/vda        /       ext4    rw,noatime,user_xattr,acl,barrier=1,data=ordered        0       1
 EOF
@@ -41,6 +45,7 @@ EOF
 }
 
 function get_kernel() {
+    echo "*** Getting the kernel ***"
     rm -rf /kvmboot/${VM}
     mkdir -p /kvmboot/${VM}
     cp /mnt/boot/vmlinuz-*  /kvmboot/${VM}/
@@ -48,25 +53,28 @@ function get_kernel() {
 }
 
 function umount_guest(){
-    umount /mnt
+    echo "*** Unmounting guest ***"
+    umount /mnt || exit 1
 }
 function create_config_iso(){
-    cd /mer/jolla/devel/infra/deploy/cc-iso/
+    echo "*** Creating a config ISO ***"
     genisoimage -o ${VM}_config.iso -V cidata -r -J meta-data user-data network-config
 
 }
 function create_vm() {
+    echo "*** Creating the VM ***"
     sudo virt-install --name ${VM} --memory 512 --os-type linux \
          -w network=default,model=virtio \
-         --disk vol=virsh_virt/${VM}-root-snap,bus=virtio,cache=none,format=raw --import \
+         --disk path=/dev/${VG}/${VM}-root-snap,bus=virtio,cache=none,format=raw --import \
          --disk path=/dev/${VG}/${VM}-swap,bus=virtio,cache=none,format=raw \
          --disk path=/dev/${VG}/${VM}-data,bus=virtio,cache=none,format=raw \
          --graphics none \
-         --disk path=/mer/jolla/devel/infra/deploy/cc-iso/${VM}_config.iso,device=cdrom\
-         --boot kernel=/kvmboot/${VM}/vmlinuz-4.4.162-78-default,initrd=/kvmboot/${VM}/initrd-4.4.162-78-default,kernel_args="root=/dev/vda console=ttyS0"
+         --disk path=./${VM}_config.iso,device=cdrom\
+         --boot kernel=/kvmboot/${VM}/vmlinuz-4.4.162-78-default,initrd=/kvmboot/${VM}/initrd-4.4.162-78-default,kernel_args="root=/dev/vda console=ttyS0" || exit 1
 }
 
 function show_console() {
+    echo "*** Showing the console ***"
     sudo virsh console ${VM}
 }
 
@@ -82,5 +90,3 @@ create_config_iso
 create_vm
 #show_console
 exit 0
-
-

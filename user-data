@@ -49,6 +49,7 @@ chpasswd:
 package_update: true
 package_upgrade: true
 packages:
-  - emacs-nox
+  - emax-nox
+  - nano
 
 final_message: "David's ci setup has worked"
