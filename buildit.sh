@@ -5,13 +5,13 @@ export VG=ubuntu-vg
 
 function clean_old_vm(){
     echo "*** Cleaning old VM ***"
-    sudo virsh destroy $VM
-    sudo virsh undefine $VM
+    virsh destroy $VM
+    virsh undefine $VM
 }
 
 function setup_storage(){
     echo "*** Setting up storage ***"
-    if ! sudo lvs -S 'lv_name = thinpool' -o lv_name --noheading |grep "^  thinpool$" > /dev/null; then
+    if ! lvs -S 'lv_name = thinpool' -o lv_name --noheading |grep "^  thinpool$" > /dev/null; then
         echo No thin pool. Creating...
         lvcreate -L 1G -T ${VG}/thinpool || exit 1
     fi
@@ -63,7 +63,7 @@ function create_config_iso(){
 }
 function create_vm() {
     echo "*** Creating the VM ***"
-    sudo virt-install --name ${VM} --memory 512 --os-type linux \
+    virt-install --name ${VM} --memory 512 --os-type linux \
          -w network=default,model=virtio \
          --disk path=/dev/${VG}/${VM}-root-snap,bus=virtio,cache=none,format=raw --import \
          --disk path=/dev/${VG}/${VM}-swap,bus=virtio,cache=none,format=raw \
@@ -75,7 +75,7 @@ function create_vm() {
 
 function show_console() {
     echo "*** Showing the console ***"
-    sudo virsh console ${VM}
+    virsh console ${VM}
 }
 
 
