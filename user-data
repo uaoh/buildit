@@ -33,16 +33,10 @@ ssh_svcname: ssh
 ssh_deletekeys: True
 ssh_genkeytypes: ['rsa', 'ecdsa']
 
-#users:
-#  - name: root
-#    lock-passwd: false
-#    passwd: $1$SaltSalt$YhgRYajLPrYevs14poKBQ0
-password: doggy2
-chpasswd: {  expire: False }
 chpasswd:
-  list:
-    - root:doggy2
-    - opensuse:doggy
+  list: |
+    root:skytree
+  expire: False
 
 # ca-certs: https://cloudinit.readthedocs.io/en/18.2/topics/modules.html#ca-certs
 

@@ -43,8 +43,6 @@ EOF
     chroot /mnt systemctl enable cloud-init.service
     chroot /mnt systemctl enable cloud-config.service
     chroot /mnt systemctl enable cloud-final.service
-    chroot /mnt passwd
-    # set passwd until cloud-init runs
 }
 
 function get_kernel() {
