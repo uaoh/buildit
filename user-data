@@ -1,4 +1,5 @@
 #cloud-config
+debug: True
 
 # Configure where output will go
 output: 
