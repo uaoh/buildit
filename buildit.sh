@@ -85,14 +85,14 @@ function create_config_iso(){
 }
 function create_vm() {
     echo "*** Creating the VM ***"
-    virt-install --name ${VM} --memory 512 --os-type linux \
+    virt-install --name ${VM} --memory 2048 --os-type linux \
          -w network=${VM}-network,model=virtio,mac=da:9c:4a:e0:bb:9f \
          --disk path=/dev/${VG}/${VM}-root-snap,bus=virtio,cache=none,format=raw --import \
          --disk path=/dev/${VG}/${VM}-swap,bus=virtio,cache=none,format=raw \
          --disk path=/dev/${VG}/${VM}-data,bus=virtio,cache=none,format=raw \
          --graphics none \
          --disk path=./${VM}_config.iso,device=cdrom\
-         --boot kernel=/kvmboot/${VM}/vmlinuz-4.4.162-78-default,initrd=/kvmboot/${VM}/initrd-4.4.162-78-default,kernel_args="root=/dev/vda console=ttyS0" || exit 1
+         --boot kernel=/kvmboot/${VM}/vmlinuz-4.4.165-81-default,initrd=/kvmboot/${VM}/initrd-4.4.165-81-default,kernel_args="root=/dev/vda console=ttyS0" || exit 1
 }
 
 function show_console() {

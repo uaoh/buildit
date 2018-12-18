@@ -3,7 +3,7 @@
 # Hostname management
 preserve_hostname: False
 hostname: ci
-fqdn: ci.dgreaves.com
+fqdn: ci.local
 
 swap:
   filename: /dev/vdb
@@ -50,4 +50,4 @@ package_upgrade: true
 packages:
   - nano
 
-final_message: "David's ci setup has worked"
+final_message: "---- cloud-init finished ----"
