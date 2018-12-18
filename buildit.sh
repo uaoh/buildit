@@ -45,6 +45,11 @@ EOF
     chroot /mnt systemctl enable cloud-final.service
 
     echo "gpgcheck      = 0" >> /mnt/etc/zypp/zypp.conf
+    for f in /mnt/etc/zypp/repos.d/openSUSE-*.repo
+    do
+	sed -ri '/^\s*priority\s*=\s*[0-9]+\s*/ d' "${f}"
+	echo "priority = 99" >> "${f}"
+    done
 }
 
 function get_kernel() {
