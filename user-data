@@ -36,6 +36,15 @@ chpasswd:
 
 # ca-certs: https://cloudinit.readthedocs.io/en/18.2/topics/modules.html#ca-certs
 
+# custom repos like this
+#zypper:
+#  repos:
+#    - id: johannes
+#      name: Johannes home
+#      baseurl: http://repo.merproject.org/obs/home:/johannes:/branches:/obs:/server:/2.9/openSUSE_42.3/
+#      enabled: 1
+#      autorefresh: 1
+
 package_update: true
 package_upgrade: true
 packages:
