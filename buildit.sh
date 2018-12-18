@@ -41,6 +41,8 @@ function fixup_snapshot() {
 /dev/vda        /       ext4    rw,noatime,user_xattr,acl,barrier=1,data=ordered        0       1
 EOF
     chroot /mnt systemctl enable cloud-init.service
+    chroot /mnt systemctl enable cloud-config.service
+    chroot /mnt systemctl enable cloud-final.service
     chroot /mnt passwd
     # set passwd until cloud-init runs
 }
