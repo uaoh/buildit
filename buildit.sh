@@ -43,6 +43,8 @@ EOF
     chroot /mnt systemctl enable cloud-init.service
     chroot /mnt systemctl enable cloud-config.service
     chroot /mnt systemctl enable cloud-final.service
+
+    echo "gpgcheck      = 0" >> /mnt/etc/zypp/zypp.conf
 }
 
 function get_kernel() {
