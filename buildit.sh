@@ -27,6 +27,7 @@ function setup_storage(){
     lvremove -f /dev/${VG}/${VM}-swap
     lvcreate --name ${VM}-data -V 10G ${VG}/thinpool
     lvcreate --name ${VM}-swap -V 1G ${VG}/thinpool
+    mkswap /dev/${VG}/${VM}-swap
 }
 
 function mount_guest(){
