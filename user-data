@@ -28,11 +28,6 @@ mounts:
 #runcmd:
 #  - [ rpm, -e, cloud-init ]
 
-# configure interaction with ssh server
-ssh_svcname: ssh
-ssh_deletekeys: True
-ssh_genkeytypes: ['rsa', 'ecdsa']
-
 chpasswd:
   list: |
     root:skytree
