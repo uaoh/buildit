@@ -29,6 +29,11 @@ chpasswd:
     root:skytree
   expire: False
 
+# Needs enabling resolv_conf module in cloud.cfg
+#manage_resolv_conf: true
+#resolv_conf:
+#  nameservers: ['10.10.10.1']
+
 # ca-certs: https://cloudinit.readthedocs.io/en/18.2/topics/modules.html#ca-certs
 
 # custom repos like this

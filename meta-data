@@ -1,2 +1,16 @@
 instance-id: 02
 local-hostname: ci
+
+network-interfaces: |
+  auto lan0
+  iface lan0 inet dhcp
+
+# Or static
+#network-interfaces: |
+#  auto lan0
+#  iface lan0 inet static
+#  address 10.10.10.101
+#  network 10.10.10.0
+#  netmask 255.255.255.0
+#  broadcast 10.10.10.255
+#  gateway 10.10.10.1

@@ -59,15 +59,34 @@ function umount_guest(){
     echo "*** Unmounting guest ***"
     umount /mnt || exit 1
 }
+function create_network(){
+    echo "*** Creating the network ***"
+    nw_tmp=$(mktemp)
+    cat <<EOF > "${nw_tmp}"
+<network>
+  <name>${VM}-network</name>
+  <forward mode="nat" />
+  <ip address="10.10.10.1" netmask="255.255.255.0">
+    <dhcp>
+      <range start="10.10.10.2" end="10.10.10.100" />
+      <host mac="da:9c:4a:e0:bb:9f" ip="10.10.10.2" />
+    </dhcp>
+  </ip>
+</network>
+EOF
+   virsh net-destroy ${VM}-network
+   virsh net-undefine ${VM}-network
+   virsh net-create "${nw_tmp}" || exit 1
+   rm "${nw_tmp}"
+}
 function create_config_iso(){
     echo "*** Creating a config ISO ***"
-    genisoimage -o ${VM}_config.iso -V cidata -r -J meta-data user-data network-config
-
+    genisoimage -o ${VM}_config.iso -V cidata -r -J meta-data user-data
 }
 function create_vm() {
     echo "*** Creating the VM ***"
     virt-install --name ${VM} --memory 512 --os-type linux \
-         -w network=default,model=virtio \
+         -w network=${VM}-network,model=virtio,mac=da:9c:4a:e0:bb:9f \
          --disk path=/dev/${VG}/${VM}-root-snap,bus=virtio,cache=none,format=raw --import \
          --disk path=/dev/${VG}/${VM}-swap,bus=virtio,cache=none,format=raw \
          --disk path=/dev/${VG}/${VM}-data,bus=virtio,cache=none,format=raw \
@@ -88,7 +107,7 @@ mount_guest
 fixup_snapshot
 get_kernel
 umount_guest
-
+create_network
 create_config_iso
 create_vm
 #show_console
