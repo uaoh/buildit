@@ -285,6 +285,7 @@ write_files:
       else
           echo "Could not get DB dump, ignoring."
       fi
+      mysql -u root -p'skytree' api_production < /root/Admin.sql || :
       
       rm /srv/www/obs/api/db/migrate/20181030161701_add_package_column_to_flags_table.rb
       rm /srv/www/obs/api/db/migrate/20141002130129_new_suse_bugzillas.rb
@@ -298,6 +299,23 @@ write_files:
         ' /etc/apache2/conf.d/mod_passenger.conf
       
       "${svc}" -s obsservicedispatch enable start
+
+  - path: /root/Admin.sql
+    owner: root:root
+    permissions: '0400'
+    content: |
+      update
+          users
+        set
+            login_failure_count=0,
+            password='711af66c7a8ac55c148042e641dbde87',
+            password_hash_type='md5',
+            password_salt='RLl3wDwKCJ',
+            password_crypted='osQq6OKjF0f8I',
+            state='2'
+        where
+            login='Admin'
+      ;
 
 runcmd:
   - [ systemctl, start, obsrepserver ]
