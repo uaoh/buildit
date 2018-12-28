@@ -263,7 +263,6 @@ write_files:
       #!/bin/bash
       set -eu
       
-      dump="http://192.168.1.34/api_production.2018-12-28.sql.gz"
       svc="$( readlink -e "$( dirname "$( readlink -e "${0}" )" )/services.sh" )"
       
       "${svc}" stop
@@ -277,15 +276,21 @@ write_files:
       
       systemctl start mysql
       
+      db="api_production"
       if
-          curl "${dump}" | zcat > dump.sql
+          test -r "/host/${db}.sql"
       then
-          mysql -u root -p'skytree' api_production < dump.sql
-          rm -f dump.sql
+          echo "Importing ${db}.sql"
+          mysql -u root -p'skytree' "${db}" < "/host/${db}.sql"
+          echo "Imported ${db}.sql"
       else
-          echo "Could not get DB dump, ignoring."
+          echo "No SQL dump for ${db}, ignoring."
       fi
-      mysql -u root -p'skytree' api_production < /root/Admin.sql || :
+      {
+          find /host/ -name "${db}.patch-*.sql" -print0 |
+              sort -zn |
+                  xargs -0 -r -n 1 -I @ cat @
+      } | mysql -u root -p'skytree' "${db}"
       
       rm /srv/www/obs/api/db/migrate/20181030161701_add_package_column_to_flags_table.rb
       rm /srv/www/obs/api/db/migrate/20141002130129_new_suse_bugzillas.rb
