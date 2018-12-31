@@ -322,6 +322,21 @@ write_files:
             login='Admin'
       ;
 
+  - path: /root/obs_prj_seed.sh
+    owner: root:root
+    permissions: '0700'
+    content: |
+      #!/bin/bash
+      set -e
+      if [ -f /host/api_production.sql ]; then
+          echo "Seeding OBS database"
+          mysql -u obs -pskytree api_production < /host/api_production.sql
+      fi
+      if [ -f /host/be.tgz ]; then
+          echo "Seeding OBS backend"
+          tar xfzv /host/be.tgz -C /srv/obs/
+      fi
+
 runcmd:
   - [ systemctl, start, obsrepserver ]
   - [ systemctl, start, obssrcserver ]
@@ -335,6 +350,8 @@ runcmd:
   - [ rm, -f, /root/cert_setup.sh ]
   - [ /root/fixup.sh ]
   - [ rm, -f, /root/fixup.sh ]
+  - [ /root/obs_prj_seed.sh ]
+  - [ rm, -f, /root/obs_prj_seed.sh ]
   - [ /root/services.sh, enable, start ]
   - [ /root/update.sh ]
   - [ rm, -f, /root/update.sh, /root/services.sh ]
