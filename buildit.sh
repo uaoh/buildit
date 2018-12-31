@@ -21,7 +21,7 @@ function setup_storage(){
     fi
 
     lvremove -f /dev/${VG}/${VM}-root-snap
-    lvcreate --snapshot --name ${VM}-root-snap --size 5G /dev/${VG}/${VM}-root
+    lvcreate --snapshot --name ${VM}-root-snap --size 5G /dev/${VG}/${VM}-root || exit 1
     # Make thin data and swap LVs
     lvremove -f /dev/${VG}/${VM}-data
     lvremove -f /dev/${VG}/${VM}-swap
