@@ -39,7 +39,6 @@ function fixup_snapshot() {
     echo "*** Fixing up snapshot ***"
     cat <<EOF > /mnt/etc/fstab
 /dev/vda        /       ext4    rw,noatime,user_xattr,acl,barrier=1,data=ordered                                  0  1
-host0           /host   9p      x-systemd.automount,x-systemd.device-timeout=10,trans=virtio,version=9p2000.L,rw  0  0
 EOF
     chroot /mnt systemctl enable cloud-init.service
     chroot /mnt systemctl enable cloud-config.service

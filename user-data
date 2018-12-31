@@ -328,6 +328,8 @@ write_files:
     content: |
       #!/bin/bash
       set -e
+      mkdir /host
+      mount -t 9p -o trans=virtio,version=9p2000.L host0 /host || exit 1
       if [ -f /host/api_production.sql ]; then
           echo "Seeding OBS database"
           mysql -u obs -pskytree api_production < /host/api_production.sql
