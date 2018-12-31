@@ -205,6 +205,7 @@ write_files:
           obsapidelayed
           obswarden
           obsworker
+          obsservicedispatch
       )
       while test "${1}" = "-s"
       do
@@ -212,9 +213,12 @@ write_files:
           S+=( "${1}" )
           shift
       done
-      for action in "${@}"
+      for service in "${S[@]}"
       do
-          systemctl "${action}" "${S[@]}"
+        for action in "${@}"
+        do
+          systemctl "${action}" "${service}"
+        done
       done
 
   - path: /root/fixup.sh
@@ -263,34 +267,12 @@ write_files:
       #!/bin/bash
       set -eu
       
-      svc="$( readlink -e "$( dirname "$( readlink -e "${0}" )" )/services.sh" )"
-      
-      "${svc}" stop
-      
       zypper rr obs_server_mer-2.5_42.1
       zypper ar -p 49 -G http://repo.merproject.org/obs/obs:/server:/2.9:/mer/openSUSE_42.3/ obs_server_mer_2.9_42.3
       zypper ref
       rpm -qa | sort -u > /tmp/ci-preupdate_rpm-qa.txt
       zypper dup -y --no-recommends --details
       rpm -qa | sort -u > /tmp/ci-postupdate_rpm-qa.txt
-      
-      systemctl start mysql
-      
-      db="api_production"
-      if
-          test -r "/host/${db}.sql"
-      then
-          echo "Importing ${db}.sql"
-          mysql -u root -p'skytree' "${db}" < "/host/${db}.sql"
-          echo "Imported ${db}.sql"
-      else
-          echo "No SQL dump for ${db}, ignoring."
-      fi
-      {
-          find /host/ -name "${db}.patch-*.sql" -print0 |
-              sort -zn |
-                  xargs -0 -r -n 1 -I @ cat @
-      } | mysql -u root -p'skytree' "${db}"
       
       rm /srv/www/obs/api/db/migrate/20181030161701_add_package_column_to_flags_table.rb
       rm /srv/www/obs/api/db/migrate/20141002130129_new_suse_bugzillas.rb
@@ -303,8 +285,6 @@ write_files:
           s@^(\s*PassengerRuby\s+"/usr/bin/ruby)(".*)$@\1.ruby2.5\2@
         ' /etc/apache2/conf.d/mod_passenger.conf
       
-      "${svc}" -s obsservicedispatch enable start
-
   - path: /root/Admin.sql
     owner: root:root
     permissions: '0400'
@@ -330,18 +310,33 @@ write_files:
       set -e
       mkdir /host
       mount -t 9p -o trans=virtio,version=9p2000.L host0 /host || exit 1
-      if [ -f /host/api_production.sql ]; then
-          echo "Seeding OBS database"
-          mysql -u obs -pskytree api_production < /host/api_production.sql
+      db="api_production"
+      bd="be"
+      if
+          test -r "/host/${db}.sql"
+      then
+          echo "Importing ${db}.sql"
+          mysql -u root -p'skytree' "${db}" < "/host/${db}.sql"
+          echo "Imported ${db}.sql"
+      else
+          echo "No SQL dump for ${db}, ignoring."
       fi
-      if [ -f /host/be.tgz ]; then
-          echo "Seeding OBS backend"
-          tar xfzv /host/be.tgz -C /srv/obs/
+      {
+          find /host/ -name "${db}.patch-*.sql" -print0 |
+              sort -zn |
+                  xargs -0 -r -n 1 -I @ cat @
+      } | mysql -u root -p'skytree' "${db}"
+      if
+          test -r "/host/${bd}.tgz"
+      then
+          echo "Importing ${bd}.tgz"
+          tar xfzv /host/"${bd}".tgz -C /srv/obs/
+          echo "Imported ${bd}.tgz"
+      else
+          echo "No OBS backend dump ${bd}.tgz found, ignoring."
       fi
-
+      
 runcmd:
-  - [ systemctl, start, obsrepserver ]
-  - [ systemctl, start, obssrcserver ]
   - [ systemctl, start, mysql ]
   - [ /root/db_init.sh ]
   - [ /root/db_populate.sh ]
@@ -354,8 +349,8 @@ runcmd:
   - [ rm, -f, /root/fixup.sh ]
   - [ /root/obs_prj_seed.sh ]
   - [ rm, -f, /root/obs_prj_seed.sh ]
-  - [ /root/services.sh, enable, start ]
   - [ /root/update.sh ]
+  - [ /root/services.sh, enable, start ]
   - [ rm, -f, /root/update.sh, /root/services.sh ]
 
 final_message: "---- cloud-init finished ----"
