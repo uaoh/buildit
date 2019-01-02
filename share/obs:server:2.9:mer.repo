@@ -1,0 +1,7 @@
+[obs_server_2.9_mer]
+name=obs:server:2.9:mer (openSUSE_42.3)
+type=rpm-md
+baseurl=http://repo.merproject.org/obs/obs:/server:/2.9:/mer/openSUSE_42.3/
+gpgcheck=0
+enabled=1
+priority=49

@@ -266,9 +266,20 @@ write_files:
     content: |
       #!/bin/bash
       set -eu
-      
+
+      if
+          test -z "$(find /host/ -maxdepth 1 -name '*.repo' -print -quit)"
+      then
+        echo "No repos for running the update!"
+        exit 1
+      fi
+
       zypper rr obs_server_mer-2.5_42.1
-      zypper ar -p 49 -G http://repo.merproject.org/obs/obs:/server:/2.9:/mer/openSUSE_42.3/ obs_server_mer_2.9_42.3
+      for repo in /host/*.repo
+      do
+        echo "Adding repo from ${repo}"
+        zypper ar "${repo}"
+      done
       zypper ref
       rpm -qa | sort -u > /tmp/ci-preupdate_rpm-qa.txt
       zypper dup -y --no-recommends --details
