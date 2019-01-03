@@ -274,6 +274,9 @@ write_files:
         exit 1
       fi
 
+      systemctl stop obsrepserver
+      systemctl stop obssrcserver
+
       zypper rr obs_server_mer-2.5_42.1
       for repo in /host/*.repo
       do
@@ -313,7 +316,7 @@ write_files:
             login='Admin'
       ;
 
-  - path: /root/obs_prj_seed.sh
+  - path: /root/mount_host.sh
     owner: root:root
     permissions: '0700'
     content: |
@@ -321,8 +324,33 @@ write_files:
       set -e
       mkdir /host
       mount -t 9p -o trans=virtio,version=9p2000.L host0 /host || exit 1
-      db="api_production"
+      
+  - path: /root/obs_be_seed.sh
+    owner: root:root
+    permissions: '0700'
+    content: |
+      #!/bin/bash
+      set -e
+
       bd="be"
+      if
+          test -r "/host/${bd}.tgz"
+      then
+          echo "Importing ${bd}.tgz"
+          tar xfzv /host/"${bd}".tgz -C /srv/obs/
+          echo "Imported ${bd}.tgz"
+      else
+          echo "No OBS backend dump ${bd}.tgz found, ignoring."
+      fi
+      
+  - path: /root/obs_fe_seed.sh
+    owner: root:root
+    permissions: '0700'
+    content: |
+      #!/bin/bash
+      set -e
+
+      db="api_production"
       if
           test -r "/host/${db}.sql"
       then
@@ -337,17 +365,14 @@ write_files:
               sort -zn |
                   xargs -0 -r -n 1 -I @ cat @
       } | mysql -u root -p'skytree' "${db}"
-      if
-          test -r "/host/${bd}.tgz"
-      then
-          echo "Importing ${bd}.tgz"
-          tar xfzv /host/"${bd}".tgz -C /srv/obs/
-          echo "Imported ${bd}.tgz"
-      else
-          echo "No OBS backend dump ${bd}.tgz found, ignoring."
-      fi
       
 runcmd:
+  - [ /root/mount_host.sh ]
+  - [ rm, -f, /root/mount_host.sh ]
+  - [ /root/obs_be_seed.sh ]
+  - [ rm, -f, /root/obs_be_seed.sh ]
+  - [ systemctl, start, obsrepserver ]
+  - [ systemctl, start, obssrcserver ]
   - [ systemctl, start, mysql ]
   - [ /root/db_init.sh ]
   - [ /root/db_populate.sh ]
@@ -358,8 +383,8 @@ runcmd:
   - [ rm, -f, /root/cert_setup.sh ]
   - [ /root/fixup.sh ]
   - [ rm, -f, /root/fixup.sh ]
-  - [ /root/obs_prj_seed.sh ]
-  - [ rm, -f, /root/obs_prj_seed.sh ]
+  - [ /root/obs_fe_seed.sh ]
+  - [ rm, -f, /root/obs_fe_seed.sh ]
   - [ /root/update.sh ]
   - [ /root/services.sh, enable, start ]
   - [ rm, -f, /root/update.sh, /root/services.sh ]
