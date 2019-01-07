@@ -210,6 +210,8 @@ write_files:
           obswarden
           obsworker
           obsservicedispatch
+          obsdodup
+          obsdeltastore
       )
       while test "${1}" = "-s"
       do
