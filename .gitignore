@@ -1,3 +1,4 @@
+buildit.conf
 *_config.iso
 share/*.repo
 !share/obs:server:2.9:mer.repo

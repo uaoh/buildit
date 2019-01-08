@@ -3,6 +3,8 @@
 export VM=ci
 export VG=ubuntu-vg
 
+[[ -e buildit.conf ]] && . buildit.conf
+
 function clean_old_vm(){
     echo "*** Cleaning old VM ***"
     virsh destroy $VM
