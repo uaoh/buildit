@@ -59,7 +59,9 @@ function get_kernel() {
     rm -rf /kvmboot/${VM}
     mkdir -p /kvmboot/${VM}
     cp /mnt/boot/vmlinuz-*  /kvmboot/${VM}/
+    ln -s /kvmboot/${VM}/vmlinuz-* /kvmboot/${VM}/vmlinuz
     cp /mnt/boot/initrd-*  /kvmboot/${VM}/
+    ln -s /kvmboot/${VM}/initrd-* /kvmboot/${VM}/initrd
 }
 
 function umount_guest(){
@@ -100,7 +102,7 @@ function create_vm() {
          --filesystem ${PWD}/share,host0 \
          --graphics none \
          --disk path=./${VM}_config.iso,device=cdrom\
-         --boot kernel=/kvmboot/${VM}/vmlinuz-4.4.165-81-default,initrd=/kvmboot/${VM}/initrd-4.4.165-81-default,kernel_args="root=/dev/vda console=ttyS0" || exit 1
+         --boot kernel=/kvmboot/${VM}/vmlinuz,initrd=/kvmboot/${VM}/initrd,kernel_args="root=/dev/vda console=ttyS0" || exit 1
 }
 
 function show_console() {
