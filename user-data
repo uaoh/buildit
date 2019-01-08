@@ -247,6 +247,9 @@ write_files:
       mkdir -p /srv/obs/repos
       chown -R obsrun:obsrun /srv/obs/repos
       
+      mkdir -p /srv/obs/dods
+      chown -R obsrun:obsrun /srv/obs/dods
+
       sed -ri '
           s@^(\s*)Allow\s+from\s+all\s*$@\1Require all granted@
         ' /etc/apache2/vhosts.d/obs.conf
