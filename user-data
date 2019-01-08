@@ -67,6 +67,7 @@ package_update: true
 package_upgrade: true
 package_reboot_if_required: true
 packages:
+  - ca-certificates-mozilla
   - obs-api
   - obs-server
   - obs-service-tar-git
