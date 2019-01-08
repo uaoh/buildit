@@ -16,6 +16,32 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `ar_internal_metadata`
+--
+
+DROP TABLE IF EXISTS `ar_internal_metadata`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ar_internal_metadata` (
+  `key` varchar(255) NOT NULL,
+  `value` varchar(255) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime(6) NOT NULL,
+  PRIMARY KEY (`key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ar_internal_metadata`
+--
+
+LOCK TABLES `ar_internal_metadata` WRITE;
+/*!40000 ALTER TABLE `ar_internal_metadata` DISABLE KEYS */;
+INSERT INTO `ar_internal_metadata` VALUES ('environment','production','2019-01-08 07:36:38','2019-01-08 07:36:38.000000');
+/*!40000 ALTER TABLE `ar_internal_metadata` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `architectures`
 --
 
@@ -28,7 +54,7 @@ CREATE TABLE `architectures` (
   `available` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `arch_name_index` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +63,7 @@ CREATE TABLE `architectures` (
 
 LOCK TABLES `architectures` WRITE;
 /*!40000 ALTER TABLE `architectures` DISABLE KEYS */;
-INSERT INTO `architectures` VALUES (1,'aarch64',0),(2,'armv4l',0),(3,'armv5l',0),(4,'armv6l',0),(5,'armv7l',1),(6,'armv5el',0),(7,'armv6el',0),(8,'armv7el',1),(9,'armv7hl',0),(10,'armv8el',1),(11,'hppa',0),(12,'i586',1),(13,'i686',0),(14,'ia64',0),(15,'local',0),(16,'m68k',0),(17,'mips',0),(18,'mips32',0),(19,'mips64',0),(20,'ppc',0),(21,'ppc64',0),(22,'ppc64p7',0),(23,'ppc64le',0),(24,'s390',0),(25,'s390x',0),(26,'sparc',0),(27,'sparc64',0),(28,'sparc64v',0),(29,'sparcv8',0),(30,'sparcv9',0),(31,'sparcv9v',0),(32,'x86_64',1);
+INSERT INTO `architectures` VALUES (1,'aarch64',0),(2,'armv4l',0),(3,'armv5l',0),(4,'armv6l',0),(5,'armv7l',0),(6,'armv5el',0),(7,'armv6el',0),(8,'armv7el',1),(9,'armv7hl',0),(10,'armv8el',1),(11,'hppa',0),(12,'i586',1),(13,'i686',0),(14,'ia64',0),(15,'local',0),(16,'m68k',0),(17,'mips',0),(18,'mips32',0),(19,'mips64',0),(20,'ppc',0),(21,'ppc64',0),(22,'ppc64p7',0),(23,'ppc64le',0),(24,'s390',0),(25,'s390x',0),(26,'sparc',0),(27,'sparc64',0),(28,'sparc64v',0),(29,'sparcv8',0),(30,'sparcv9',0),(31,'sparcv9v',0),(32,'x86_64',1),(33,'aarch64_ilp32',0),(34,'k1om',0),(35,'riscv64',0);
 /*!40000 ALTER TABLE `architectures` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -163,7 +189,6 @@ CREATE TABLE `attrib_namespace_modifiable_bies` (
   UNIQUE KEY `attrib_namespace_user_role_all_index` (`attrib_namespace_id`,`user_id`,`group_id`),
   KEY `bs_user_id` (`user_id`),
   KEY `bs_group_id` (`group_id`),
-  KEY `index_attrib_namespace_modifiable_bies_on_attrib_namespace_id` (`attrib_namespace_id`),
   CONSTRAINT `attrib_namespace_modifiable_bies_ibfk_1` FOREIGN KEY (`attrib_namespace_id`) REFERENCES `attrib_namespaces` (`id`),
   CONSTRAINT `attrib_namespace_modifiable_bies_ibfk_4` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `attrib_namespace_modifiable_bies_ibfk_5` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`)
@@ -226,7 +251,7 @@ CREATE TABLE `attrib_type_modifiable_bies` (
   CONSTRAINT `attrib_type_modifiable_bies_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `attrib_type_modifiable_bies_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`),
   CONSTRAINT `attrib_type_modifiable_bies_ibfk_3` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -235,7 +260,7 @@ CREATE TABLE `attrib_type_modifiable_bies` (
 
 LOCK TABLES `attrib_type_modifiable_bies` WRITE;
 /*!40000 ALTER TABLE `attrib_type_modifiable_bies` DISABLE KEYS */;
-INSERT INTO `attrib_type_modifiable_bies` VALUES (1,1,1,NULL,NULL),(2,2,1,NULL,NULL),(3,3,1,NULL,NULL),(4,4,1,NULL,NULL),(5,5,1,NULL,NULL),(6,6,1,NULL,NULL),(7,7,1,NULL,NULL),(8,8,1,NULL,NULL),(9,9,1,NULL,NULL),(10,10,NULL,NULL,2),(11,11,NULL,NULL,2),(12,12,NULL,NULL,2),(13,13,NULL,NULL,2),(14,14,NULL,NULL,2),(15,15,NULL,NULL,2),(16,16,NULL,NULL,2),(17,16,NULL,NULL,3),(18,16,NULL,NULL,4),(19,17,NULL,NULL,2);
+INSERT INTO `attrib_type_modifiable_bies` VALUES (1,1,1,NULL,NULL),(2,2,1,NULL,NULL),(3,3,1,NULL,NULL),(4,4,1,NULL,NULL),(5,5,1,NULL,NULL),(6,6,1,NULL,NULL),(7,7,1,NULL,NULL),(8,8,1,NULL,NULL),(9,9,1,NULL,NULL),(10,10,NULL,NULL,2),(11,11,NULL,NULL,2),(12,12,NULL,NULL,2),(13,13,NULL,NULL,2),(14,14,NULL,NULL,2),(15,15,NULL,NULL,2),(16,16,NULL,NULL,2),(17,16,NULL,NULL,3),(18,16,NULL,NULL,4),(19,17,NULL,NULL,2),(20,18,NULL,NULL,1),(21,19,NULL,NULL,2),(22,20,NULL,NULL,2),(23,21,NULL,NULL,2),(24,22,NULL,NULL,2),(25,23,NULL,NULL,1);
 /*!40000 ALTER TABLE `attrib_type_modifiable_bies` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -257,9 +282,8 @@ CREATE TABLE `attrib_types` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_attrib_types_on_attrib_namespace_id_and_name` (`attrib_namespace_id`,`name`),
   KEY `index_attrib_types_on_name` (`name`),
-  KEY `attrib_namespace_id` (`attrib_namespace_id`),
   CONSTRAINT `attrib_types_ibfk_1` FOREIGN KEY (`attrib_namespace_id`) REFERENCES `attrib_namespaces` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -268,7 +292,7 @@ CREATE TABLE `attrib_types` (
 
 LOCK TABLES `attrib_types` WRITE;
 /*!40000 ALTER TABLE `attrib_types` DISABLE KEYS */;
-INSERT INTO `attrib_types` VALUES (1,'VeryImportantProject',NULL,NULL,0,1,0),(2,'UpdateProject',NULL,NULL,1,1,0),(3,'RejectRequests',NULL,NULL,NULL,1,0),(4,'ApprovedRequestSource',NULL,NULL,0,1,0),(5,'Maintained',NULL,NULL,0,1,0),(6,'MaintenanceProject',NULL,NULL,0,1,0),(7,'MaintenanceIdTemplate',NULL,NULL,1,1,0),(8,'ScreenShots',NULL,NULL,NULL,1,0),(9,'OwnerRootProject',NULL,NULL,NULL,1,0),(10,'RequestCloned',NULL,NULL,1,1,0),(11,'ProjectStatusPackageFailComment',NULL,NULL,1,1,0),(12,'InitializeDevelPackage',NULL,NULL,0,1,0),(13,'BranchTarget',NULL,NULL,0,1,0),(14,'BranchRepositoriesFromProject',NULL,NULL,1,1,0),(15,'AutoCleanup',NULL,NULL,1,1,0),(16,'Issues',NULL,NULL,0,1,0),(17,'QualityCategory',NULL,NULL,1,1,0);
+INSERT INTO `attrib_types` VALUES (1,'VeryImportantProject','Mark this project as very important. For instance for the project list in the web interface.',NULL,0,1,0),(2,'UpdateProject','Mark this project as frozen, updates are handled via the project defined in the value.',NULL,1,1,0),(3,'RejectRequests','Request against this object get rejected. The first (optional) value will be given as reason to the requester. Adding more values limits the rejection to the given request types (like \"submit\" or \"delete\").',NULL,NULL,1,0),(4,'ApprovedRequestSource','Bypass the automatic request review when the request creator isn\'t the maintainer of this object.',NULL,0,1,0),(5,'Maintained','Marks this as object as maintained. For instance to find packages automatically when using the maintenance features like \"osc mbranch\".',NULL,0,1,0),(6,'MaintenanceProject','Mark this project as central maintenance project, which is used to coordinate all official updates.',NULL,0,1,0),(7,'MaintenanceIdTemplate','Released maintenance updates get an ID on first release. This attribute can be used to modify the default scheme.',NULL,1,1,0),(8,'ScreenShots',NULL,NULL,NULL,1,0),(9,'OwnerRootProject','Mark this project as starting point for the package ownership search. Optional values: \"DisableDevel\": don\'t follow devel project links. \"BugownerOnly\": limit the result to bugowners (ignoring the maintainer role).',NULL,NULL,1,0),(10,'RequestCloned','Use this attribute to reference a request which will get superseded when a new submit request from this project gets created.',NULL,1,1,0),(11,'ProjectStatusPackageFailComment','Use this attribute to explain why this package is failing. This is displayed on the project status page for instance.',NULL,1,1,0),(12,'InitializeDevelPackage','Accepting a new package via a submit request to this project will set the devel project of the new package to the source of the request.',NULL,0,1,0),(13,'BranchTarget','Branches from this project will not follow any project links for the target link.',NULL,0,1,0),(14,'BranchRepositoriesFromProject','Use repository definitions from the specified project when creating a branch.',NULL,1,1,0),(15,'AutoCleanup','The object will recieve a delete request at specified time (YYYY-MM-DD HH:MM:SS) in the value',NULL,1,1,0),(16,'Issues','Use this attribute to reference issues this object has',NULL,0,1,0),(17,'QualityCategory','Use this attrbitue to classify the usability of a project. This gets used by the user package search for instance.',NULL,1,1,0),(18,'IncidentPriority','A numeric value which defines the importance of this incident project.',NULL,1,1,0),(19,'EmbargoDate','A timestamp until outgoing requests can not get accepted.',NULL,1,1,0),(20,'MakeOriginOlder','Initialize packages by making the build results newer then updated ones',NULL,0,1,0),(21,'BranchSkipRepositories','Skip the listed repositories when branching from this projet.',NULL,NULL,1,0),(22,'PlannedReleaseDate','A timestamp for the planned release date of an incident.',NULL,1,1,0),(23,'ImageTemplates',NULL,NULL,NULL,1,0);
 /*!40000 ALTER TABLE `attrib_types` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -285,7 +309,6 @@ CREATE TABLE `attrib_values` (
   `value` text CHARACTER SET utf8 NOT NULL,
   `position` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `index_attrib_values_on_attrib_id_and_position` (`attrib_id`,`position`),
   KEY `index_attrib_values_on_attrib_id` (`attrib_id`),
   CONSTRAINT `attrib_values_ibfk_1` FOREIGN KEY (`attrib_id`) REFERENCES `attribs` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -345,7 +368,7 @@ CREATE TABLE `backend_infos` (
   `key` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `value` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
+  `updated_at` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -356,7 +379,7 @@ CREATE TABLE `backend_infos` (
 
 LOCK TABLES `backend_infos` WRITE;
 /*!40000 ALTER TABLE `backend_infos` DISABLE KEYS */;
-INSERT INTO `backend_infos` VALUES (1,'lastnotification_nr','29','2018-12-31 08:36:45','2019-01-03 13:56:53');
+INSERT INTO `backend_infos` VALUES (1,'lastnotification_nr','16','2019-01-08 07:44:42','2019-01-08 07:45:11.080970');
 /*!40000 ALTER TABLE `backend_infos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -370,7 +393,7 @@ DROP TABLE IF EXISTS `backend_packages`;
 CREATE TABLE `backend_packages` (
   `package_id` int(11) NOT NULL AUTO_INCREMENT,
   `links_to_id` int(11) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
+  `updated_at` datetime(6) DEFAULT NULL,
   `srcmd5` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `changesmd5` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `verifymd5` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -381,7 +404,7 @@ CREATE TABLE `backend_packages` (
   KEY `index_backend_packages_on_links_to_id` (`links_to_id`),
   CONSTRAINT `backend_packages_ibfk_1` FOREIGN KEY (`package_id`) REFERENCES `packages` (`id`),
   CONSTRAINT `backend_packages_ibfk_2` FOREIGN KEY (`links_to_id`) REFERENCES `packages` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -390,32 +413,56 @@ CREATE TABLE `backend_packages` (
 
 LOCK TABLES `backend_packages` WRITE;
 /*!40000 ALTER TABLE `backend_packages` DISABLE KEYS */;
-INSERT INTO `backend_packages` VALUES (1,NULL,'2019-01-03 13:49:20','2bb66be913b79f5f10f977ab3a69c0b2','181ba4e795315384eabb9bd6f2a07609','2bb66be913b79f5f10f977ab3a69c0b2','2bb66be913b79f5f10f977ab3a69c0b2',NULL,'2019-01-03 13:49:17');
+INSERT INTO `backend_packages` VALUES (1,NULL,'2019-01-08 07:44:57.423055','9ae68a4be4436c91235f47a969772c40',NULL,'43120274eeabbb64d479ab04ea398637','a306c4e39f06b6c3326b33d7295c1616',NULL,NULL),(2,NULL,'2019-01-08 07:45:12.730962','83dc19a28b26f2e418cea3ec154e9077',NULL,'392c3c6ae8d9848827d3f3f55c159939','7309f2f77e98da9ad67dd8c86cac8567',NULL,NULL);
 /*!40000 ALTER TABLE `backend_packages` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `blacklist_tags`
+-- Table structure for table `binary_releases`
 --
 
-DROP TABLE IF EXISTS `blacklist_tags`;
+DROP TABLE IF EXISTS `binary_releases`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `blacklist_tags` (
+CREATE TABLE `binary_releases` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `repository_id` int(11) NOT NULL,
+  `operation` enum('added','removed','modified') DEFAULT 'added',
+  `obsolete_time` datetime DEFAULT NULL,
+  `release_package_id` int(11) DEFAULT NULL,
+  `binary_name` varchar(255) NOT NULL,
+  `binary_epoch` varchar(64) DEFAULT NULL,
+  `binary_version` varchar(64) NOT NULL,
+  `binary_release` varchar(64) NOT NULL,
+  `binary_arch` varchar(64) NOT NULL,
+  `binary_disturl` varchar(255) DEFAULT NULL,
+  `binary_buildtime` datetime DEFAULT NULL,
+  `binary_releasetime` datetime NOT NULL,
+  `binary_supportstatus` varchar(255) DEFAULT NULL,
+  `binary_maintainer` varchar(255) DEFAULT NULL,
+  `medium` varchar(255) DEFAULT NULL,
+  `binary_updateinfo` varchar(255) DEFAULT NULL,
+  `binary_updateinfo_version` varchar(255) DEFAULT NULL,
+  `modify_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ra_name_index` (`repository_id`,`binary_name`),
+  KEY `exact_search_index` (`binary_name`,`binary_epoch`,`binary_version`,`binary_release`,`binary_arch`),
+  KEY `release_package_id` (`release_package_id`),
+  KEY `index_binary_releases_on_binary_updateinfo` (`binary_updateinfo`),
+  KEY `index_binary_releases_on_medium` (`medium`),
+  KEY `index_binary_releases_on_binary_name_and_binary_arch` (`binary_name`,`binary_arch`),
+  CONSTRAINT `binary_releases_ibfk_1` FOREIGN KEY (`repository_id`) REFERENCES `repositories` (`id`),
+  CONSTRAINT `binary_releases_ibfk_2` FOREIGN KEY (`release_package_id`) REFERENCES `packages` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `blacklist_tags`
+-- Dumping data for table `binary_releases`
 --
 
-LOCK TABLES `blacklist_tags` WRITE;
-/*!40000 ALTER TABLE `blacklist_tags` DISABLE KEYS */;
-/*!40000 ALTER TABLE `blacklist_tags` ENABLE KEYS */;
+LOCK TABLES `binary_releases` WRITE;
+/*!40000 ALTER TABLE `binary_releases` DISABLE KEYS */;
+/*!40000 ALTER TABLE `binary_releases` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -434,6 +481,8 @@ CREATE TABLE `bs_request_action_accept_infos` (
   `osrcmd5` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `oxsrcmd5` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
+  `oproject` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `opackage` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `bs_request_action_id` (`bs_request_action_id`),
   CONSTRAINT `bs_request_action_accept_infos_ibfk_1` FOREIGN KEY (`bs_request_action_id`) REFERENCES `bs_request_actions` (`id`)
@@ -473,13 +522,19 @@ CREATE TABLE `bs_request_actions` (
   `role` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `target_repository` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `makeoriginolder` tinyint(1) DEFAULT '0',
+  `target_package_id` int(11) DEFAULT NULL,
+  `target_project_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `bs_request_id` (`bs_request_id`),
   KEY `index_bs_request_actions_on_target_project` (`target_project`),
   KEY `index_bs_request_actions_on_target_package` (`target_package`),
   KEY `index_bs_request_actions_on_source_project` (`source_project`),
   KEY `index_bs_request_actions_on_source_package` (`source_package`),
-  KEY `index_bs_request_actions_on_target_project_and_source_project` (`target_project`,`source_project`),
+  KEY `index_bs_request_actions_on_bs_request_id_and_target_project_id` (`bs_request_id`,`target_project_id`),
+  KEY `index_bs_request_actions_on_bs_request_id_and_target_package_id` (`bs_request_id`,`target_package_id`),
+  KEY `index_bs_request_actions_on_target_project_id` (`target_project_id`),
+  KEY `index_bs_request_actions_on_target_package_id` (`target_package_id`),
   CONSTRAINT `bs_request_actions_ibfk_1` FOREIGN KEY (`bs_request_id`) REFERENCES `bs_requests` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -494,33 +549,27 @@ LOCK TABLES `bs_request_actions` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `bs_request_histories`
+-- Table structure for table `bs_request_counter`
 --
 
-DROP TABLE IF EXISTS `bs_request_histories`;
+DROP TABLE IF EXISTS `bs_request_counter`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bs_request_histories` (
+CREATE TABLE `bs_request_counter` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `bs_request_id` int(11) DEFAULT NULL,
-  `state` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `comment` text COLLATE utf8_bin,
-  `commenter` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `superseded_by` int(11) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `bs_request_id` (`bs_request_id`),
-  CONSTRAINT `bs_request_histories_ibfk_1` FOREIGN KEY (`bs_request_id`) REFERENCES `bs_requests` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `counter` int(11) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `bs_request_histories`
+-- Dumping data for table `bs_request_counter`
 --
 
-LOCK TABLES `bs_request_histories` WRITE;
-/*!40000 ALTER TABLE `bs_request_histories` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bs_request_histories` ENABLE KEYS */;
+LOCK TABLES `bs_request_counter` WRITE;
+/*!40000 ALTER TABLE `bs_request_counter` DISABLE KEYS */;
+INSERT INTO `bs_request_counter` VALUES (1,1);
+/*!40000 ALTER TABLE `bs_request_counter` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -539,11 +588,16 @@ CREATE TABLE `bs_requests` (
   `commenter` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `superseded_by` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
+  `updated_at` datetime(6) NOT NULL,
   `accept_at` datetime DEFAULT NULL,
+  `priority` enum('critical','important','moderate','low') COLLATE utf8_bin DEFAULT 'moderate',
+  `number` int(11) DEFAULT NULL,
+  `updated_when` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `index_bs_requests_on_number` (`number`),
   KEY `index_bs_requests_on_creator` (`creator`),
-  KEY `index_bs_requests_on_state` (`state`)
+  KEY `index_bs_requests_on_state` (`state`),
+  KEY `index_bs_requests_on_superseded_by` (`superseded_by`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -554,36 +608,6 @@ CREATE TABLE `bs_requests` (
 LOCK TABLES `bs_requests` WRITE;
 /*!40000 ALTER TABLE `bs_requests` DISABLE KEYS */;
 /*!40000 ALTER TABLE `bs_requests` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `cache_lines`
---
-
-DROP TABLE IF EXISTS `cache_lines`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `cache_lines` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `key` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `package` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `project` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `request` int(11) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `index_cache_lines_on_project` (`project`),
-  KEY `index_cache_lines_on_project_and_package` (`project`,`package`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `cache_lines`
---
-
-LOCK TABLES `cache_lines` WRITE;
-/*!40000 ALTER TABLE `cache_lines` DISABLE KEYS */;
-INSERT INTO `cache_lines` VALUES (2,'projects/3-20181231083649000000000/exists_package/hello/allow_remote_packages=false/follow_project_links=false','hello','test',NULL,'2019-01-03 13:48:46');
-/*!40000 ALTER TABLE `cache_lines` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -671,7 +695,9 @@ CREATE TABLE `channel_targets` (
   `channel_id` int(11) NOT NULL,
   `repository_id` int(11) NOT NULL,
   `prefix` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `tag` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `id_template` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `disabled` tinyint(1) DEFAULT '0',
+  `requires_issue` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_channel_targets_on_channel_id_and_repository_id` (`channel_id`,`repository_id`),
   KEY `repository_id` (`repository_id`),
@@ -700,7 +726,7 @@ CREATE TABLE `channels` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `package_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `package_id` (`package_id`),
+  UNIQUE KEY `index_unique` (`package_id`),
   CONSTRAINT `channels_ibfk_1` FOREIGN KEY (`package_id`) REFERENCES `packages` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -715,6 +741,63 @@ LOCK TABLES `channels` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `cloud_ec2_configurations`
+--
+
+DROP TABLE IF EXISTS `cloud_ec2_configurations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cloud_ec2_configurations` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `external_id` varchar(255) DEFAULT NULL,
+  `arn` varchar(255) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `index_cloud_ec2_configurations_on_external_id_and_arn` (`external_id`,`arn`),
+  KEY `index_cloud_ec2_configurations_on_user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cloud_ec2_configurations`
+--
+
+LOCK TABLES `cloud_ec2_configurations` WRITE;
+/*!40000 ALTER TABLE `cloud_ec2_configurations` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cloud_ec2_configurations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cloud_user_upload_jobs`
+--
+
+DROP TABLE IF EXISTS `cloud_user_upload_jobs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cloud_user_upload_jobs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `job_id` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `index_cloud_user_upload_jobs_on_job_id` (`job_id`),
+  KEY `index_cloud_user_upload_jobs_on_user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cloud_user_upload_jobs`
+--
+
+LOCK TABLES `cloud_user_upload_jobs` WRITE;
+/*!40000 ALTER TABLE `cloud_user_upload_jobs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cloud_user_upload_jobs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `comments`
 --
 
@@ -723,24 +806,18 @@ DROP TABLE IF EXISTS `comments`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `comments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `project_id` int(11) DEFAULT NULL,
-  `package_id` int(11) DEFAULT NULL,
-  `bs_request_id` int(11) DEFAULT NULL,
   `body` text COLLATE utf8_unicode_ci,
   `parent_id` int(11) DEFAULT NULL,
-  `type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
+  `updated_at` datetime(6) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
+  `commentable_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `commentable_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `index_comments_on_project_id` (`project_id`),
-  KEY `index_comments_on_package_id` (`package_id`),
-  KEY `index_comments_on_bs_request_id` (`bs_request_id`),
   KEY `user_id` (`user_id`),
   KEY `parent_id` (`parent_id`),
+  KEY `index_comments_on_commentable_type_and_commentable_id` (`commentable_type`,`commentable_id`),
   CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`package_id`) REFERENCES `packages` (`id`),
-  CONSTRAINT `comments_ibfk_3` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`),
   CONSTRAINT `comments_ibfk_4` FOREIGN KEY (`parent_id`) REFERENCES `comments` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -766,7 +843,7 @@ CREATE TABLE `configurations` (
   `title` varchar(255) COLLATE utf8_bin DEFAULT '',
   `description` text CHARACTER SET utf8,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
+  `updated_at` datetime(6) DEFAULT NULL,
   `name` varchar(255) COLLATE utf8_bin DEFAULT '',
   `registration` enum('allow','confirmation','deny') COLLATE utf8_bin DEFAULT 'allow',
   `anonymous` tinyint(1) DEFAULT '1',
@@ -787,6 +864,12 @@ CREATE TABLE `configurations` (
   `obs_url` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `cleanup_after_days` int(11) DEFAULT NULL,
   `admin_email` varchar(255) COLLATE utf8_bin DEFAULT 'unconfigured@openbuildservice.org',
+  `cleanup_empty_projects` tinyint(1) DEFAULT '1',
+  `disable_publish_for_branches` tinyint(1) DEFAULT '1',
+  `default_tracker` varchar(255) COLLATE utf8_bin DEFAULT 'bnc',
+  `api_url` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `unlisted_projects_filter` varchar(255) COLLATE utf8_bin DEFAULT '^home:.+',
+  `unlisted_projects_filter_description` varchar(255) COLLATE utf8_bin DEFAULT 'home projects',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -797,58 +880,31 @@ CREATE TABLE `configurations` (
 
 LOCK TABLES `configurations` WRITE;
 /*!40000 ALTER TABLE `configurations` DISABLE KEYS */;
-INSERT INTO `configurations` VALUES (1,'Open Build Service','  <p class=\"description\">\n    The <a href=\"http://openbuildservice.org\">Open Build Service (OBS)</a>\n    is an open and complete distribution development platform that provides a transparent infrastructure for development of Linux distributions, used by openSUSE, MeeGo and other distributions.\n    Supporting also Fedora, Debian, Ubuntu, RedHat and other Linux distributions.\n  </p>\n  <p class=\"description\">\n    The OBS is developed under the umbrella of the <a href=\"http://www.opensuse.org\">openSUSE project</a>. Please find further informations on the <a href=\"http://wiki.opensuse.org/openSUSE:Build_Service\">openSUSE Project wiki pages</a>.\n  </p>\n\n  <p class=\"description\">\n    The Open Build Service developer team is greeting you. In case you use your OBS productive in your facility, please do us a favor and add yourself at <a href=\"http://wiki.opensuse.org/openSUSE:Build_Service_installations\">this wiki page</a>. Have fun and fast build times!\n  </p>\n','2018-12-31 08:31:24','2018-12-31 08:37:36','private','allow',1,0,1,0,1,0,1,0,1,NULL,NULL,NULL,NULL,NULL,NULL,'http://10.10.10.2',NULL,'unconfigured@openbuildservice.org');
+INSERT INTO `configurations` VALUES (1,'Open Build Service','  <p class=\"description\">\n    The <a href=\"http://openbuildservice.org\">Open Build Service (OBS)</a>\n    is an open and complete distribution development platform that provides a transparent infrastructure for development of Linux distributions, used by openSUSE, MeeGo and other distributions.\n    Supporting also Fedora, Debian, Ubuntu, RedHat and other Linux distributions.\n  </p>\n  <p class=\"description\">\n    The OBS is developed under the umbrella of the <a href=\"http://www.opensuse.org\">openSUSE project</a>. Please find further informations on the <a href=\"http://wiki.opensuse.org/openSUSE:Build_Service\">openSUSE Project wiki pages</a>.\n  </p>\n\n  <p class=\"description\">\n    The Open Build Service developer team is greeting you. In case you use your OBS productive in your facility, please do us a favor and add yourself at <a href=\"http://wiki.opensuse.org/openSUSE:Build_Service_installations\">this wiki page</a>. Have fun and fast build times!\n  </p>\n','2019-01-08 07:34:32','2019-01-08 07:34:32.000000','private','allow',1,0,1,0,1,0,1,0,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'unconfigured@openbuildservice.org',1,1,'bnc',NULL,'^home:.+','home projects');
 /*!40000 ALTER TABLE `configurations` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `db_project_types`
+-- Table structure for table `data_migrations`
 --
 
-DROP TABLE IF EXISTS `db_project_types`;
+DROP TABLE IF EXISTS `data_migrations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `db_project_types` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8 NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `db_project_types`
---
-
-LOCK TABLES `db_project_types` WRITE;
-/*!40000 ALTER TABLE `db_project_types` DISABLE KEYS */;
-INSERT INTO `db_project_types` VALUES (1,'standard'),(2,'maintenance'),(3,'maintenance_incident'),(4,'maintenance_release');
-/*!40000 ALTER TABLE `db_project_types` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `db_projects_tags`
---
-
-DROP TABLE IF EXISTS `db_projects_tags`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `db_projects_tags` (
-  `db_project_id` int(11) NOT NULL,
-  `tag_id` int(11) NOT NULL,
-  UNIQUE KEY `projects_tags_all_index` (`db_project_id`,`tag_id`),
-  KEY `tag_id` (`tag_id`),
-  CONSTRAINT `db_projects_tags_ibfk_1` FOREIGN KEY (`db_project_id`) REFERENCES `projects` (`id`),
-  CONSTRAINT `db_projects_tags_ibfk_2` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`id`)
+CREATE TABLE `data_migrations` (
+  `version` varchar(255) NOT NULL,
+  UNIQUE KEY `unique_data_migrations` (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `db_projects_tags`
+-- Dumping data for table `data_migrations`
 --
 
-LOCK TABLES `db_projects_tags` WRITE;
-/*!40000 ALTER TABLE `db_projects_tags` DISABLE KEYS */;
-/*!40000 ALTER TABLE `db_projects_tags` ENABLE KEYS */;
+LOCK TABLES `data_migrations` WRITE;
+/*!40000 ALTER TABLE `data_migrations` DISABLE KEYS */;
+INSERT INTO `data_migrations` VALUES ('20170306084550'),('20170831143534'),('20171108123126'),('20180109170324'),('20180131174510');
+/*!40000 ALTER TABLE `data_migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -862,15 +918,16 @@ CREATE TABLE `delayed_jobs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `priority` int(11) DEFAULT '0',
   `attempts` int(11) DEFAULT '0',
-  `handler` text CHARACTER SET utf8,
+  `handler` mediumtext COLLATE utf8_bin,
   `last_error` text CHARACTER SET utf8,
   `run_at` datetime DEFAULT NULL,
   `locked_at` datetime DEFAULT NULL,
   `failed_at` datetime DEFAULT NULL,
   `locked_by` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `queue` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  PRIMARY KEY (`id`),
+  KEY `index_delayed_jobs_on_queue` (`queue`)
+) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -879,7 +936,7 @@ CREATE TABLE `delayed_jobs` (
 
 LOCK TABLES `delayed_jobs` WRITE;
 /*!40000 ALTER TABLE `delayed_jobs` DISABLE KEYS */;
-INSERT INTO `delayed_jobs` VALUES (2,0,6,'--- !ruby/object:Delayed::PerformableMethod\nobject: !ruby/ActiveRecord:IssueTracker\n  attributes:\n    id: 15\n    name: bnc\n    kind: bugzilla\n    description: Novell Bugzilla\n    url: https://bugzilla.novell.com/\n    show_url: https://bugzilla.novell.com/show_bug.cgi?id=@@@\n    regex: (?:bnc|BNC)\\s*[#:]\\s*(\\d+)\n    user: \n    password: \n    label: bnc#@@@\n    issues_updated: 2018-12-31 08:31:24.000000000 Z\n    enable_fetch: true\nmethod_name: :update_issues\nargs: []\n','SSL_connect returned=1 errno=0 state=error: certificate verify failed\n/usr/lib64/ruby/2.0.0/net/http.rb:918:in `connect\'\n/usr/lib64/ruby/2.0.0/net/http.rb:918:in `block in connect\'\n/usr/lib64/ruby/2.0.0/timeout.rb:66:in `timeout\'\n/usr/lib64/ruby/2.0.0/net/http.rb:918:in `connect\'\n/usr/lib64/ruby/2.0.0/net/http.rb:862:in `do_start\'\n/usr/lib64/ruby/2.0.0/net/http.rb:857:in `start\'\n/usr/lib64/ruby/2.0.0/xmlrpc/client.rb:474:in `do_rpc\'\n/usr/lib64/ruby/2.0.0/xmlrpc/client.rb:281:in `call2\'\n/usr/lib64/ruby/2.0.0/xmlrpc/client.rb:262:in `call\'\n/usr/lib64/ruby/2.0.0/xmlrpc/client.rb:592:in `method_missing\'\n/srv/www/obs/api/app/models/issue_tracker.rb:52:in `update_issues_bugzilla\'\n/srv/www/obs/api/app/models/issue_tracker.rb:101:in `update_issues\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/performable_method.rb:26:in `perform\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/backend/base.rb:105:in `block in invoke_job\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:60:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:60:in `block in initialize\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:65:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:65:in `execute\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:38:in `run_callbacks\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/backend/base.rb:102:in `invoke_job\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:206:in `block (2 levels) in run\'\n/usr/lib64/ruby/2.0.0/timeout.rb:66:in `timeout\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:206:in `block in run\'\n/usr/lib64/ruby/2.0.0/benchmark.rb:296:in `realtime\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:205:in `run\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:267:in `block in reserve_and_run_one_job\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:60:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:60:in `block in initialize\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:65:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:65:in `execute\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:38:in `run_callbacks\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:267:in `reserve_and_run_one_job\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:189:in `block in work_off\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:188:in `times\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:188:in `work_off\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:153:in `block (4 levels) in start\'\n/usr/lib64/ruby/2.0.0/benchmark.rb:296:in `realtime\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:152:in `block (3 levels) in start\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:60:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:60:in `block in initialize\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:65:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:65:in `execute\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:38:in `run_callbacks\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:151:in `block (2 levels) in start\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:150:in `loop\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:150:in `block in start\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/plugins/clear_locks.rb:7:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/plugins/clear_locks.rb:7:in `block (2 levels) in <class:ClearLocks>\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:78:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:78:in `block (2 levels) in add\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:60:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:60:in `block in initialize\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:78:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:78:in `block in add\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:65:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:65:in `execute\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:38:in `run_callbacks\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:149:in `start\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/command.rb:104:in `run\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/command.rb:92:in `block in run_process\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons/application.rb:255:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons/application.rb:255:in `block in start_proc\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons/daemonize.rb:82:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons/daemonize.rb:82:in `call_as_daemon\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons/application.rb:259:in `start_proc\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons/application.rb:296:in `start\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons/controller.rb:70:in `run\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons.rb:197:in `block in run_proc\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons/cmdline.rb:109:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons/cmdline.rb:109:in `catch_exceptions\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons.rb:196:in `run_proc\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/command.rb:90:in `run_process\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/command.rb:83:in `block in daemonize\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/command.rb:81:in `times\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/command.rb:81:in `daemonize\'\nscript/delayed_job.api.rb:7:in `<main>\'','2019-01-03 14:08:32',NULL,NULL,NULL,NULL),(49,0,5,'--- !ruby/object:Delayed::PerformableMethod\nobject: !ruby/ActiveRecord:IssueTracker\n  attributes:\n    id: 15\n    name: bnc\n    kind: bugzilla\n    description: Novell Bugzilla\n    url: https://bugzilla.novell.com/\n    show_url: https://bugzilla.novell.com/show_bug.cgi?id=@@@\n    regex: (?:bnc|BNC)\\s*[#:]\\s*(\\d+)\n    user: \n    password: \n    label: bnc#@@@\n    issues_updated: 2018-12-31 08:31:24.000000000 Z\n    enable_fetch: true\nmethod_name: :update_issues\nargs: []\n','SSL_connect returned=1 errno=0 state=error: certificate verify failed\n/usr/lib64/ruby/2.0.0/net/http.rb:918:in `connect\'\n/usr/lib64/ruby/2.0.0/net/http.rb:918:in `block in connect\'\n/usr/lib64/ruby/2.0.0/timeout.rb:66:in `timeout\'\n/usr/lib64/ruby/2.0.0/net/http.rb:918:in `connect\'\n/usr/lib64/ruby/2.0.0/net/http.rb:862:in `do_start\'\n/usr/lib64/ruby/2.0.0/net/http.rb:857:in `start\'\n/usr/lib64/ruby/2.0.0/xmlrpc/client.rb:474:in `do_rpc\'\n/usr/lib64/ruby/2.0.0/xmlrpc/client.rb:281:in `call2\'\n/usr/lib64/ruby/2.0.0/xmlrpc/client.rb:262:in `call\'\n/usr/lib64/ruby/2.0.0/xmlrpc/client.rb:592:in `method_missing\'\n/srv/www/obs/api/app/models/issue_tracker.rb:52:in `update_issues_bugzilla\'\n/srv/www/obs/api/app/models/issue_tracker.rb:101:in `update_issues\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/performable_method.rb:26:in `perform\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/backend/base.rb:105:in `block in invoke_job\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:60:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:60:in `block in initialize\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:65:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:65:in `execute\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:38:in `run_callbacks\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/backend/base.rb:102:in `invoke_job\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:206:in `block (2 levels) in run\'\n/usr/lib64/ruby/2.0.0/timeout.rb:66:in `timeout\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:206:in `block in run\'\n/usr/lib64/ruby/2.0.0/benchmark.rb:296:in `realtime\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:205:in `run\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:267:in `block in reserve_and_run_one_job\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:60:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:60:in `block in initialize\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:65:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:65:in `execute\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:38:in `run_callbacks\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:267:in `reserve_and_run_one_job\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:189:in `block in work_off\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:188:in `times\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:188:in `work_off\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:153:in `block (4 levels) in start\'\n/usr/lib64/ruby/2.0.0/benchmark.rb:296:in `realtime\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:152:in `block (3 levels) in start\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:60:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:60:in `block in initialize\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:65:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:65:in `execute\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:38:in `run_callbacks\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:151:in `block (2 levels) in start\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:150:in `loop\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:150:in `block in start\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/plugins/clear_locks.rb:7:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/plugins/clear_locks.rb:7:in `block (2 levels) in <class:ClearLocks>\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:78:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:78:in `block (2 levels) in add\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:60:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:60:in `block in initialize\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:78:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:78:in `block in add\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:65:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:65:in `execute\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:38:in `run_callbacks\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:149:in `start\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/command.rb:104:in `run\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/command.rb:92:in `block in run_process\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons/application.rb:255:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons/application.rb:255:in `block in start_proc\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons/daemonize.rb:82:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons/daemonize.rb:82:in `call_as_daemon\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons/application.rb:259:in `start_proc\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons/application.rb:296:in `start\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons/controller.rb:70:in `run\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons.rb:197:in `block in run_proc\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons/cmdline.rb:109:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons/cmdline.rb:109:in `catch_exceptions\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons.rb:196:in `run_proc\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/command.rb:90:in `run_process\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/command.rb:83:in `block in daemonize\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/command.rb:81:in `times\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/command.rb:81:in `daemonize\'\nscript/delayed_job.api.rb:7:in `<main>\'','2019-01-03 14:03:46',NULL,NULL,NULL,NULL),(50,0,3,'--- !ruby/object:Delayed::PerformableMethod\nobject: !ruby/ActiveRecord:IssueTracker\n  attributes:\n    id: 15\n    name: bnc\n    kind: bugzilla\n    description: Novell Bugzilla\n    url: https://bugzilla.novell.com/\n    show_url: https://bugzilla.novell.com/show_bug.cgi?id=@@@\n    regex: (?:bnc|BNC)\\s*[#:]\\s*(\\d+)\n    user: \n    password: \n    label: bnc#@@@\n    issues_updated: 2018-12-31 08:31:24.000000000 Z\n    enable_fetch: true\nmethod_name: :update_issues\nargs: []\n','SSL_connect returned=1 errno=0 state=error: certificate verify failed\n/usr/lib64/ruby/2.0.0/net/http.rb:918:in `connect\'\n/usr/lib64/ruby/2.0.0/net/http.rb:918:in `block in connect\'\n/usr/lib64/ruby/2.0.0/timeout.rb:66:in `timeout\'\n/usr/lib64/ruby/2.0.0/net/http.rb:918:in `connect\'\n/usr/lib64/ruby/2.0.0/net/http.rb:862:in `do_start\'\n/usr/lib64/ruby/2.0.0/net/http.rb:857:in `start\'\n/usr/lib64/ruby/2.0.0/xmlrpc/client.rb:474:in `do_rpc\'\n/usr/lib64/ruby/2.0.0/xmlrpc/client.rb:281:in `call2\'\n/usr/lib64/ruby/2.0.0/xmlrpc/client.rb:262:in `call\'\n/usr/lib64/ruby/2.0.0/xmlrpc/client.rb:592:in `method_missing\'\n/srv/www/obs/api/app/models/issue_tracker.rb:52:in `update_issues_bugzilla\'\n/srv/www/obs/api/app/models/issue_tracker.rb:101:in `update_issues\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/performable_method.rb:26:in `perform\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/backend/base.rb:105:in `block in invoke_job\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:60:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:60:in `block in initialize\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:65:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:65:in `execute\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:38:in `run_callbacks\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/backend/base.rb:102:in `invoke_job\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:206:in `block (2 levels) in run\'\n/usr/lib64/ruby/2.0.0/timeout.rb:66:in `timeout\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:206:in `block in run\'\n/usr/lib64/ruby/2.0.0/benchmark.rb:296:in `realtime\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:205:in `run\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:267:in `block in reserve_and_run_one_job\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:60:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:60:in `block in initialize\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:65:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:65:in `execute\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:38:in `run_callbacks\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:267:in `reserve_and_run_one_job\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:189:in `block in work_off\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:188:in `times\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:188:in `work_off\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:153:in `block (4 levels) in start\'\n/usr/lib64/ruby/2.0.0/benchmark.rb:296:in `realtime\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:152:in `block (3 levels) in start\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:60:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:60:in `block in initialize\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:65:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:65:in `execute\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:38:in `run_callbacks\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:151:in `block (2 levels) in start\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:150:in `loop\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:150:in `block in start\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/plugins/clear_locks.rb:7:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/plugins/clear_locks.rb:7:in `block (2 levels) in <class:ClearLocks>\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:78:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:78:in `block (2 levels) in add\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:60:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:60:in `block in initialize\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:78:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:78:in `block in add\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:65:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:65:in `execute\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/lifecycle.rb:38:in `run_callbacks\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/worker.rb:149:in `start\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/command.rb:104:in `run\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/command.rb:92:in `block in run_process\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons/application.rb:255:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons/application.rb:255:in `block in start_proc\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons/daemonize.rb:82:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons/daemonize.rb:82:in `call_as_daemon\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons/application.rb:259:in `start_proc\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons/application.rb:296:in `start\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons/controller.rb:70:in `run\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons.rb:197:in `block in run_proc\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons/cmdline.rb:109:in `call\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons/cmdline.rb:109:in `catch_exceptions\'\n/usr/lib64/ruby/gems/2.0.0/gems/daemons-1.1.9/lib/daemons.rb:196:in `run_proc\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/command.rb:90:in `run_process\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/command.rb:83:in `block in daemonize\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/command.rb:81:in `times\'\n/usr/lib64/ruby/gems/2.0.0/gems/delayed_job-4.0.0/lib/delayed/command.rb:81:in `daemonize\'\nscript/delayed_job.api.rb:7:in `<main>\'','2019-01-03 14:01:22',NULL,NULL,NULL,NULL);
+INSERT INTO `delayed_jobs` VALUES (1,0,0,'--- !ruby/object:Delayed::PerformableMethod\nobject: !ruby/ActiveRecord:Configuration\n  attributes:\n    id: 1\n    title: Open Build Service\n    description: |2\n        <p class=\"description\">\n          The <a href=\"http://openbuildservice.org\">Open Build Service (OBS)</a>\n          is an open and complete distribution development platform that provides a transparent infrastructure for development of Linux distributions, used by openSUSE, MeeGo and other distributions.\n          Supporting also Fedora, Debian, Ubuntu, RedHat and other Linux distributions.\n        </p>\n        <p class=\"description\">\n          The OBS is developed under the umbrella of the <a href=\"http://www.opensuse.org\">openSUSE project</a>. Please find further informations on the <a href=\"http://wiki.opensuse.org/openSUSE:Build_Service\">openSUSE Project wiki pages</a>.\n        </p>\n\n        <p class=\"description\">\n          The Open Build Service developer team is greeting you. In case you use your OBS productive in your facility, please do us a favor and add yourself at <a href=\"http://wiki.opensuse.org/openSUSE:Build_Service_installations\">this wiki page</a>. Have fun and fast build times!\n        </p>\n    created_at: 2019-01-08 07:34:32.494049035 Z\n    updated_at: 2019-01-08 07:34:32.494049035 Z\n    name: private\n    registration: allow\n    anonymous: true\n    default_access_disabled: false\n    allow_user_to_create_home_project: true\n    disallow_group_creation: false\n    change_password: true\n    hide_private_options: false\n    gravatar: true\n    enforce_project_keys: false\n    download_on_demand: true\n    download_url: \n    ymp_url: \n    bugzilla_url: \n    http_proxy: \n    no_proxy: \n    theme: \n    obs_url: \n    cleanup_after_days: \n    admin_email: unconfigured@openbuildservice.org\nmethod_name: :write_to_backend\nargs: []\n',NULL,'2019-01-08 07:34:32',NULL,NULL,NULL,NULL),(24,0,5,'--- !ruby/object:ActiveJob::QueueAdapters::DelayedJobAdapter::JobWrapper\njob_data:\n  job_class: FullTextIndexJob\n  job_id: d135499e-f843-4ad7-b631-2da9e133b23a\n  provider_job_id: \n  queue_name: quick\n  priority: \n  arguments: []\n  executions: 0\n  locale: en\n','exit\n/usr/lib64/ruby/gems/2.5.0/gems/thinking-sphinx-3.4.2/lib/thinking_sphinx/commands/base.rb:33:in `exit\'\n/usr/lib64/ruby/gems/2.5.0/gems/thinking-sphinx-3.4.2/lib/thinking_sphinx/commands/base.rb:33:in `handle_failure\'\n/usr/lib64/ruby/gems/2.5.0/gems/thinking-sphinx-3.4.2/lib/thinking_sphinx/commands/base.rb:11:in `rescue in call_with_handling\'\n/usr/lib64/ruby/gems/2.5.0/gems/thinking-sphinx-3.4.2/lib/thinking_sphinx/commands/base.rb:8:in `call_with_handling\'\n/usr/lib64/ruby/gems/2.5.0/gems/thinking-sphinx-3.4.2/lib/thinking_sphinx/commands/base.rb:5:in `call\'\n/usr/lib64/ruby/gems/2.5.0/gems/thinking-sphinx-3.4.2/lib/thinking_sphinx/interfaces/sql.rb:31:in `index\'\n/srv/www/obs/api/app/jobs/full_text_index_job.rb:12:in `block in perform\'\n/usr/lib64/ruby/gems/2.5.0/gems/activerecord-5.1.4/lib/active_record/connection_adapters/abstract/connection_pool.rb:408:in `with_connection\'\n/srv/www/obs/api/app/jobs/full_text_index_job.rb:8:in `perform\'\n/usr/lib64/ruby/gems/2.5.0/gems/activejob-5.1.4/lib/active_job/execution.rb:37:in `block in perform_now\'\n/usr/lib64/ruby/gems/2.5.0/gems/activesupport-5.1.4/lib/active_support/callbacks.rb:108:in `block in run_callbacks\'\n/usr/lib64/ruby/gems/2.5.0/gems/i18n-0.9.1/lib/i18n.rb:265:in `with_locale\'\n/usr/lib64/ruby/gems/2.5.0/gems/activejob-5.1.4/lib/active_job/translation.rb:7:in `block (2 levels) in <module:Translation>\'\n/usr/lib64/ruby/gems/2.5.0/gems/activesupport-5.1.4/lib/active_support/callbacks.rb:117:in `instance_exec\'\n/usr/lib64/ruby/gems/2.5.0/gems/activesupport-5.1.4/lib/active_support/callbacks.rb:117:in `block in run_callbacks\'\n/usr/lib64/ruby/gems/2.5.0/gems/activejob-5.1.4/lib/active_job/logging.rb:24:in `block (4 levels) in <module:Logging>\'\n/usr/lib64/ruby/gems/2.5.0/gems/activesupport-5.1.4/lib/active_support/notifications.rb:166:in `block in instrument\'\n/usr/lib64/ruby/gems/2.5.0/gems/activesupport-5.1.4/lib/active_support/notifications/instrumenter.rb:21:in `instrument\'\n/usr/lib64/ruby/gems/2.5.0/gems/activesupport-5.1.4/lib/active_support/notifications.rb:166:in `instrument\'\n/usr/lib64/ruby/gems/2.5.0/gems/activejob-5.1.4/lib/active_job/logging.rb:23:in `block (3 levels) in <module:Logging>\'\n/usr/lib64/ruby/gems/2.5.0/gems/activejob-5.1.4/lib/active_job/logging.rb:44:in `block in tag_logger\'\n/usr/lib64/ruby/gems/2.5.0/gems/activesupport-5.1.4/lib/active_support/tagged_logging.rb:69:in `block in tagged\'\n/usr/lib64/ruby/gems/2.5.0/gems/activesupport-5.1.4/lib/active_support/tagged_logging.rb:26:in `tagged\'\n/usr/lib64/ruby/gems/2.5.0/gems/activesupport-5.1.4/lib/active_support/tagged_logging.rb:69:in `tagged\'\n/usr/lib64/ruby/gems/2.5.0/gems/activejob-5.1.4/lib/active_job/logging.rb:44:in `tag_logger\'\n/usr/lib64/ruby/gems/2.5.0/gems/activejob-5.1.4/lib/active_job/logging.rb:20:in `block (2 levels) in <module:Logging>\'\n/usr/lib64/ruby/gems/2.5.0/gems/activesupport-5.1.4/lib/active_support/callbacks.rb:117:in `instance_exec\'\n/usr/lib64/ruby/gems/2.5.0/gems/activesupport-5.1.4/lib/active_support/callbacks.rb:117:in `block in run_callbacks\'\n/usr/lib64/ruby/gems/2.5.0/gems/activesupport-5.1.4/lib/active_support/callbacks.rb:135:in `run_callbacks\'\n/usr/lib64/ruby/gems/2.5.0/gems/activejob-5.1.4/lib/active_job/execution.rb:33:in `perform_now\'\n/usr/lib64/ruby/gems/2.5.0/gems/activejob-5.1.4/lib/active_job/execution.rb:22:in `block in execute\'\n/usr/lib64/ruby/gems/2.5.0/gems/activesupport-5.1.4/lib/active_support/callbacks.rb:108:in `block in run_callbacks\'\n/usr/lib64/ruby/gems/2.5.0/gems/activejob-5.1.4/lib/active_job/railtie.rb:26:in `block (4 levels) in <class:Railtie>\'\n/usr/lib64/ruby/gems/2.5.0/gems/activesupport-5.1.4/lib/active_support/execution_wrapper.rb:85:in `wrap\'\n/usr/lib64/ruby/gems/2.5.0/gems/activesupport-5.1.4/lib/active_support/reloader.rb:68:in `block in wrap\'\n/usr/lib64/ruby/gems/2.5.0/gems/activesupport-5.1.4/lib/active_support/execution_wrapper.rb:85:in `wrap\'\n/usr/lib64/ruby/gems/2.5.0/gems/activesupport-5.1.4/lib/active_support/reloader.rb:67:in `wrap\'\n/usr/lib64/ruby/gems/2.5.0/gems/activejob-5.1.4/lib/active_job/railtie.rb:25:in `block (3 levels) in <class:Railtie>\'\n/usr/lib64/ruby/gems/2.5.0/gems/activesupport-5.1.4/lib/active_support/callbacks.rb:117:in `instance_exec\'\n/usr/lib64/ruby/gems/2.5.0/gems/activesupport-5.1.4/lib/active_support/callbacks.rb:117:in `block in run_callbacks\'\n/usr/lib64/ruby/gems/2.5.0/gems/activesupport-5.1.4/lib/active_support/callbacks.rb:135:in `run_callbacks\'\n/usr/lib64/ruby/gems/2.5.0/gems/activejob-5.1.4/lib/active_job/execution.rb:20:in `execute\'\n/usr/lib64/ruby/gems/2.5.0/gems/activejob-5.1.4/lib/active_job/queue_adapters/delayed_job_adapter.rb:36:in `perform\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/backend/base.rb:81:in `block in invoke_job\'\n/usr/lib64/ruby/gems/2.5.0/gems/airbrake-7.1.0/lib/airbrake/delayed_job.rb:11:in `block (2 levels) in <class:Airbrake>\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/lifecycle.rb:79:in `block (2 levels) in add\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/lifecycle.rb:61:in `block in initialize\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/lifecycle.rb:79:in `block in add\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/lifecycle.rb:66:in `execute\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/lifecycle.rb:40:in `run_callbacks\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/backend/base.rb:78:in `invoke_job\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/worker.rb:230:in `block (2 levels) in run\'\n/usr/lib64/ruby/2.5.0/timeout.rb:93:in `block in timeout\'\n/usr/lib64/ruby/2.5.0/timeout.rb:103:in `timeout\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/worker.rb:230:in `block in run\'\n/usr/lib64/ruby/2.5.0/benchmark.rb:308:in `realtime\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/worker.rb:229:in `run\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/worker.rb:312:in `block in reserve_and_run_one_job\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/lifecycle.rb:61:in `block in initialize\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/lifecycle.rb:66:in `execute\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/lifecycle.rb:40:in `run_callbacks\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/worker.rb:312:in `reserve_and_run_one_job\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/worker.rb:213:in `block in work_off\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/worker.rb:212:in `times\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/worker.rb:212:in `work_off\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/worker.rb:175:in `block (4 levels) in start\'\n/usr/lib64/ruby/2.5.0/benchmark.rb:308:in `realtime\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/worker.rb:174:in `block (3 levels) in start\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/lifecycle.rb:61:in `block in initialize\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/lifecycle.rb:66:in `execute\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/lifecycle.rb:40:in `run_callbacks\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/worker.rb:173:in `block (2 levels) in start\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/worker.rb:172:in `loop\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/worker.rb:172:in `block in start\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/plugins/clear_locks.rb:7:in `block (2 levels) in <class:ClearLocks>\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/lifecycle.rb:79:in `block (2 levels) in add\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/lifecycle.rb:61:in `block in initialize\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/lifecycle.rb:79:in `block in add\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/lifecycle.rb:66:in `execute\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/lifecycle.rb:40:in `run_callbacks\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/worker.rb:171:in `start\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/command.rb:137:in `run\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/command.rb:125:in `block in run_process\'\n/usr/lib64/ruby/gems/2.5.0/gems/daemons-1.2.6/lib/daemons/application.rb:270:in `block in start_proc\'\n/usr/lib64/ruby/gems/2.5.0/gems/daemons-1.2.6/lib/daemons/daemonize.rb:84:in `call_as_daemon\'\n/usr/lib64/ruby/gems/2.5.0/gems/daemons-1.2.6/lib/daemons/application.rb:274:in `start_proc\'\n/usr/lib64/ruby/gems/2.5.0/gems/daemons-1.2.6/lib/daemons/application.rb:300:in `start\'\n/usr/lib64/ruby/gems/2.5.0/gems/daemons-1.2.6/lib/daemons/controller.rb:56:in `run\'\n/usr/lib64/ruby/gems/2.5.0/gems/daemons-1.2.6/lib/daemons.rb:197:in `block in run_proc\'\n/usr/lib64/ruby/gems/2.5.0/gems/daemons-1.2.6/lib/daemons/cmdline.rb:92:in `catch_exceptions\'\n/usr/lib64/ruby/gems/2.5.0/gems/daemons-1.2.6/lib/daemons.rb:196:in `run_proc\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/command.rb:123:in `run_process\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/command.rb:104:in `block in daemonize\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/command.rb:102:in `times\'\n/usr/lib64/ruby/gems/2.5.0/gems/delayed_job-4.1.4/lib/delayed/command.rb:102:in `daemonize\'\nscript/delayed_job.api.rb:5:in `<main>\'','2019-01-08 07:55:05',NULL,NULL,NULL,'quick'),(69,0,0,'--- !ruby/object:ActiveJob::QueueAdapters::DelayedJobAdapter::JobWrapper\njob_data:\n  job_class: SendEventEmailsJob\n  job_id: 6b5cae74-c5f1-4332-99c1-22aac0ee12c3\n  provider_job_id: \n  queue_name: mailers\n  priority: \n  arguments: []\n  executions: 0\n  locale: en\n',NULL,'2019-01-08 07:48:06',NULL,NULL,NULL,'mailers');
 /*!40000 ALTER TABLE `delayed_jobs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -962,32 +1019,36 @@ LOCK TABLES `distributions` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `downloads`
+-- Table structure for table `download_repositories`
 --
 
-DROP TABLE IF EXISTS `downloads`;
+DROP TABLE IF EXISTS `download_repositories`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `downloads` (
+CREATE TABLE `download_repositories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `baseurl` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `metafile` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `mtype` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `architecture_id` int(11) DEFAULT NULL,
-  `db_project_id` int(11) DEFAULT NULL,
+  `repository_id` int(11) NOT NULL,
+  `arch` varchar(255) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `repotype` varchar(255) DEFAULT NULL,
+  `archfilter` varchar(255) DEFAULT NULL,
+  `masterurl` varchar(255) DEFAULT NULL,
+  `mastersslfingerprint` varchar(255) DEFAULT NULL,
+  `pubkey` text,
   PRIMARY KEY (`id`),
-  KEY `index_downloads_on_db_project_id` (`db_project_id`),
-  KEY `index_downloads_on_architecture_id` (`architecture_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  KEY `repository_id` (`repository_id`),
+  CONSTRAINT `download_repositories_ibfk_1` FOREIGN KEY (`repository_id`) REFERENCES `repositories` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `downloads`
+-- Dumping data for table `download_repositories`
 --
 
-LOCK TABLES `downloads` WRITE;
-/*!40000 ALTER TABLE `downloads` DISABLE KEYS */;
-/*!40000 ALTER TABLE `downloads` ENABLE KEYS */;
+LOCK TABLES `download_repositories` WRITE;
+/*!40000 ALTER TABLE `download_repositories` DISABLE KEYS */;
+INSERT INTO `download_repositories` VALUES (1,2,'armv8el','https://releases.jolla.com/releases/2.2.1.18/jolla/armv7hl/','rpmmd',NULL,NULL,NULL,NULL),(2,3,'i586','https://releases.jolla.com/releases/2.2.1.18/jolla/i486/','rpmmd',NULL,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `download_repositories` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1002,15 +1063,13 @@ CREATE TABLE `event_subscriptions` (
   `eventtype` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `receiver_role` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `project_id` int(11) DEFAULT NULL,
-  `package_id` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `receive` tinyint(1) NOT NULL DEFAULT '1',
+  `updated_at` datetime(6) DEFAULT NULL,
+  `group_id` int(11) DEFAULT NULL,
+  `channel` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `index_event_subscriptions_on_user_id` (`user_id`),
-  KEY `index_event_subscriptions_on_project_id` (`project_id`),
-  KEY `index_event_subscriptions_on_package_id` (`package_id`)
+  KEY `index_event_subscriptions_on_group_id` (`group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1034,17 +1093,15 @@ CREATE TABLE `events` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `eventtype` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `payload` text COLLATE utf8_unicode_ci,
-  `queued` tinyint(1) NOT NULL DEFAULT '0',
-  `lock_version` int(11) NOT NULL DEFAULT '0',
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `project_logged` tinyint(1) DEFAULT '0',
+  `updated_at` datetime(6) DEFAULT NULL,
+  `undone_jobs` int(11) DEFAULT '0',
+  `mails_sent` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `index_events_on_queued` (`queued`),
-  KEY `index_events_on_project_logged` (`project_logged`),
   KEY `index_events_on_eventtype` (`eventtype`),
-  KEY `index_events_on_created_at` (`created_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  KEY `index_events_on_created_at` (`created_at`),
+  KEY `index_events_on_mails_sent` (`mails_sent`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1053,7 +1110,7 @@ CREATE TABLE `events` (
 
 LOCK TABLES `events` WRITE;
 /*!40000 ALTER TABLE `events` DISABLE KEYS */;
-INSERT INTO `events` VALUES (6,'Event::RepoPublishState','{\"project\":\"test\",\"repo\":\"openSUSE_42.3\",\"state\":\"publishing\"}',1,1,'2018-12-31 08:38:24','2018-12-31 08:38:29',0),(7,'Event::RepoPublishState','{\"project\":\"test\",\"repo\":\"openSUSE_42.3\",\"state\":\"published\"}',1,1,'2018-12-31 08:38:29','2018-12-31 08:38:29',0),(9,'Event::RepoPublishState','{\"project\":\"test\",\"repo\":\"openSUSE_42.3\",\"state\":\"publishing\"}',1,1,'2018-12-31 08:41:53','2018-12-31 08:42:00',0),(10,'Event::RepoPublished','{\"project\":\"test\",\"repo\":\"openSUSE_42.3\"}',1,1,'2018-12-31 08:42:10','2018-12-31 08:42:30',0),(11,'Event::RepoPublishState','{\"project\":\"test\",\"repo\":\"openSUSE_42.3\",\"state\":\"published\"}',1,1,'2018-12-31 08:42:11','2018-12-31 08:42:30',0),(12,'Event::RepoPublishState','{\"project\":\"test\",\"repo\":\"mer-core-i486\",\"state\":\"published\"}',1,1,'2019-01-03 13:51:58','2019-01-03 13:52:00',0),(14,'Event::RepoPublishState','{\"project\":\"test\",\"repo\":\"mer-core-armv7l\",\"state\":\"publishing\"}',1,1,'2019-01-03 13:53:28','2019-01-03 13:53:30',0),(15,'Event::RepoPublished','{\"project\":\"test\",\"repo\":\"mer-core-armv7l\"}',1,1,'2019-01-03 13:53:31','2019-01-03 13:54:01',0),(16,'Event::RepoPublishState','{\"project\":\"test\",\"repo\":\"mer-core-armv7l\",\"state\":\"published\"}',1,1,'2019-01-03 13:53:31','2019-01-03 13:54:01',0),(18,'Event::RepoPublishState','{\"project\":\"test\",\"repo\":\"obs2.9\",\"state\":\"publishing\"}',1,1,'2019-01-03 13:54:19','2019-01-03 13:54:31',0),(19,'Event::RepoPublished','{\"project\":\"test\",\"repo\":\"obs2.9\"}',1,1,'2019-01-03 13:54:19','2019-01-03 13:54:31',0),(20,'Event::RepoPublishState','{\"project\":\"test\",\"repo\":\"obs2.9\",\"state\":\"published\"}',1,1,'2019-01-03 13:54:19','2019-01-03 13:54:31',0),(22,'Event::RepoPublishState','{\"project\":\"test\",\"repo\":\"mer-core-armv7tnhl\",\"state\":\"publishing\"}',1,1,'2019-01-03 13:55:49','2019-01-03 13:56:01',0),(23,'Event::RepoPublished','{\"project\":\"test\",\"repo\":\"mer-core-armv7tnhl\"}',1,1,'2019-01-03 13:56:02','2019-01-03 13:56:31',0),(24,'Event::RepoPublishState','{\"project\":\"test\",\"repo\":\"mer-core-armv7tnhl\",\"state\":\"published\"}',1,1,'2019-01-03 13:56:02','2019-01-03 13:56:31',0),(26,'Event::RepoPublishState','{\"project\":\"test\",\"repo\":\"mer-core-64\",\"state\":\"publishing\"}',1,1,'2019-01-03 13:56:39','2019-01-03 13:57:01',0),(27,'Event::RepoPublished','{\"project\":\"test\",\"repo\":\"mer-core-64\"}',1,1,'2019-01-03 13:56:53','2019-01-03 13:57:01',0),(28,'Event::RepoPublishState','{\"project\":\"test\",\"repo\":\"mer-core-64\",\"state\":\"published\"}',1,1,'2019-01-03 13:56:53','2019-01-03 13:57:01',0);
+INSERT INTO `events` VALUES (1,'Event::CreateProject','{\"project\":\"sailfishos:2.2.1.18:armv7hl\",\"sender\":\"Admin\"}','2019-01-08 07:44:42','2019-01-08 07:45:07.056417',0,1),(2,'Event::CreateProject','{\"project\":\"sailfishos:2.2.1.18:i486\",\"sender\":\"Admin\"}','2019-01-08 07:44:54','2019-01-08 07:45:07.064935',0,1),(3,'Event::CreateProject','{\"project\":\"sailfishos:2.2.1.18\",\"sender\":\"Admin\"}','2019-01-08 07:44:54','2019-01-08 07:45:07.069481',0,1),(4,'Event::UpdateProject','{\"project\":\"sailfishos:2.2.1.18\",\"sender\":\"Admin\"}','2019-01-08 07:44:54','2019-01-08 07:45:07.074488',0,1),(5,'Event::UpdateProjectConfig','{\"project\":\"sailfishos:2.2.1.18\",\"sender\":\"Admin\"}','2019-01-08 07:44:54','2019-01-08 07:45:07.079798',0,1),(6,'Event::CreatePackage','{\"project\":\"sailfishos:2.2.1.18\",\"package\":\"sb2-tools-qt5-armv7hl\",\"sender\":\"Admin\"}','2019-01-08 07:44:54','2019-01-08 07:45:07.084993',0,1),(7,'Event::UpdatePackage','{\"project\":\"sailfishos:2.2.1.18\",\"package\":\"sb2-tools-qt5-armv7hl\",\"sender\":\"Admin\"}','2019-01-08 07:44:54','2019-01-08 07:45:07.089541',0,1),(8,'Event::Commit','{\"project\":\"sailfishos:2.2.1.18\",\"package\":\"sb2-tools-qt5-armv7hl\",\"comment\":\"osc copypac from project:sailfishos:2.2.1.18 package:sb2-tools-qt5-armv7hl revision:3, using expand, using client side copy\",\"user\":\"Admin\",\"files\":\"Added:\\n  _service\\n\\n\",\"rev\":\"1\"}','2019-01-08 07:44:54','2019-01-08 07:45:07.094295',0,1),(9,'Event::UpdatePackage','{\"project\":\"sailfishos:2.2.1.18\",\"package\":\"sb2-tools-qt5-armv7hl\",\"sender\":\"Admin\"}','2019-01-08 07:44:54','2019-01-08 07:45:07.099764',0,1),(10,'Event::ServiceSuccess','{\"project\":\"sailfishos:2.2.1.18\",\"package\":\"sb2-tools-qt5-armv7hl\",\"comment\":\"osc copypac from project:sailfishos:2.2.1.18 package:sb2-tools-qt5-armv7hl revision:3, using expand, using client side copy\",\"rev\":\"1\",\"user\":\"Admin\"}','2019-01-08 07:44:54','2019-01-08 07:45:07.163488',0,1),(11,'Event::CreatePackage','{\"project\":\"sailfishos:2.2.1.18\",\"package\":\"sb2-tools-armv7hl\",\"sender\":\"Admin\"}','2019-01-08 07:44:54','2019-01-08 07:45:07.168973',0,1),(12,'Event::UpdatePackage','{\"project\":\"sailfishos:2.2.1.18\",\"package\":\"sb2-tools-armv7hl\",\"sender\":\"Admin\"}','2019-01-08 07:45:11','2019-01-08 07:45:37.227491',0,1),(13,'Event::Commit','{\"project\":\"sailfishos:2.2.1.18\",\"package\":\"sb2-tools-armv7hl\",\"comment\":\"osc copypac from project:sailfishos:2.2.1.18 package:sb2-tools-armv7hl revision:3, using expand, using client side copy\",\"user\":\"Admin\",\"files\":\"Added:\\n  _service\\n\\n\",\"rev\":\"1\"}','2019-01-08 07:45:11','2019-01-08 07:45:37.239633',0,1),(14,'Event::UpdatePackage','{\"project\":\"sailfishos:2.2.1.18\",\"package\":\"sb2-tools-armv7hl\",\"sender\":\"Admin\"}','2019-01-08 07:45:11','2019-01-08 07:45:37.251600',0,1),(15,'Event::ServiceSuccess','{\"project\":\"sailfishos:2.2.1.18\",\"package\":\"sb2-tools-armv7hl\",\"comment\":\"osc copypac from project:sailfishos:2.2.1.18 package:sb2-tools-armv7hl revision:3, using expand, using client side copy\",\"rev\":\"1\",\"user\":\"Admin\"}','2019-01-08 07:45:11','2019-01-08 07:45:37.291994',0,1);
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1082,7 +1139,7 @@ CREATE TABLE `flags` (
   CONSTRAINT `flags_ibfk_3` FOREIGN KEY (`architecture_id`) REFERENCES `architectures` (`id`),
   CONSTRAINT `flags_ibfk_4` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`),
   CONSTRAINT `flags_ibfk_5` FOREIGN KEY (`package_id`) REFERENCES `packages` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1091,7 +1148,36 @@ CREATE TABLE `flags` (
 
 LOCK TABLES `flags` WRITE;
 /*!40000 ALTER TABLE `flags` DISABLE KEYS */;
+INSERT INTO `flags` VALUES (3,'enable','latest_armv7hl',4,NULL,12,1,'build','sb2-tools-armv7hl'),(4,'disable',NULL,4,NULL,NULL,2,'publish',NULL);
 /*!40000 ALTER TABLE `flags` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `group_maintainers`
+--
+
+DROP TABLE IF EXISTS `group_maintainers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `group_maintainers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `group_id` (`group_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `group_maintainers_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`),
+  CONSTRAINT `group_maintainers_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `group_maintainers`
+--
+
+LOCK TABLES `group_maintainers` WRITE;
+/*!40000 ALTER TABLE `group_maintainers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `group_maintainers` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1104,6 +1190,8 @@ DROP TABLE IF EXISTS `group_request_requests`;
 CREATE TABLE `group_request_requests` (
   `bs_request_action_group_id` int(11) DEFAULT NULL,
   `bs_request_id` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
   KEY `index_group_request_requests_on_bs_request_id` (`bs_request_id`),
   KEY `index_group_request_requests_on_bs_request_action_group_id` (`bs_request_action_group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -1128,7 +1216,7 @@ DROP TABLE IF EXISTS `groups`;
 CREATE TABLE `groups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
+  `updated_at` datetime(6) DEFAULT NULL,
   `title` varchar(200) CHARACTER SET utf8 NOT NULL DEFAULT '',
   `parent_id` int(11) DEFAULT NULL,
   `email` varchar(255) COLLATE utf8_bin DEFAULT NULL,
@@ -1205,6 +1293,37 @@ LOCK TABLES `groups_users` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `history_elements`
+--
+
+DROP TABLE IF EXISTS `history_elements`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `history_elements` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` varchar(255) NOT NULL,
+  `op_object_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `description_extension` varchar(255) DEFAULT NULL,
+  `comment` text,
+  PRIMARY KEY (`id`),
+  KEY `index_history_elements_on_created_at` (`created_at`),
+  KEY `index_history_elements_on_type` (`type`),
+  KEY `index_search` (`op_object_id`,`type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `history_elements`
+--
+
+LOCK TABLES `history_elements` WRITE;
+/*!40000 ALTER TABLE `history_elements` DISABLE KEYS */;
+/*!40000 ALTER TABLE `history_elements` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `incident_counter`
 --
 
@@ -1229,6 +1348,35 @@ LOCK TABLES `incident_counter` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `incident_updateinfo_counter_values`
+--
+
+DROP TABLE IF EXISTS `incident_updateinfo_counter_values`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `incident_updateinfo_counter_values` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `updateinfo_counter_id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL,
+  `value` int(11) NOT NULL,
+  `released_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniq_id_index` (`updateinfo_counter_id`,`project_id`),
+  KEY `project_id` (`project_id`),
+  CONSTRAINT `incident_updateinfo_counter_values_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `incident_updateinfo_counter_values`
+--
+
+LOCK TABLES `incident_updateinfo_counter_values` WRITE;
+/*!40000 ALTER TABLE `incident_updateinfo_counter_values` DISABLE KEYS */;
+/*!40000 ALTER TABLE `incident_updateinfo_counter_values` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `issue_trackers`
 --
 
@@ -1238,7 +1386,7 @@ DROP TABLE IF EXISTS `issue_trackers`;
 CREATE TABLE `issue_trackers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `kind` enum('other','bugzilla','cve','fate','trac','launchpad','sourceforge') CHARACTER SET utf8 DEFAULT NULL,
+  `kind` enum('other','bugzilla','cve','fate','trac','launchpad','sourceforge','github') COLLATE utf8_bin NOT NULL,
   `description` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `url` varchar(255) CHARACTER SET utf8 NOT NULL,
   `show_url` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
@@ -1249,7 +1397,7 @@ CREATE TABLE `issue_trackers` (
   `issues_updated` datetime NOT NULL,
   `enable_fetch` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1258,7 +1406,7 @@ CREATE TABLE `issue_trackers` (
 
 LOCK TABLES `issue_trackers` WRITE;
 /*!40000 ALTER TABLE `issue_trackers` DISABLE KEYS */;
-INSERT INTO `issue_trackers` VALUES (1,'boost','trac','Boost Trac','https://svn.boost.org/trac/boost/','https://svn.boost.org/trac/boost/ticket/@@@','boost#(\\d+)',NULL,NULL,'boost#@@@','2018-12-31 08:31:24',0),(2,'bco','bugzilla','Clutter Project Bugzilla','http://bugzilla.clutter-project.org/','http://bugzilla.clutter-project.org/show_bug.cgi?id=@@@','bco#(\\d+)',NULL,NULL,'bco#@@@','2018-12-31 08:31:24',0),(3,'RT','other','CPAN Bugs','https://rt.cpan.org/','http://rt.cpan.org/Public/Bug/Display.html?id=@@@','RT#(\\d+)',NULL,NULL,'RT#@@@','2018-12-31 08:31:24',0),(4,'cve','cve','CVE Numbers','http://cve.mitre.org/','http://cve.mitre.org/cgi-bin/cvename.cgi?name=@@@','(CVE-\\d\\d\\d\\d-\\d+)',NULL,NULL,'@@@','2018-12-31 08:31:24',0),(5,'deb','bugzilla','Debian Bugzilla','http://bugs.debian.org/','http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=@@@','deb#(\\d+)',NULL,NULL,'deb#@@@','2018-12-31 08:31:24',0),(6,'fdo','bugzilla','Freedesktop.org Bugzilla','https://bugs.freedesktop.org/','https://bugs.freedesktop.org/show_bug.cgi?id=@@@','fdo#(\\d+)',NULL,NULL,'fdo#@@@','2018-12-31 08:31:24',0),(7,'GCC','bugzilla','GCC Bugzilla','http://gcc.gnu.org/bugzilla/','http://gcc.gnu.org/bugzilla/show_bug.cgi?id=@@@','GCC#(\\d+)',NULL,NULL,'GCC#@@@','2018-12-31 08:31:24',0),(8,'bgo','bugzilla','Gnome Bugzilla','https://bugzilla.gnome.org/','https://bugzilla.gnome.org/show_bug.cgi?id=@@@','bgo#(\\d+)',NULL,NULL,'bgo#@@@','2018-12-31 08:31:24',0),(9,'bio','bugzilla','Icculus.org Bugzilla','https://bugzilla.icculus.org/','https://bugzilla.icculus.org/show_bug.cgi?id=@@@','bio#(\\d+)',NULL,NULL,'bio#@@@','2018-12-31 08:31:24',0),(10,'bko','bugzilla','Kernel.org Bugzilla','https://bugzilla.kernel.org/','https://bugzilla.kernel.org/show_bug.cgi?id=@@@','(?:Kernel|K|bko)#(\\d+)',NULL,NULL,'bko#@@@','2018-12-31 08:31:24',0),(11,'kde','bugzilla','KDE Bugzilla','https://bugs.kde.org/','https://bugs.kde.org/show_bug.cgi?id=@@@','kde#(\\d+)',NULL,NULL,'kde#@@@','2018-12-31 08:31:24',0),(12,'lp','launchpad','Launchpad.net Bugtracker','https://bugs.launchpad.net/bugs/','https://bugs.launchpad.net/bugs/@@@','b?lp#(\\d+)',NULL,NULL,'lp#@@@','2018-12-31 08:31:24',0),(13,'Meego','bugzilla','Meego Bugs','https://bugs.meego.com/','https://bugs.meego.com/show_bug.cgi?id=@@@','Meego#(\\d+)',NULL,NULL,'Meego#@@@','2018-12-31 08:31:24',0),(14,'bmo','bugzilla','Mozilla Bugzilla','https://bugzilla.mozilla.org/','https://bugzilla.mozilla.org/show_bug.cgi?id=@@@','bmo#(\\d+)',NULL,NULL,'bmo#@@@','2018-12-31 08:31:24',0),(15,'bnc','bugzilla','Novell Bugzilla','https://bugzilla.novell.com/','https://bugzilla.novell.com/show_bug.cgi?id=@@@','(?:bnc|BNC)\\s*[#:]\\s*(\\d+)',NULL,NULL,'bnc#@@@','2018-12-31 08:31:24',1),(16,'ITS','other','OpenLDAP Issue Tracker','http://www.openldap.org/its/','http://www.openldap.org/its/index.cgi/Contrib?id=@@@','ITS#(\\d+)',NULL,NULL,'ITS#@@@','2018-12-31 08:31:24',0),(17,'i','bugzilla','OpenOffice.org Bugzilla','http://openoffice.org/bugzilla/','http://openoffice.org/bugzilla/show_bug.cgi?id=@@@','i#(\\d+)',NULL,NULL,'boost#@@@','2018-12-31 08:31:24',0),(18,'fate','fate','openSUSE Feature Database','https://features.opensuse.org/','https://features.opensuse.org/@@@','(?:fate|Fate|FATE)\\s*#\\s*(\\d+)',NULL,NULL,'fate#@@@','2018-12-31 08:31:24',0),(19,'rh','bugzilla','RedHat Bugzilla','https://bugzilla.redhat.com/','https://bugzilla.redhat.com/show_bug.cgi?id=@@@','rh#(\\d+)',NULL,NULL,'rh#@@@','2018-12-31 08:31:24',0),(20,'bso','bugzilla','Samba Bugzilla','https://bugzilla.samba.org/','https://bugzilla.samba.org/show_bug.cgi?id=@@@','bso#(\\d+)',NULL,NULL,'bso#@@@','2018-12-31 08:31:24',0),(21,'sf','sourceforge','SourceForge.net Tracker','http://sf.net/support/','http://sf.net/support/tracker.php?aid=@@@','sf#(\\d+)',NULL,NULL,'sf#@@@','2018-12-31 08:31:24',0),(22,'Xamarin','bugzilla','Xamarin Bugzilla','http://bugzilla.xamarin.com/index.cgi','http://bugzilla.xamarin.com/show_bug.cgi?id=@@@','Xamarin#(\\d+)',NULL,NULL,'Xamarin#@@@','2018-12-31 08:31:24',0),(23,'bxo','bugzilla','XFCE Bugzilla','https://bugzilla.xfce.org/','https://bugzilla.xfce.org/show_bug.cgi?id=@@@','bxo#(\\d+)',NULL,NULL,'bxo#@@@','2018-12-31 08:31:24',0);
+INSERT INTO `issue_trackers` VALUES (1,'boost','trac','Boost Trac','https://svn.boost.org/trac/boost/','https://svn.boost.org/trac/boost/ticket/@@@','boost#(\\d+)',NULL,NULL,'boost#@@@','2019-01-08 07:34:32',0),(2,'bco','bugzilla','Clutter Project Bugzilla','http://bugzilla.clutter-project.org/','http://bugzilla.clutter-project.org/show_bug.cgi?id=@@@','bco#(\\d+)',NULL,NULL,'bco#@@@','2019-01-08 07:34:32',0),(3,'RT','other','CPAN Bugs','https://rt.cpan.org/','http://rt.cpan.org/Public/Bug/Display.html?id=@@@','RT#(\\d+)',NULL,NULL,'RT#@@@','2019-01-08 07:34:32',0),(4,'cve','cve','CVE Numbers','http://cve.mitre.org/','http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-@@@','(?:cve|CVE)-(\\d\\d\\d\\d-\\d+)',NULL,NULL,'CVE-@@@','2019-01-08 07:34:32',0),(5,'deb','bugzilla','Debian Bugzilla','http://bugs.debian.org/','http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=@@@','deb#(\\d+)',NULL,NULL,'deb#@@@','2019-01-08 07:34:32',0),(6,'fdo','bugzilla','Freedesktop.org Bugzilla','https://bugs.freedesktop.org/','https://bugs.freedesktop.org/show_bug.cgi?id=@@@','fdo#(\\d+)',NULL,NULL,'fdo#@@@','2019-01-08 07:34:32',0),(7,'GCC','bugzilla','GCC Bugzilla','http://gcc.gnu.org/bugzilla/','http://gcc.gnu.org/bugzilla/show_bug.cgi?id=@@@','GCC#(\\d+)',NULL,NULL,'GCC#@@@','2019-01-08 07:34:32',0),(8,'bgo','bugzilla','Gnome Bugzilla','https://bugzilla.gnome.org/','https://bugzilla.gnome.org/show_bug.cgi?id=@@@','bgo#(\\d+)',NULL,NULL,'bgo#@@@','2019-01-08 07:34:32',0),(9,'bio','bugzilla','Icculus.org Bugzilla','https://bugzilla.icculus.org/','https://bugzilla.icculus.org/show_bug.cgi?id=@@@','bio#(\\d+)',NULL,NULL,'bio#@@@','2019-01-08 07:34:32',0),(10,'bko','bugzilla','Kernel.org Bugzilla','https://bugzilla.kernel.org/','https://bugzilla.kernel.org/show_bug.cgi?id=@@@','(?:Kernel|K|bko)#(\\d+)',NULL,NULL,'bko#@@@','2019-01-08 07:34:32',0),(11,'kde','bugzilla','KDE Bugzilla','https://bugs.kde.org/','https://bugs.kde.org/show_bug.cgi?id=@@@','kde#(\\d+)',NULL,NULL,'kde#@@@','2019-01-08 07:34:32',0),(12,'lp','launchpad','Launchpad.net Bugtracker','https://bugs.launchpad.net/bugs/','https://bugs.launchpad.net/bugs/@@@','b?lp#(\\d+)',NULL,NULL,'lp#@@@','2019-01-08 07:34:32',0),(13,'Meego','bugzilla','Meego Bugs','https://bugs.meego.com/','https://bugs.meego.com/show_bug.cgi?id=@@@','Meego#(\\d+)',NULL,NULL,'Meego#@@@','2019-01-08 07:34:32',0),(14,'bmo','bugzilla','Mozilla Bugzilla','https://bugzilla.mozilla.org/','https://bugzilla.mozilla.org/show_bug.cgi?id=@@@','bmo#(\\d+)',NULL,NULL,'bmo#@@@','2019-01-08 07:34:32',0),(15,'bnc','bugzilla','Novell Bugzilla','https://bugzilla.novell.com/','https://bugzilla.novell.com/show_bug.cgi?id=@@@','(?:bnc|BNC)\\s*[#:]\\s*(\\d+)',NULL,NULL,'bnc#@@@','2019-01-08 07:38:05',1),(16,'ITS','other','OpenLDAP Issue Tracker','http://www.openldap.org/its/','http://www.openldap.org/its/index.cgi/Contrib?id=@@@','ITS#(\\d+)',NULL,NULL,'ITS#@@@','2019-01-08 07:34:32',0),(17,'i','bugzilla','OpenOffice.org Bugzilla','http://openoffice.org/bugzilla/','http://openoffice.org/bugzilla/show_bug.cgi?id=@@@','i#(\\d+)',NULL,NULL,'boost#@@@','2019-01-08 07:34:32',0),(18,'fate','fate','openSUSE Feature Database','https://features.opensuse.org/','https://features.opensuse.org/@@@','(?:fate|Fate|FATE)\\s*#\\s*(\\d+)',NULL,NULL,'fate#@@@','2019-01-08 07:34:32',0),(19,'rh','bugzilla','RedHat Bugzilla','https://bugzilla.redhat.com/','https://bugzilla.redhat.com/show_bug.cgi?id=@@@','rh#(\\d+)',NULL,NULL,'rh#@@@','2019-01-08 07:34:32',0),(20,'bso','bugzilla','Samba Bugzilla','https://bugzilla.samba.org/','https://bugzilla.samba.org/show_bug.cgi?id=@@@','bso#(\\d+)',NULL,NULL,'bso#@@@','2019-01-08 07:34:32',0),(21,'sf','sourceforge','SourceForge.net Tracker','http://sf.net/support/','http://sf.net/support/tracker.php?aid=@@@','sf#(\\d+)',NULL,NULL,'sf#@@@','2019-01-08 07:34:32',0),(22,'Xamarin','bugzilla','Xamarin Bugzilla','http://bugzilla.xamarin.com/index.cgi','http://bugzilla.xamarin.com/show_bug.cgi?id=@@@','(?:bxc|Xamarin)#(\\d+)',NULL,NULL,'Xamarin#@@@','2019-01-08 07:34:32',0),(23,'bxo','bugzilla','XFCE Bugzilla','https://bugzilla.xfce.org/','https://bugzilla.xfce.org/show_bug.cgi?id=@@@','bxo#(\\d+)',NULL,NULL,'bxo#@@@','2019-01-08 07:34:32',0),(24,'obs','github','OBS GitHub Issues','https://api.github.com/repos/openSUSE/open-build-service/issues','https://github.com/openSUSE/open-build-service/issues/@@@','obs#(\\d+)',NULL,NULL,'obs#@@@','2019-01-08 07:36:44',0),(25,'build','github','OBS build script Issues','https://api.github.com/repos/openSUSE/obs-build/issues','https://github.com/openSUSE/obs-build/issues/@@@','build#(\\d+)',NULL,NULL,'build#@@@','2019-01-08 07:36:45',0),(26,'osc','github','OBS CLI Issues','https://api.github.com/repos/openSUSE/osc/issues','https://github.com/openSUSE/osc/issues/@@@','osc#(\\d+)',NULL,NULL,'osc#@@@','2019-01-08 07:36:45',0),(27,'lf','bugzilla','Linux Foundation Bugzilla','https://developerbugs.linuxfoundation.org','https://developerbugs.linuxfoundation.org/show_bug.cgi?id=@@@','lf#(\\d+)',NULL,NULL,'lf#@@@','2019-01-08 07:36:58',0);
 /*!40000 ALTER TABLE `issue_trackers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1276,7 +1424,7 @@ CREATE TABLE `issues` (
   `summary` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `owner_id` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
+  `updated_at` datetime(6) DEFAULT NULL,
   `state` enum('OPEN','CLOSED','UNKNOWN') CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `owner_id` (`owner_id`),
@@ -1294,6 +1442,190 @@ CREATE TABLE `issues` (
 LOCK TABLES `issues` WRITE;
 /*!40000 ALTER TABLE `issues` DISABLE KEYS */;
 /*!40000 ALTER TABLE `issues` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `kiwi_descriptions`
+--
+
+DROP TABLE IF EXISTS `kiwi_descriptions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `kiwi_descriptions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `image_id` int(11) DEFAULT NULL,
+  `description_type` int(11) DEFAULT '0',
+  `author` varchar(255) DEFAULT NULL,
+  `contact` varchar(255) DEFAULT NULL,
+  `specification` varchar(255) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_kiwi_descriptions_on_image_id` (`image_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `kiwi_descriptions`
+--
+
+LOCK TABLES `kiwi_descriptions` WRITE;
+/*!40000 ALTER TABLE `kiwi_descriptions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `kiwi_descriptions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `kiwi_images`
+--
+
+DROP TABLE IF EXISTS `kiwi_images`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `kiwi_images` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `md5_last_revision` varchar(32) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime(6) NOT NULL,
+  `use_project_repositories` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `kiwi_images`
+--
+
+LOCK TABLES `kiwi_images` WRITE;
+/*!40000 ALTER TABLE `kiwi_images` DISABLE KEYS */;
+/*!40000 ALTER TABLE `kiwi_images` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `kiwi_package_groups`
+--
+
+DROP TABLE IF EXISTS `kiwi_package_groups`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `kiwi_package_groups` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `kiwi_type` int(11) NOT NULL,
+  `profiles` varchar(255) DEFAULT NULL,
+  `pattern_type` varchar(255) DEFAULT NULL,
+  `image_id` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_kiwi_package_groups_on_image_id` (`image_id`),
+  CONSTRAINT `fk_rails_c64a679086` FOREIGN KEY (`image_id`) REFERENCES `kiwi_images` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `kiwi_package_groups`
+--
+
+LOCK TABLES `kiwi_package_groups` WRITE;
+/*!40000 ALTER TABLE `kiwi_package_groups` DISABLE KEYS */;
+/*!40000 ALTER TABLE `kiwi_package_groups` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `kiwi_packages`
+--
+
+DROP TABLE IF EXISTS `kiwi_packages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `kiwi_packages` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `arch` varchar(255) DEFAULT NULL,
+  `replaces` varchar(255) DEFAULT NULL,
+  `bootinclude` tinyint(1) DEFAULT NULL,
+  `bootdelete` tinyint(1) DEFAULT NULL,
+  `package_group_id` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_kiwi_packages_on_package_group_id` (`package_group_id`),
+  CONSTRAINT `fk_rails_0ecab3b2cd` FOREIGN KEY (`package_group_id`) REFERENCES `kiwi_package_groups` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `kiwi_packages`
+--
+
+LOCK TABLES `kiwi_packages` WRITE;
+/*!40000 ALTER TABLE `kiwi_packages` DISABLE KEYS */;
+/*!40000 ALTER TABLE `kiwi_packages` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `kiwi_preferences`
+--
+
+DROP TABLE IF EXISTS `kiwi_preferences`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `kiwi_preferences` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `image_id` int(11) DEFAULT NULL,
+  `type_image` int(11) DEFAULT NULL,
+  `type_containerconfig_name` varchar(255) DEFAULT NULL,
+  `type_containerconfig_tag` varchar(255) DEFAULT NULL,
+  `version` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_kiwi_preferences_on_image_id` (`image_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `kiwi_preferences`
+--
+
+LOCK TABLES `kiwi_preferences` WRITE;
+/*!40000 ALTER TABLE `kiwi_preferences` DISABLE KEYS */;
+/*!40000 ALTER TABLE `kiwi_preferences` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `kiwi_repositories`
+--
+
+DROP TABLE IF EXISTS `kiwi_repositories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `kiwi_repositories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `image_id` int(11) DEFAULT NULL,
+  `repo_type` varchar(255) DEFAULT NULL,
+  `source_path` varchar(255) DEFAULT NULL,
+  `order` int(11) DEFAULT NULL,
+  `priority` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime(6) NOT NULL,
+  `alias` varchar(255) DEFAULT NULL,
+  `imageinclude` tinyint(1) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `prefer_license` tinyint(1) DEFAULT NULL,
+  `replaceable` tinyint(1) DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `index_kiwi_repositories_on_image_id_and_order` (`image_id`,`order`),
+  KEY `index_kiwi_repositories_on_image_id` (`image_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `kiwi_repositories`
+--
+
+LOCK TABLES `kiwi_repositories` WRITE;
+/*!40000 ALTER TABLE `kiwi_repositories` DISABLE KEYS */;
+/*!40000 ALTER TABLE `kiwi_repositories` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1324,6 +1656,34 @@ LOCK TABLES `linked_projects` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `maintained_projects`
+--
+
+DROP TABLE IF EXISTS `maintained_projects`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `maintained_projects` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `project_id` int(11) NOT NULL,
+  `maintenance_project_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_index` (`project_id`,`maintenance_project_id`),
+  KEY `maintenance_project_id` (`maintenance_project_id`),
+  CONSTRAINT `maintained_projects_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`),
+  CONSTRAINT `maintained_projects_ibfk_2` FOREIGN KEY (`maintenance_project_id`) REFERENCES `projects` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `maintained_projects`
+--
+
+LOCK TABLES `maintained_projects` WRITE;
+/*!40000 ALTER TABLE `maintained_projects` DISABLE KEYS */;
+/*!40000 ALTER TABLE `maintained_projects` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `maintenance_incidents`
 --
 
@@ -1334,9 +1694,9 @@ CREATE TABLE `maintenance_incidents` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `db_project_id` int(11) DEFAULT NULL,
   `maintenance_db_project_id` int(11) DEFAULT NULL,
-  `request` int(11) DEFAULT NULL,
   `updateinfo_id` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `incident_id` int(11) DEFAULT NULL,
+  `released_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `index_maintenance_incidents_on_db_project_id` (`db_project_id`),
   KEY `index_maintenance_incidents_on_maintenance_db_project_id` (`maintenance_db_project_id`)
@@ -1386,6 +1746,38 @@ LOCK TABLES `messages` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `notifications`
+--
+
+DROP TABLE IF EXISTS `notifications`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `notifications` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` varchar(255) NOT NULL,
+  `event_type` varchar(255) NOT NULL,
+  `event_payload` text NOT NULL,
+  `subscription_receiver_role` varchar(255) NOT NULL,
+  `delivered` tinyint(1) DEFAULT '0',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime(6) NOT NULL,
+  `subscriber_type` varchar(255) DEFAULT NULL,
+  `subscriber_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_notifications_on_subscriber_type_and_subscriber_id` (`subscriber_type`,`subscriber_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `notifications`
+--
+
+LOCK TABLES `notifications` WRITE;
+/*!40000 ALTER TABLE `notifications` DISABLE KEYS */;
+/*!40000 ALTER TABLE `notifications` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `package_issues`
 --
 
@@ -1398,7 +1790,6 @@ CREATE TABLE `package_issues` (
   `issue_id` int(11) NOT NULL,
   `change` enum('added','deleted','changed','kept') DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `index_package_issues_on_package_id` (`package_id`),
   KEY `index_package_issues_on_package_id_and_issue_id` (`package_id`,`issue_id`),
   KEY `index_package_issues_on_issue_id` (`issue_id`),
   CONSTRAINT `package_issues_ibfk_1` FOREIGN KEY (`package_id`) REFERENCES `packages` (`id`),
@@ -1451,25 +1842,27 @@ DROP TABLE IF EXISTS `packages`;
 CREATE TABLE `packages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `project_id` int(11) NOT NULL,
-  `name` text COLLATE utf8_bin,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
   `title` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `description` text CHARACTER SET utf8,
-  `created_at` datetime DEFAULT '0000-00-00 00:00:00',
-  `updated_at` datetime DEFAULT '0000-00-00 00:00:00',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime(6) DEFAULT NULL,
   `url` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `update_counter` int(11) DEFAULT '0',
   `activity_index` float DEFAULT '100',
   `bcntsynctag` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `develpackage_id` int(11) DEFAULT NULL,
   `delta` tinyint(1) NOT NULL DEFAULT '1',
+  `releasename` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `kiwi_image_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `packages_all_index` (`project_id`,`name`(255)),
+  UNIQUE KEY `packages_all_index` (`project_id`,`name`),
   KEY `devel_package_id_index` (`develpackage_id`),
   KEY `updated_at_index` (`updated_at`),
-  KEY `index_packages_on_project_id` (`project_id`),
+  KEY `index_packages_on_kiwi_image_id` (`kiwi_image_id`),
+  CONSTRAINT `fk_rails_9a47aff19d` FOREIGN KEY (`kiwi_image_id`) REFERENCES `kiwi_images` (`id`),
   CONSTRAINT `packages_ibfk_3` FOREIGN KEY (`develpackage_id`) REFERENCES `packages` (`id`),
   CONSTRAINT `packages_ibfk_4` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1478,7 +1871,7 @@ CREATE TABLE `packages` (
 
 LOCK TABLES `packages` WRITE;
 /*!40000 ALTER TABLE `packages` DISABLE KEYS */;
-INSERT INTO `packages` VALUES (1,3,'hello','A Friendly Greeting Program','The GNU hello program produces a familiar, friendly greeting.  It\nallows nonprogrammers to use a classic computer science tool that would\notherwise be unavailable to them.  Because it is protected by the GNU\nGeneral Public License, users are free to share and change it.\n\nGNU hello supports many native languages.','2018-12-31 08:36:53','2019-01-03 13:49:17',NULL,1,29.5133,NULL,NULL,1);
+INSERT INTO `packages` VALUES (1,4,'sb2-tools-qt5-armv7hl','','','2019-01-08 07:44:48','2019-01-08 07:44:51.021685',NULL,19.9881,NULL,NULL,1,NULL,NULL),(2,4,'sb2-tools-armv7hl','sb2-tools-armv7hl','Description\n','2019-01-08 07:44:53','2019-01-08 07:44:55.349770','http://www.merproject.org',19.9881,NULL,NULL,1,NULL,NULL);
 /*!40000 ALTER TABLE `packages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1496,11 +1889,10 @@ CREATE TABLE `path_elements` (
   `position` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `parent_repository_index` (`parent_id`,`repository_id`),
-  UNIQUE KEY `parent_repo_pos_index` (`parent_id`,`position`),
   KEY `repository_id` (`repository_id`),
   CONSTRAINT `path_elements_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `repositories` (`id`),
   CONSTRAINT `path_elements_ibfk_2` FOREIGN KEY (`repository_id`) REFERENCES `repositories` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1509,7 +1901,7 @@ CREATE TABLE `path_elements` (
 
 LOCK TABLES `path_elements` WRITE;
 /*!40000 ALTER TABLE `path_elements` DISABLE KEYS */;
-INSERT INTO `path_elements` VALUES (2,2,3,1),(3,4,9,1),(4,5,10,1),(5,6,11,1),(6,7,12,1),(7,8,13,1);
+INSERT INTO `path_elements` VALUES (3,4,5,1),(4,4,2,2),(5,5,3,1);
 /*!40000 ALTER TABLE `path_elements` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1542,6 +1934,40 @@ LOCK TABLES `product_channels` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `product_media`
+--
+
+DROP TABLE IF EXISTS `product_media`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product_media` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) DEFAULT NULL,
+  `repository_id` int(11) DEFAULT NULL,
+  `arch_filter_id` int(11) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `index_unique` (`product_id`,`repository_id`,`name`,`arch_filter_id`),
+  KEY `index_product_media_on_product_id` (`product_id`),
+  KEY `index_product_media_on_arch_filter_id` (`arch_filter_id`),
+  KEY `index_product_media_on_name` (`name`),
+  KEY `repository_id` (`repository_id`),
+  CONSTRAINT `product_media_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
+  CONSTRAINT `product_media_ibfk_2` FOREIGN KEY (`repository_id`) REFERENCES `repositories` (`id`),
+  CONSTRAINT `product_media_ibfk_3` FOREIGN KEY (`arch_filter_id`) REFERENCES `architectures` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `product_media`
+--
+
+LOCK TABLES `product_media` WRITE;
+/*!40000 ALTER TABLE `product_media` DISABLE KEYS */;
+/*!40000 ALTER TABLE `product_media` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `product_update_repositories`
 --
 
@@ -1552,12 +1978,16 @@ CREATE TABLE `product_update_repositories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `product_id` int(11) DEFAULT NULL,
   `repository_id` int(11) DEFAULT NULL,
+  `arch_filter_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `product_id` (`product_id`),
+  UNIQUE KEY `index_unique` (`product_id`,`repository_id`,`arch_filter_id`),
+  KEY `index_product_update_repositories_on_product_id` (`product_id`),
+  KEY `index_product_update_repositories_on_arch_filter_id` (`arch_filter_id`),
   KEY `repository_id` (`repository_id`),
   CONSTRAINT `product_update_repositories_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
-  CONSTRAINT `product_update_repositories_ibfk_2` FOREIGN KEY (`repository_id`) REFERENCES `repositories` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  CONSTRAINT `product_update_repositories_ibfk_2` FOREIGN KEY (`repository_id`) REFERENCES `repositories` (`id`),
+  CONSTRAINT `product_update_repositories_ibfk_3` FOREIGN KEY (`arch_filter_id`) REFERENCES `architectures` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1581,6 +2011,10 @@ CREATE TABLE `products` (
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `package_id` int(11) NOT NULL,
   `cpe` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `version` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `baseversion` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `patchlevel` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `release` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_products_on_name_and_package_id` (`name`,`package_id`),
   KEY `package_id` (`package_id`),
@@ -1621,7 +2055,7 @@ CREATE TABLE `project_log_entries` (
   KEY `index_project_log_entries_on_event_type` (`event_type`),
   KEY `index_project_log_entries_on_datetime` (`datetime`),
   CONSTRAINT `project_log_entries_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1630,7 +2064,7 @@ CREATE TABLE `project_log_entries` (
 
 LOCK TABLES `project_log_entries` WRITE;
 /*!40000 ALTER TABLE `project_log_entries` DISABLE KEYS */;
-INSERT INTO `project_log_entries` VALUES (1,3,'Admin','hello',NULL,'2018-12-31 08:37:03','create_package','--- {}\n'),(2,3,'Admin','hello',NULL,'2018-12-31 08:37:03','commit','---\ncomment: osc copypac from project:openSUSE:Leap:42.3 package:hello revision:5, using\n  expand, using client side copy\nfiles: |+\n  Added:\n    hello-1.3.dif\n    hello-2.9.tar.gz\n    hello-2.9.tar.gz.sig\n    hello.changes\n    hello.keyring\n    hello.spec\n\nrev: \'1\'\n'),(3,3,'Admin','hello',NULL,'2018-12-31 08:37:03','version_change','---\ncomment: osc copypac from project:openSUSE:Leap:42.3 package:hello revision:5, using\n  expand, using client side copy\nfiles: |+\n  Added:\n    hello-1.3.dif\n    hello-2.9.tar.gz\n    hello-2.9.tar.gz.sig\n    hello.changes\n    hello.keyring\n    hello.spec\n\nrev: \'1\'\nnewversion: \'2.9\'\noldversion: unknown\n'),(4,3,NULL,'hello',NULL,'2018-12-31 08:41:51','build_success','---\nrepository: openSUSE_42.3\narch: x86_64\nrelease: \'1.1\'\nreadytime: \'1546245507\'\nsrcmd5: b2e1b1ad23b8aca3179c5c0ec29bea4d\nrev: \'1\'\nreason: new build\nbcnt: \'1\'\nverifymd5: b2e1b1ad23b8aca3179c5c0ec29bea4d\nstarttime: \'1546245518\'\nendtime: \'1546245711\'\nworkerid: ci:1\nversrel: 2.9-1\n'),(5,2,'Admin',NULL,NULL,'2018-12-31 08:36:45','create_project','--- {}\n'),(6,3,'Admin',NULL,NULL,'2018-12-31 08:36:49','create_project','--- {}\n'),(7,3,NULL,'hello',NULL,'2019-01-03 13:53:28','build_success','---\nrepository: mer-core-armv7l\narch: armv7el\nrelease: 2.1.Mer\nreadytime: \'1546523464\'\nsrcmd5: 2bb66be913b79f5f10f977ab3a69c0b2\nrev: \'2\'\nreason: new build\nbcnt: \'1\'\nverifymd5: 2bb66be913b79f5f10f977ab3a69c0b2\nstarttime: \'1546523516\'\nendtime: \'1546523607\'\nworkerid: ci:1\nversrel: 2.9-2\n'),(8,3,NULL,'hello',NULL,'2019-01-03 13:54:08','build_success','---\nrepository: obs2.9\narch: x86_64\nrelease: \'2.1\'\nreadytime: \'1546523479\'\nsrcmd5: 2bb66be913b79f5f10f977ab3a69c0b2\nrev: \'2\'\nreason: new build\nbcnt: \'1\'\nverifymd5: 2bb66be913b79f5f10f977ab3a69c0b2\nstarttime: \'1546523607\'\nendtime: \'1546523648\'\nworkerid: ci:1\nversrel: 2.9-2\n'),(9,3,NULL,'hello',NULL,'2019-01-03 13:55:49','build_success','---\nrepository: mer-core-armv7tnhl\narch: armv8el\nrelease: 1.2.1\nreadytime: \'1546523462\'\nsrcmd5: 2bb66be913b79f5f10f977ab3a69c0b2\nrev: \'2\'\nreason: new build\nbcnt: \'1\'\nverifymd5: 2bb66be913b79f5f10f977ab3a69c0b2\nstarttime: \'1546523649\'\nendtime: \'1546523749\'\nworkerid: ci:1\nversrel: 2.9-2\n'),(10,3,NULL,'hello',NULL,'2019-01-03 13:56:39','build_success','---\nrepository: mer-core-64\narch: x86_64\nrelease: 1.2.1\nreadytime: \'1546523462\'\nsrcmd5: 2bb66be913b79f5f10f977ab3a69c0b2\nrev: \'2\'\nreason: new build\nbcnt: \'1\'\nverifymd5: 2bb66be913b79f5f10f977ab3a69c0b2\nstarttime: \'1546523749\'\nendtime: \'1546523798\'\nworkerid: ci:1\nversrel: 2.9-2\n');
+INSERT INTO `project_log_entries` VALUES (1,2,'Admin',NULL,NULL,'2019-01-08 07:44:42','create_project','--- {}\n'),(2,3,'Admin',NULL,NULL,'2019-01-08 07:44:54','create_project','--- {}\n'),(3,4,'Admin',NULL,NULL,'2019-01-08 07:44:54','create_project','--- {}\n'),(4,4,'Admin',NULL,NULL,'2019-01-08 07:44:54','update_project','--- {}\n'),(5,4,'Admin',NULL,NULL,'2019-01-08 07:44:54','update_project_config','--- {}\n'),(6,4,'Admin','sb2-tools-qt5-armv7hl',NULL,'2019-01-08 07:44:54','create_package','--- {}\n'),(7,4,'Admin','sb2-tools-qt5-armv7hl',NULL,'2019-01-08 07:44:54','update_package','--- {}\n'),(8,4,'Admin','sb2-tools-qt5-armv7hl',NULL,'2019-01-08 07:44:54','commit','---\ncomment: osc copypac from project:sailfishos:2.2.1.18 package:sb2-tools-qt5-armv7hl\n  revision:3, using expand, using client side copy\nfiles: |+\n  Added:\n    _service\n\nrev: \'1\'\n'),(9,4,'Admin','sb2-tools-qt5-armv7hl',NULL,'2019-01-08 07:44:54','update_package','--- {}\n'),(10,4,'Admin','sb2-tools-qt5-armv7hl',NULL,'2019-01-08 07:44:54','service_success','---\ncomment: osc copypac from project:sailfishos:2.2.1.18 package:sb2-tools-qt5-armv7hl\n  revision:3, using expand, using client side copy\nrev: \'1\'\n'),(11,4,'Admin','sb2-tools-armv7hl',NULL,'2019-01-08 07:44:54','create_package','--- {}\n'),(12,4,'Admin','sb2-tools-armv7hl',NULL,'2019-01-08 07:45:11','update_package','--- {}\n'),(13,4,'Admin','sb2-tools-armv7hl',NULL,'2019-01-08 07:45:11','commit','---\ncomment: osc copypac from project:sailfishos:2.2.1.18 package:sb2-tools-armv7hl revision:3,\n  using expand, using client side copy\nfiles: |+\n  Added:\n    _service\n\nrev: \'1\'\n'),(14,4,'Admin','sb2-tools-armv7hl',NULL,'2019-01-08 07:45:11','update_package','--- {}\n'),(15,4,'Admin','sb2-tools-armv7hl',NULL,'2019-01-08 07:45:11','service_success','---\ncomment: osc copypac from project:sailfishos:2.2.1.18 package:sb2-tools-armv7hl revision:3,\n  using expand, using client side copy\nrev: \'1\'\n');
 /*!40000 ALTER TABLE `project_log_entries` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1643,24 +2077,21 @@ DROP TABLE IF EXISTS `projects`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `projects` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` text COLLATE utf8_bin,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
   `title` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `description` text CHARACTER SET utf8,
-  `created_at` datetime DEFAULT '0000-00-00 00:00:00',
-  `updated_at` datetime DEFAULT '0000-00-00 00:00:00',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime(6) DEFAULT NULL,
   `remoteurl` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `remoteproject` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `type_id` int(11) NOT NULL,
-  `maintenance_project_id` int(11) DEFAULT NULL,
   `develproject_id` int(11) DEFAULT NULL,
   `delta` tinyint(1) NOT NULL DEFAULT '1',
+  `kind` enum('standard','maintenance','maintenance_incident','maintenance_release') COLLATE utf8_bin DEFAULT 'standard',
+  `url` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `projects_name_index` (`name`(255)),
+  UNIQUE KEY `projects_name_index` (`name`),
   KEY `updated_at_index` (`updated_at`),
-  KEY `devel_project_id_index` (`develproject_id`),
-  KEY `index_db_projects_on_maintenance_project_id` (`maintenance_project_id`),
-  KEY `type_id` (`type_id`),
-  CONSTRAINT `projects_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `db_project_types` (`id`)
+  KEY `devel_project_id_index` (`develproject_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1670,7 +2101,7 @@ CREATE TABLE `projects` (
 
 LOCK TABLES `projects` WRITE;
 /*!40000 ALTER TABLE `projects` DISABLE KEYS */;
-INSERT INTO `projects` VALUES (1,'deleted',NULL,NULL,'2018-12-31 08:31:24','2018-12-31 08:31:24',NULL,NULL,1,NULL,NULL,1),(2,'openSUSE.org','build.openSUSE.org','This project allows access to all resources on build.opensuse.org OBS instance. This is needed to build against other distributions.','2018-12-31 08:36:44','2018-12-31 08:36:44','https://build.opensuse.org/public',NULL,1,NULL,NULL,1),(3,'test','','','2018-12-31 08:36:49','2019-01-03 13:50:57',NULL,NULL,1,NULL,NULL,1),(4,'mer','build.merproject.org','','2019-01-03 13:47:48','2019-01-03 13:47:48','https://build.merproject.org/public',NULL,1,NULL,NULL,1);
+INSERT INTO `projects` VALUES (1,'deleted',NULL,NULL,'2019-01-08 07:34:32','2019-01-08 07:34:32.000000',NULL,NULL,NULL,1,'standard',NULL),(2,'sailfishos:2.2.1.18:armv7hl','sailfishos 2.2.1.18 ( armv7hl dod )','This is the DoD repo - don\'t use it directly','2019-01-08 07:44:42','2019-01-08 07:44:42.576217',NULL,NULL,NULL,1,'standard',NULL),(3,'sailfishos:2.2.1.18:i486','sailfishos 2.2.1.18 ( i486 dod )','This is the DoD repo - don\'t use it directly','2019-01-08 07:44:43','2019-01-08 07:44:43.081462',NULL,NULL,NULL,1,'standard',NULL),(4,'sailfishos:2.2.1.18','2.2.1.18','','2019-01-08 07:44:43','2019-01-08 07:44:43.472323',NULL,NULL,NULL,1,'standard',NULL);
 /*!40000 ALTER TABLE `projects` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1731,7 +2162,7 @@ CREATE TABLE `relationships` (
   CONSTRAINT `relationships_ibfk_3` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`),
   CONSTRAINT `relationships_ibfk_4` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`),
   CONSTRAINT `relationships_ibfk_5` FOREIGN KEY (`package_id`) REFERENCES `packages` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1740,7 +2171,7 @@ CREATE TABLE `relationships` (
 
 LOCK TABLES `relationships` WRITE;
 /*!40000 ALTER TABLE `relationships` DISABLE KEYS */;
-INSERT INTO `relationships` VALUES (1,NULL,2,2,1,NULL),(2,NULL,3,2,1,NULL),(3,NULL,4,2,1,NULL);
+INSERT INTO `relationships` VALUES (1,NULL,2,2,1,NULL),(2,NULL,2,3,1,NULL),(3,NULL,3,2,1,NULL),(4,NULL,3,3,1,NULL),(5,NULL,4,2,1,NULL),(6,NULL,4,3,1,NULL);
 /*!40000 ALTER TABLE `relationships` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1784,7 +2215,7 @@ CREATE TABLE `repositories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `db_project_id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_bin NOT NULL,
-  `remote_project_name` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `remote_project_name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
   `rebuild` enum('transitive','direct','local') CHARACTER SET utf8 DEFAULT NULL,
   `block` enum('all','local','never') CHARACTER SET utf8 DEFAULT NULL,
   `linkedbuild` enum('off','localdep','all') CHARACTER SET utf8 DEFAULT NULL,
@@ -1795,7 +2226,7 @@ CREATE TABLE `repositories` (
   KEY `hostsystem_id` (`hostsystem_id`),
   CONSTRAINT `repositories_ibfk_1` FOREIGN KEY (`db_project_id`) REFERENCES `projects` (`id`),
   CONSTRAINT `repositories_ibfk_2` FOREIGN KEY (`hostsystem_id`) REFERENCES `repositories` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1804,7 +2235,7 @@ CREATE TABLE `repositories` (
 
 LOCK TABLES `repositories` WRITE;
 /*!40000 ALTER TABLE `repositories` DISABLE KEYS */;
-INSERT INTO `repositories` VALUES (1,1,'deleted',NULL,NULL,NULL,NULL,NULL),(2,3,'openSUSE_42.3',NULL,NULL,NULL,NULL,NULL),(3,2,'standard','openSUSE:Leap:42.3',NULL,NULL,NULL,NULL),(4,3,'obs2.9',NULL,NULL,NULL,NULL,NULL),(5,3,'mer-core-i486',NULL,NULL,NULL,NULL,NULL),(6,3,'mer-core-armv7tnhl',NULL,NULL,NULL,NULL,NULL),(7,3,'mer-core-armv7l',NULL,NULL,NULL,NULL,NULL),(8,3,'mer-core-64',NULL,NULL,NULL,NULL,NULL),(9,4,'openSUSE_42.3','obs:server:2.9',NULL,NULL,NULL,NULL),(10,4,'Core_i486','mer-core:i486:release',NULL,NULL,NULL,NULL),(11,4,'Core_armv7tnhl','mer-core:armv7tnhl:release',NULL,NULL,NULL,NULL),(12,4,'Core_armv7l','mer-core:armv7l:release',NULL,NULL,NULL,NULL),(13,4,'Core_x86_64','mer-core:x86_64:release',NULL,NULL,NULL,NULL);
+INSERT INTO `repositories` VALUES (1,1,'deleted','',NULL,NULL,NULL,NULL),(2,2,'latest','',NULL,NULL,NULL,NULL),(3,3,'latest','',NULL,NULL,NULL,NULL),(4,4,'latest_armv7hl','',NULL,NULL,NULL,NULL),(5,4,'latest_i486','',NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `repositories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1825,7 +2256,7 @@ CREATE TABLE `repository_architectures` (
   KEY `architecture_id` (`architecture_id`),
   CONSTRAINT `repository_architectures_ibfk_1` FOREIGN KEY (`repository_id`) REFERENCES `repositories` (`id`),
   CONSTRAINT `repository_architectures_ibfk_2` FOREIGN KEY (`architecture_id`) REFERENCES `architectures` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1834,7 +2265,7 @@ CREATE TABLE `repository_architectures` (
 
 LOCK TABLES `repository_architectures` WRITE;
 /*!40000 ALTER TABLE `repository_architectures` DISABLE KEYS */;
-INSERT INTO `repository_architectures` VALUES (2,32,1,2),(4,32,1,3),(5,12,1,4),(6,10,1,5),(7,8,1,6),(8,32,1,7);
+INSERT INTO `repository_architectures` VALUES (2,10,1,1),(3,12,1,2),(4,10,1,6),(5,12,1,7),(5,10,2,8);
 /*!40000 ALTER TABLE `repository_architectures` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1852,16 +2283,20 @@ CREATE TABLE `reviews` (
   `reviewer` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `reason` text COLLATE utf8_unicode_ci,
   `state` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `by_user` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `by_group` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `by_project` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `by_package` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `by_user` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `by_group` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `by_project` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `by_package` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
+  `updated_at` datetime(6) NOT NULL,
+  `review_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `group_id` int(11) DEFAULT NULL,
+  `project_id` int(11) DEFAULT NULL,
+  `package_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `index_reviews_on_creator` (`creator`),
   KEY `index_reviews_on_reviewer` (`reviewer`),
-  KEY `index_reviews_on_state` (`state`),
   KEY `index_reviews_on_by_user` (`by_user`),
   KEY `index_reviews_on_by_group` (`by_group`),
   KEY `index_reviews_on_by_project` (`by_project`),
@@ -1869,6 +2304,12 @@ CREATE TABLE `reviews` (
   KEY `bs_request_id` (`bs_request_id`),
   KEY `index_reviews_on_state_and_by_project` (`state`,`by_project`),
   KEY `index_reviews_on_state_and_by_user` (`state`,`by_user`),
+  KEY `index_reviews_on_review_id` (`review_id`),
+  KEY `index_reviews_on_user_id` (`user_id`),
+  KEY `index_reviews_on_group_id` (`group_id`),
+  KEY `index_reviews_on_project_id` (`project_id`),
+  KEY `index_reviews_on_package_id` (`package_id`),
+  CONSTRAINT `fk_rails_813a4fb24f` FOREIGN KEY (`review_id`) REFERENCES `reviews` (`id`),
   CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`bs_request_id`) REFERENCES `bs_requests` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1894,6 +2335,8 @@ CREATE TABLE `roles` (
   `title` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '',
   `parent_id` int(11) DEFAULT NULL,
   `global` tinyint(1) DEFAULT '0',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `roles_parent_id_index` (`parent_id`),
   CONSTRAINT `roles_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `roles` (`id`)
@@ -1906,7 +2349,7 @@ CREATE TABLE `roles` (
 
 LOCK TABLES `roles` WRITE;
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
-INSERT INTO `roles` VALUES (1,'Admin',NULL,1),(2,'maintainer',NULL,0),(3,'bugowner',NULL,0),(4,'reviewer',NULL,0),(5,'downloader',NULL,0),(6,'reader',NULL,0);
+INSERT INTO `roles` VALUES (1,'Admin',NULL,1,'0000-00-00 00:00:00','0000-00-00 00:00:00.000000'),(2,'maintainer',NULL,0,'0000-00-00 00:00:00','0000-00-00 00:00:00.000000'),(3,'bugowner',NULL,0,'0000-00-00 00:00:00','0000-00-00 00:00:00.000000'),(4,'reviewer',NULL,0,'0000-00-00 00:00:00','0000-00-00 00:00:00.000000'),(5,'downloader',NULL,0,'0000-00-00 00:00:00','0000-00-00 00:00:00.000000'),(6,'reader',NULL,0,'0000-00-00 00:00:00','0000-00-00 00:00:00.000000');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1948,11 +2391,13 @@ CREATE TABLE `roles_users` (
   `user_id` int(11) NOT NULL DEFAULT '0',
   `role_id` int(11) NOT NULL DEFAULT '0',
   `created_at` datetime DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
   UNIQUE KEY `roles_users_all_index` (`user_id`,`role_id`),
   KEY `role_id` (`role_id`),
   CONSTRAINT `roles_users_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `roles_users_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1961,7 +2406,7 @@ CREATE TABLE `roles_users` (
 
 LOCK TABLES `roles_users` WRITE;
 /*!40000 ALTER TABLE `roles_users` DISABLE KEYS */;
-INSERT INTO `roles_users` VALUES (1,1,'2018-12-31 08:31:22');
+INSERT INTO `roles_users` VALUES (1,1,'2019-01-08 07:34:30',1);
 /*!40000 ALTER TABLE `roles_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1984,7 +2429,7 @@ CREATE TABLE `schema_migrations` (
 
 LOCK TABLES `schema_migrations` WRITE;
 /*!40000 ALTER TABLE `schema_migrations` DISABLE KEYS */;
-INSERT INTO `schema_migrations` VALUES ('1'),('10'),('11'),('12'),('13'),('14'),('15'),('16'),('17'),('18'),('19'),('2'),('20'),('20090701125033'),('20090703100900'),('20090716174522'),('20090717114240'),('20091017210000'),('20091022210000'),('20091022310000'),('20091029100000'),('20091030060000'),('20091102060000'),('20091111191005'),('20091115101346'),('20091117144409'),('20091117152223'),('20091118000000'),('20091119000000'),('20091119090108'),('20091119090620'),('20091124194151'),('20091206194902'),('20091209193452'),('20091209211754'),('20091226112028'),('20091229115736'),('20100102150000'),('20100104170000'),('20100109145739'),('20100125100000'),('20100202132416'),('20100302100000'),('20100304100000'),('20100315100000'),('20100316100000'),('20100316100001'),('20100327100000'),('20100329191407'),('20100423144748'),('20100426144748'),('20100428144748'),('20100429144748'),('20100506115929'),('20100507115929'),('20100530180617'),('20100609100000'),('20100609200000'),('20100614121047'),('20100629095208'),('20100702082339'),('20100705124948'),('20100705133839'),('20100705141045'),('20100707061034'),('20100805100000'),('20100812100000'),('20100827100000'),('20100903100000'),('20100927110821'),('20100927132716'),('20100927133955'),('20100928081344'),('20101110100000'),('20110117000000'),('20110131100000'),('20110202100000'),('20110202110000'),('20110302100000'),('20110303100000'),('20110309100000'),('20110318112742'),('20110321000000'),('20110322000000'),('20110323000000'),('2011033000000'),('20110331001200'),('20110404085232'),('20110404085325'),('20110404090700'),('20110405151201'),('20110502100000'),('20110519000000'),('20110527000000'),('20110615083665'),('20110615083666'),('20110627001200'),('20110703001200'),('20110711001200'),('20110719142500'),('20110725105426'),('20110728072502'),('20111005000000'),('20111116100002'),('20111117162400'),('20111122000000'),('20111123000000'),('20111206000000'),('20111206151500'),('20111207000000'),('20111213000000'),('20111215094300'),('20111303000000'),('20120110094300'),('20120110104300'),('20120111094300'),('20120112094300'),('20120112194300'),('20120119194300'),('20120119204300'),('20120119204301'),('20120120104301'),('20120120114301'),('20120124114301'),('20120124114302'),('20120124114303'),('20120216114303'),('20120217114303'),('20120217114304'),('20120220114304'),('20120222105426'),('20120223105426'),('20120304205014'),('20120312204300'),('20120313113554'),('20120313131909'),('20120319104301'),('20120319133739'),('20120320134850'),('20120407173644'),('20120411112931'),('20120411121152'),('20120417115800'),('20120418121859'),('20120529150500'),('20120722192000'),('20120903122955'),('20120904122955'),('20120907114304'),('20121014124846'),('20121015121807'),('20121112104534'),('20121112110642'),('20121114093616'),('20121120110642'),('20121120124300'),('20121121142111'),('20121124032111'),('20121130103300'),('20121130143300'),('20121213140751'),('20121213144129'),('20121216151549'),('20121220151549'),('20130111085930'),('20130220160000'),('20130301100000'),('20130409123324'),('20130410124738'),('20130414061002'),('20130603100244'),('20130610100244'),('20130612151549'),('20130618083665'),('20130621083665'),('20130626160000'),('20130627193722'),('20130702083665'),('20130702203665'),('20130723055536'),('20130725123636'),('20130726144516'),('20130802183104'),('20130802183717'),('20130802190951'),('20130805073101'),('20130807071147'),('20130814071147'),('20130816183104'),('20130817082602'),('20130819114303'),('20130820151442'),('20130830043205'),('20130903114302'),('20130904071147'),('20130910162318'),('20130917124132'),('20130920090004'),('20130930130128'),('20131005225515'),('20131006000000'),('20131006162847'),('20131020151037'),('20131020165316'),('20131021063641'),('20131022114302'),('20131023063641'),('20131027122410'),('20131028085325'),('20131029112259'),('20131105112259'),('20131106112233'),('20131111090310'),('20131111193512'),('20131111194720'),('20131112140033'),('20131119195511'),('20131120193512'),('20131123113417'),('20131124071042'),('20131125071042'),('20131125101042'),('20131126074753'),('20131126205430'),('20131127091624'),('20131209095749'),('20131209103450'),('20131210182719'),('20131218071042'),('20140113110551'),('20140123063641'),('20140123071042'),('20140124071042'),('20140516182719'),('20141302101042'),('21'),('22'),('23'),('24'),('25'),('26'),('27'),('28'),('29'),('3'),('30'),('31'),('32'),('33'),('34'),('35'),('36'),('37'),('38'),('39'),('4'),('40'),('41'),('42'),('43'),('44'),('45'),('46'),('47'),('48'),('5'),('6'),('7'),('8'),('9');
+INSERT INTO `schema_migrations` VALUES ('1'),('10'),('11'),('12'),('13'),('14'),('15'),('16'),('17'),('18'),('19'),('2'),('20'),('20090701125033'),('20090703100900'),('20090716174522'),('20090717114240'),('20091017210000'),('20091022210000'),('20091022310000'),('20091029100000'),('20091030060000'),('20091102060000'),('20091111191005'),('20091115101346'),('20091117144409'),('20091117152223'),('20091118000000'),('20091119000000'),('20091119090108'),('20091119090620'),('20091124194151'),('20091206194902'),('20091209193452'),('20091209211754'),('20091226112028'),('20091229115736'),('20100102150000'),('20100104170000'),('20100109145739'),('20100125100000'),('20100202132416'),('20100302100000'),('20100304100000'),('20100315100000'),('20100316100000'),('20100316100001'),('20100327100000'),('20100329191407'),('20100423144748'),('20100426144748'),('20100428144748'),('20100429144748'),('20100506115929'),('20100507115929'),('20100530180617'),('20100609100000'),('20100609200000'),('20100614121047'),('20100629095208'),('20100702082339'),('20100705124948'),('20100705133839'),('20100705141045'),('20100707061034'),('20100805100000'),('20100812100000'),('20100827100000'),('20100903100000'),('20100927110821'),('20100927132716'),('20100927133955'),('20100928081344'),('20101110100000'),('20110117000000'),('20110131100000'),('20110202100000'),('20110202110000'),('20110302100000'),('20110303100000'),('20110309100000'),('20110318112742'),('20110321000000'),('20110322000000'),('20110323000000'),('2011033000000'),('20110331001200'),('20110404085232'),('20110404085325'),('20110404090700'),('20110405151201'),('20110502100000'),('20110519000000'),('20110527000000'),('20110615083665'),('20110615083666'),('20110627001200'),('20110703001200'),('20110711001200'),('20110719142500'),('20110725105426'),('20110728072502'),('20111005000000'),('20111116100002'),('20111117162400'),('20111122000000'),('20111123000000'),('20111206000000'),('20111206151500'),('20111207000000'),('20111213000000'),('20111215094300'),('20111303000000'),('20120110094300'),('20120110104300'),('20120111094300'),('20120112094300'),('20120112194300'),('20120119194300'),('20120119204300'),('20120119204301'),('20120120104301'),('20120120114301'),('20120124114301'),('20120124114302'),('20120124114303'),('20120216114303'),('20120217114303'),('20120217114304'),('20120220114304'),('20120222105426'),('20120223105426'),('20120304205014'),('20120312204300'),('20120313113554'),('20120313131909'),('20120319104301'),('20120319133739'),('20120320134850'),('20120407173644'),('20120411112931'),('20120411121152'),('20120417115800'),('20120418121859'),('20120529150500'),('20120722192000'),('20120903122955'),('20120904122955'),('20120907114304'),('20121014124846'),('20121015121807'),('20121112104534'),('20121112110642'),('20121114093616'),('20121120110642'),('20121120124300'),('20121121142111'),('20121124032111'),('20121130103300'),('20121130143300'),('20121213140751'),('20121213144129'),('20121216151549'),('20121220151549'),('20130111085930'),('20130220160000'),('20130301100000'),('20130409123324'),('20130410124738'),('20130414061002'),('20130603100244'),('20130610100244'),('20130612151549'),('20130618083665'),('20130621083665'),('20130626160000'),('20130627193722'),('20130702083665'),('20130702203665'),('20130723055536'),('20130725123636'),('20130726144516'),('20130802183104'),('20130802183717'),('20130802190951'),('20130805073101'),('20130807071147'),('20130814071147'),('20130816183104'),('20130817082602'),('20130819114303'),('20130820151442'),('20130830043205'),('20130903114302'),('20130904071147'),('20130910162318'),('20130917124132'),('20130920090004'),('20130930130128'),('20131005225515'),('20131006000000'),('20131006162847'),('20131020151037'),('20131020165316'),('20131021063641'),('20131022114302'),('20131023063641'),('20131027122410'),('20131028085325'),('20131029112259'),('20131105112259'),('20131106112233'),('20131111090310'),('20131111193512'),('20131111194720'),('20131112140033'),('20131119195511'),('20131120193512'),('20131123113417'),('20131124071042'),('20131125071042'),('20131125101042'),('20131126074753'),('20131126205430'),('20131127091624'),('20131209095749'),('20131209103450'),('20131210182719'),('20131218071042'),('20140113110551'),('20140123063641'),('20140123071042'),('20140124071042'),('20140210114542'),('20140213101042'),('20140218174400'),('20140219185200'),('20140516182719'),('20140624101042'),('20140627071042'),('20140704101043'),('20140709071042'),('20140714112346'),('20140717101042'),('20140718112346'),('20140721112346'),('20140729101042'),('20140801071042'),('20140819071042'),('20140821105426'),('20140827105426'),('20140903105426'),('20140903125426'),('20140908125426'),('20140908135426'),('20140916135426'),('20140930135426'),('20141001135426'),('20141002231042'),('20141022105426'),('20141022205426'),('20141107135426'),('20141110105426'),('20141125105426'),('20141201135426'),('20141202135426'),('20141208135426'),('20141302101042'),('20150112135426'),('20150127135426'),('20150129135426'),('20150129135427'),('20150227063641'),('20150623063641'),('20150625105426'),('20150630135426'),('20150715112346'),('20150716112346'),('20150716124906'),('20150807105426'),('20150902130939'),('20150903084813'),('20150916084813'),('20151030130011'),('20160321085300'),('20160321104000'),('20160321105300'),('20160518105300'),('20160610105300'),('20160808135426'),('20160819105300'),('20160824132643'),('20161019231042'),('20161025231042'),('20161115094035'),('20161117135426'),('20161121162349'),('20161122121211'),('20161122123708'),('20161123124803'),('20161124133941'),('20161124135426'),('20161128115942'),('20170103132257'),('20170111114943'),('20170118091131'),('20170123115500'),('20170215231042'),('20170306084558'),('20170306105300'),('20170315190919'),('20170315200936'),('20170316090223'),('20170317094221'),('20170320151300'),('20170323123236'),('20170412121601'),('20170412121957'),('20170426153510'),('20170509123922'),('20170511120355'),('20170516140442'),('20170607110443'),('20170614083014'),('20170619111734'),('20170621083718'),('20170621100321'),('20170621103748'),('20170627111730'),('20170628115727'),('20170630121602'),('20170630144825'),('20170704125123'),('20170704133728'),('20170704212201'),('20170710133627'),('20170710134059'),('20170821110838'),('20170821110918'),('20170821110941'),('20170821110946'),('20170905081525'),('20170905101113'),('20170911142301'),('20170912140257'),('20170912140713'),('20170921100521'),('20170925060940'),('20171011125520'),('20171013103921'),('20171019151800'),('20171030143054'),('20171030150551'),('20171102110929'),('20171107125828'),('20171109095756'),('20171212083426'),('20171218160607'),('20171219122451'),('20180109115548'),('20180110074142'),('20180307074538'),('21'),('22'),('23'),('24'),('25'),('26'),('27'),('28'),('29'),('3'),('30'),('31'),('32'),('33'),('34'),('35'),('36'),('37'),('38'),('39'),('4'),('40'),('41'),('42'),('43'),('44'),('45'),('46'),('47'),('48'),('5'),('6'),('7'),('8'),('9');
 /*!40000 ALTER TABLE `schema_migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2000,7 +2445,7 @@ CREATE TABLE `sessions` (
   `session_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `data` text COLLATE utf8_unicode_ci,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
+  `updated_at` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `index_sessions_on_session_id` (`session_id`),
   KEY `index_sessions_on_updated_at` (`updated_at`)
@@ -2056,7 +2501,7 @@ CREATE TABLE `status_histories` (
   PRIMARY KEY (`id`),
   KEY `index_status_histories_on_time_and_key` (`time`,`key`),
   KEY `index_status_histories_on_key` (`key`)
-) ENGINE=InnoDB AUTO_INCREMENT=1018 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=605 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2065,7 +2510,7 @@ CREATE TABLE `status_histories` (
 
 LOCK TABLES `status_histories` WRITE;
 /*!40000 ALTER TABLE `status_histories` DISABLE KEYS */;
-INSERT INTO `status_histories` VALUES (382,1546523215,'waiting_armv7el',0),(383,1546523215,'waiting_armv8el',0),(384,1546523215,'waiting_i586',0),(385,1546523215,'waiting_x86_64',0),(386,1546523215,'squeue_high_armv7el',0),(387,1546523215,'squeue_next_armv7el',0),(388,1546523215,'squeue_med_armv7el',0),(389,1546523215,'squeue_low_armv7el',0),(390,1546523215,'squeue_high_armv8el',0),(391,1546523215,'squeue_next_armv8el',0),(392,1546523215,'squeue_med_armv8el',0),(393,1546523215,'squeue_low_armv8el',0),(394,1546523215,'squeue_high_i586',0),(395,1546523215,'squeue_next_i586',0),(396,1546523215,'squeue_med_i586',0),(397,1546523215,'squeue_low_i586',0),(398,1546523215,'squeue_high_x86_64',0),(399,1546523215,'squeue_next_x86_64',0),(400,1546523215,'squeue_med_x86_64',0),(401,1546523215,'squeue_low_x86_64',0),(402,1546245000,'blocked_x86_64',0),(403,1546245000,'building_x86_64',0.285714),(404,1546245000,'idle_x86_64',0.714286),(405,1546245000,'squeue_high_armv7l',0),(406,1546245000,'squeue_high_i586',0),(407,1546245000,'squeue_high_x86_64',0),(408,1546245000,'squeue_low_armv7l',0),(409,1546245000,'squeue_low_i586',0),(410,1546245000,'squeue_low_x86_64',0.409091),(411,1546245000,'squeue_med_armv7l',0),(412,1546245000,'squeue_med_i586',0),(413,1546245000,'squeue_med_x86_64',0),(414,1546245000,'squeue_next_armv7l',0),(415,1546245000,'squeue_next_i586',0),(416,1546245000,'squeue_next_x86_64',0),(417,1546245000,'waiting_armv7l',0),(418,1546245000,'waiting_i586',0),(419,1546245000,'waiting_x86_64',0),(420,1546523246,'blocked_x86_64',0),(421,1546523246,'waiting_armv7el',0),(422,1546523246,'waiting_armv8el',0),(423,1546523246,'waiting_i586',0),(424,1546523246,'waiting_x86_64',0),(425,1546523246,'squeue_high_armv7el',0),(426,1546523246,'squeue_next_armv7el',0),(427,1546523246,'squeue_med_armv7el',0),(428,1546523246,'squeue_low_armv7el',0),(429,1546523246,'squeue_high_armv8el',0),(430,1546523246,'squeue_next_armv8el',0),(431,1546523246,'squeue_med_armv8el',0),(432,1546523246,'squeue_low_armv8el',0),(433,1546523246,'squeue_high_i586',0),(434,1546523246,'squeue_next_i586',0),(435,1546523246,'squeue_med_i586',0),(436,1546523246,'squeue_low_i586',0),(437,1546523246,'squeue_high_x86_64',0),(438,1546523246,'squeue_next_x86_64',0),(439,1546523246,'squeue_med_x86_64',0),(440,1546523246,'squeue_low_x86_64',0),(441,1546523246,'building_x86_64',0),(442,1546523246,'idle_x86_64',1),(443,1546523276,'blocked_x86_64',0),(444,1546523276,'waiting_armv7el',0),(445,1546523276,'waiting_armv8el',0),(446,1546523276,'waiting_i586',0),(447,1546523276,'waiting_x86_64',0),(448,1546523276,'squeue_high_armv7el',0),(449,1546523276,'squeue_next_armv7el',0),(450,1546523276,'squeue_med_armv7el',0),(451,1546523276,'squeue_low_armv7el',0),(452,1546523276,'squeue_high_armv8el',0),(453,1546523276,'squeue_next_armv8el',0),(454,1546523276,'squeue_med_armv8el',0),(455,1546523276,'squeue_low_armv8el',0),(456,1546523276,'squeue_high_i586',0),(457,1546523276,'squeue_next_i586',0),(458,1546523276,'squeue_med_i586',0),(459,1546523276,'squeue_low_i586',0),(460,1546523276,'squeue_high_x86_64',0),(461,1546523276,'squeue_next_x86_64',0),(462,1546523276,'squeue_med_x86_64',0),(463,1546523276,'squeue_low_x86_64',0),(464,1546523276,'building_x86_64',0),(465,1546523276,'idle_x86_64',1),(466,1546523306,'blocked_x86_64',0),(467,1546523306,'waiting_armv7el',0),(468,1546523306,'waiting_armv8el',0),(469,1546523306,'waiting_i586',0),(470,1546523306,'waiting_x86_64',0),(471,1546523306,'squeue_high_armv7el',0),(472,1546523306,'squeue_next_armv7el',0),(473,1546523306,'squeue_med_armv7el',0),(474,1546523306,'squeue_low_armv7el',0),(475,1546523306,'squeue_high_armv8el',0),(476,1546523306,'squeue_next_armv8el',0),(477,1546523306,'squeue_med_armv8el',0),(478,1546523306,'squeue_low_armv8el',0),(479,1546523306,'squeue_high_i586',0),(480,1546523306,'squeue_next_i586',0),(481,1546523306,'squeue_med_i586',0),(482,1546523306,'squeue_low_i586',0),(483,1546523306,'squeue_high_x86_64',0),(484,1546523306,'squeue_next_x86_64',0),(485,1546523306,'squeue_med_x86_64',0),(486,1546523306,'squeue_low_x86_64',0),(487,1546523306,'building_x86_64',0),(488,1546523306,'idle_x86_64',1),(489,1546523336,'blocked_x86_64',0),(490,1546523336,'waiting_armv7el',0),(491,1546523336,'waiting_armv8el',0),(492,1546523336,'waiting_i586',0),(493,1546523336,'waiting_x86_64',0),(494,1546523336,'squeue_high_armv7el',0),(495,1546523336,'squeue_next_armv7el',0),(496,1546523336,'squeue_med_armv7el',0),(497,1546523336,'squeue_low_armv7el',0),(498,1546523336,'squeue_high_armv8el',0),(499,1546523336,'squeue_next_armv8el',0),(500,1546523336,'squeue_med_armv8el',0),(501,1546523336,'squeue_low_armv8el',0),(502,1546523336,'squeue_high_i586',0),(503,1546523336,'squeue_next_i586',0),(504,1546523336,'squeue_med_i586',0),(505,1546523336,'squeue_low_i586',0),(506,1546523336,'squeue_high_x86_64',0),(507,1546523336,'squeue_next_x86_64',0),(508,1546523336,'squeue_med_x86_64',0),(509,1546523336,'squeue_low_x86_64',1),(510,1546523336,'building_x86_64',0),(511,1546523336,'idle_x86_64',1),(512,1546523366,'blocked_x86_64',0),(513,1546523366,'waiting_armv7el',0),(514,1546523366,'waiting_armv8el',0),(515,1546523366,'waiting_i586',0),(516,1546523366,'waiting_x86_64',1),(517,1546523366,'squeue_high_armv7el',0),(518,1546523366,'squeue_next_armv7el',0),(519,1546523366,'squeue_med_armv7el',0),(520,1546523366,'squeue_low_armv7el',0),(521,1546523366,'squeue_high_armv8el',0),(522,1546523366,'squeue_next_armv8el',0),(523,1546523366,'squeue_med_armv8el',0),(524,1546523366,'squeue_low_armv8el',0),(525,1546523366,'squeue_high_i586',0),(526,1546523366,'squeue_next_i586',0),(527,1546523366,'squeue_med_i586',0),(528,1546523366,'squeue_low_i586',0),(529,1546523366,'squeue_high_x86_64',0),(530,1546523366,'squeue_next_x86_64',0),(531,1546523366,'squeue_med_x86_64',0),(532,1546523366,'squeue_low_x86_64',1),(533,1546523396,'blocked_x86_64',0),(534,1546523396,'waiting_armv7el',0),(535,1546523396,'waiting_armv8el',0),(536,1546523396,'waiting_i586',0),(537,1546523396,'waiting_x86_64',0),(538,1546523396,'squeue_high_armv7el',0),(539,1546523396,'squeue_next_armv7el',0),(540,1546523396,'squeue_med_armv7el',0),(541,1546523396,'squeue_low_armv7el',0),(542,1546523396,'squeue_high_armv8el',0),(543,1546523396,'squeue_next_armv8el',0),(544,1546523396,'squeue_med_armv8el',0),(545,1546523396,'squeue_low_armv8el',0),(546,1546523396,'squeue_high_i586',0),(547,1546523396,'squeue_next_i586',0),(548,1546523396,'squeue_med_i586',0),(549,1546523396,'squeue_low_i586',0),(550,1546523396,'squeue_high_x86_64',0),(551,1546523396,'squeue_next_x86_64',0),(552,1546523396,'squeue_med_x86_64',0),(553,1546523396,'squeue_low_x86_64',1),(554,1546523396,'building_x86_64',1),(555,1546523396,'idle_x86_64',0),(556,1546523427,'blocked_x86_64',0),(557,1546523427,'waiting_armv7el',0),(558,1546523427,'waiting_armv8el',0),(559,1546523427,'waiting_i586',0),(560,1546523427,'waiting_x86_64',0),(561,1546523427,'squeue_high_armv7el',0),(562,1546523427,'squeue_next_armv7el',0),(563,1546523427,'squeue_med_armv7el',0),(564,1546523427,'squeue_low_armv7el',0),(565,1546523427,'squeue_high_armv8el',0),(566,1546523427,'squeue_next_armv8el',0),(567,1546523427,'squeue_med_armv8el',0),(568,1546523427,'squeue_low_armv8el',0),(569,1546523427,'squeue_high_i586',0),(570,1546523427,'squeue_next_i586',0),(571,1546523427,'squeue_med_i586',0),(572,1546523427,'squeue_low_i586',0),(573,1546523427,'squeue_high_x86_64',0),(574,1546523427,'squeue_next_x86_64',0),(575,1546523427,'squeue_med_x86_64',0),(576,1546523427,'squeue_low_x86_64',1),(577,1546523427,'building_x86_64',0),(578,1546523427,'idle_x86_64',1),(579,1546523457,'blocked_x86_64',0),(580,1546523457,'waiting_armv7el',0),(581,1546523457,'waiting_armv8el',0),(582,1546523457,'waiting_i586',0),(583,1546523457,'waiting_x86_64',0),(584,1546523457,'squeue_high_armv7el',0),(585,1546523457,'squeue_next_armv7el',0),(586,1546523457,'squeue_med_armv7el',0),(587,1546523457,'squeue_low_armv7el',0),(588,1546523457,'squeue_high_armv8el',0),(589,1546523457,'squeue_next_armv8el',0),(590,1546523457,'squeue_med_armv8el',0),(591,1546523457,'squeue_low_armv8el',0),(592,1546523457,'squeue_high_i586',0),(593,1546523457,'squeue_next_i586',0),(594,1546523457,'squeue_med_i586',0),(595,1546523457,'squeue_low_i586',0),(596,1546523457,'squeue_high_x86_64',0),(597,1546523457,'squeue_next_x86_64',0),(598,1546523457,'squeue_med_x86_64',0),(599,1546523457,'squeue_low_x86_64',1),(600,1546523457,'building_x86_64',0),(601,1546523457,'idle_x86_64',1),(602,1546523487,'blocked_armv7el',1),(603,1546523487,'blocked_armv8el',1),(604,1546523487,'blocked_i586',1),(605,1546523487,'blocked_x86_64',2),(606,1546523487,'waiting_armv7el',1),(607,1546523487,'waiting_armv8el',1),(608,1546523487,'waiting_i586',0),(609,1546523487,'waiting_x86_64',2),(610,1546523487,'squeue_high_armv7el',0),(611,1546523487,'squeue_next_armv7el',0),(612,1546523487,'squeue_med_armv7el',0),(613,1546523487,'squeue_low_armv7el',1),(614,1546523487,'squeue_high_armv8el',0),(615,1546523487,'squeue_next_armv8el',0),(616,1546523487,'squeue_med_armv8el',0),(617,1546523487,'squeue_low_armv8el',1),(618,1546523487,'squeue_high_i586',0),(619,1546523487,'squeue_next_i586',0),(620,1546523487,'squeue_med_i586',0),(621,1546523487,'squeue_low_i586',1),(622,1546523487,'squeue_high_x86_64',1),(623,1546523487,'squeue_next_x86_64',0),(624,1546523487,'squeue_med_x86_64',0),(625,1546523487,'squeue_low_x86_64',3),(626,1546523487,'building_x86_64',1),(627,1546523487,'idle_x86_64',0),(628,1546523517,'blocked_armv7el',1),(629,1546523517,'blocked_armv8el',1),(630,1546523517,'blocked_i586',1),(631,1546523517,'blocked_x86_64',2),(632,1546523517,'waiting_armv7el',0),(633,1546523517,'waiting_armv8el',1),(634,1546523517,'waiting_i586',0),(635,1546523517,'waiting_x86_64',2),(636,1546523517,'squeue_high_armv7el',0),(637,1546523517,'squeue_next_armv7el',0),(638,1546523517,'squeue_med_armv7el',0),(639,1546523517,'squeue_low_armv7el',1),(640,1546523517,'squeue_high_armv8el',0),(641,1546523517,'squeue_next_armv8el',0),(642,1546523517,'squeue_med_armv8el',0),(643,1546523517,'squeue_low_armv8el',1),(644,1546523517,'squeue_high_i586',0),(645,1546523517,'squeue_next_i586',0),(646,1546523517,'squeue_med_i586',0),(647,1546523517,'squeue_low_i586',1),(648,1546523517,'squeue_high_x86_64',1),(649,1546523517,'squeue_next_x86_64',0),(650,1546523517,'squeue_med_x86_64',0),(651,1546523517,'squeue_low_x86_64',3),(652,1546523517,'building_x86_64',1),(653,1546523517,'idle_x86_64',0),(654,1546523547,'blocked_armv7el',1),(655,1546523547,'blocked_armv8el',1),(656,1546523547,'blocked_i586',1),(657,1546523547,'blocked_x86_64',2),(658,1546523547,'waiting_armv7el',0),(659,1546523547,'waiting_armv8el',1),(660,1546523547,'waiting_i586',0),(661,1546523547,'waiting_x86_64',2),(662,1546523547,'squeue_high_armv7el',0),(663,1546523547,'squeue_next_armv7el',0),(664,1546523547,'squeue_med_armv7el',0),(665,1546523547,'squeue_low_armv7el',1),(666,1546523547,'squeue_high_armv8el',0),(667,1546523547,'squeue_next_armv8el',0),(668,1546523547,'squeue_med_armv8el',0),(669,1546523547,'squeue_low_armv8el',1),(670,1546523547,'squeue_high_i586',0),(671,1546523547,'squeue_next_i586',0),(672,1546523547,'squeue_med_i586',0),(673,1546523547,'squeue_low_i586',1),(674,1546523547,'squeue_high_x86_64',1),(675,1546523547,'squeue_next_x86_64',0),(676,1546523547,'squeue_med_x86_64',0),(677,1546523547,'squeue_low_x86_64',3),(678,1546523547,'building_x86_64',1),(679,1546523547,'idle_x86_64',0),(680,1546523577,'blocked_armv7el',1),(681,1546523577,'blocked_armv8el',1),(682,1546523577,'blocked_i586',1),(683,1546523577,'blocked_x86_64',2),(684,1546523577,'waiting_armv7el',0),(685,1546523577,'waiting_armv8el',1),(686,1546523577,'waiting_i586',0),(687,1546523577,'waiting_x86_64',2),(688,1546523577,'squeue_high_armv7el',0),(689,1546523577,'squeue_next_armv7el',0),(690,1546523577,'squeue_med_armv7el',0),(691,1546523577,'squeue_low_armv7el',1),(692,1546523577,'squeue_high_armv8el',0),(693,1546523577,'squeue_next_armv8el',0),(694,1546523577,'squeue_med_armv8el',0),(695,1546523577,'squeue_low_armv8el',1),(696,1546523577,'squeue_high_i586',0),(697,1546523577,'squeue_next_i586',0),(698,1546523577,'squeue_med_i586',0),(699,1546523577,'squeue_low_i586',1),(700,1546523577,'squeue_high_x86_64',1),(701,1546523577,'squeue_next_x86_64',0),(702,1546523577,'squeue_med_x86_64',0),(703,1546523577,'squeue_low_x86_64',3),(704,1546523577,'building_x86_64',1),(705,1546523577,'idle_x86_64',0),(706,1546523607,'blocked_armv7el',1),(707,1546523607,'blocked_armv8el',1),(708,1546523607,'blocked_i586',1),(709,1546523607,'blocked_x86_64',2),(710,1546523607,'waiting_armv7el',0),(711,1546523607,'waiting_armv8el',1),(712,1546523607,'waiting_i586',0),(713,1546523607,'waiting_x86_64',2),(714,1546523607,'squeue_high_armv7el',0),(715,1546523607,'squeue_next_armv7el',0),(716,1546523607,'squeue_med_armv7el',0),(717,1546523607,'squeue_low_armv7el',1),(718,1546523607,'squeue_high_armv8el',0),(719,1546523607,'squeue_next_armv8el',0),(720,1546523607,'squeue_med_armv8el',0),(721,1546523607,'squeue_low_armv8el',1),(722,1546523607,'squeue_high_i586',0),(723,1546523607,'squeue_next_i586',0),(724,1546523607,'squeue_med_i586',0),(725,1546523607,'squeue_low_i586',1),(726,1546523607,'squeue_high_x86_64',1),(727,1546523607,'squeue_next_x86_64',0),(728,1546523607,'squeue_med_x86_64',0),(729,1546523607,'squeue_low_x86_64',3),(730,1546523607,'building_x86_64',0),(731,1546523607,'idle_x86_64',1),(732,1546523637,'blocked_armv7el',0),(733,1546523637,'blocked_armv8el',1),(734,1546523637,'blocked_i586',1),(735,1546523637,'blocked_x86_64',2),(736,1546523637,'waiting_armv7el',0),(737,1546523637,'waiting_armv8el',1),(738,1546523637,'waiting_i586',0),(739,1546523637,'waiting_x86_64',1),(740,1546523637,'squeue_high_armv7el',0),(741,1546523637,'squeue_next_armv7el',0),(742,1546523637,'squeue_med_armv7el',0),(743,1546523637,'squeue_low_armv7el',1),(744,1546523637,'squeue_high_armv8el',0),(745,1546523637,'squeue_next_armv8el',0),(746,1546523637,'squeue_med_armv8el',0),(747,1546523637,'squeue_low_armv8el',1),(748,1546523637,'squeue_high_i586',0),(749,1546523637,'squeue_next_i586',0),(750,1546523637,'squeue_med_i586',0),(751,1546523637,'squeue_low_i586',1),(752,1546523637,'squeue_high_x86_64',1),(753,1546523637,'squeue_next_x86_64',0),(754,1546523637,'squeue_med_x86_64',0),(755,1546523637,'squeue_low_x86_64',3),(756,1546523637,'building_x86_64',1),(757,1546523637,'idle_x86_64',0),(758,1546523667,'blocked_armv7el',0),(759,1546523667,'blocked_armv8el',1),(760,1546523667,'blocked_i586',1),(761,1546523667,'blocked_x86_64',1),(762,1546523667,'waiting_armv7el',0),(763,1546523667,'waiting_armv8el',0),(764,1546523667,'waiting_i586',0),(765,1546523667,'waiting_x86_64',1),(766,1546523667,'squeue_high_armv7el',0),(767,1546523667,'squeue_next_armv7el',0),(768,1546523667,'squeue_med_armv7el',0),(769,1546523667,'squeue_low_armv7el',1),(770,1546523667,'squeue_high_armv8el',0),(771,1546523667,'squeue_next_armv8el',0),(772,1546523667,'squeue_med_armv8el',0),(773,1546523667,'squeue_low_armv8el',1),(774,1546523667,'squeue_high_i586',0),(775,1546523667,'squeue_next_i586',0),(776,1546523667,'squeue_med_i586',0),(777,1546523667,'squeue_low_i586',1),(778,1546523667,'squeue_high_x86_64',0),(779,1546523667,'squeue_next_x86_64',0),(780,1546523667,'squeue_med_x86_64',0),(781,1546523667,'squeue_low_x86_64',1),(782,1546523667,'building_x86_64',1),(783,1546523667,'idle_x86_64',0),(784,1546523697,'blocked_armv7el',0),(785,1546523697,'blocked_armv8el',1),(786,1546523697,'blocked_i586',1),(787,1546523697,'blocked_x86_64',1),(788,1546523697,'waiting_armv7el',0),(789,1546523697,'waiting_armv8el',0),(790,1546523697,'waiting_i586',0),(791,1546523697,'waiting_x86_64',1),(792,1546523697,'squeue_high_armv7el',0),(793,1546523697,'squeue_next_armv7el',0),(794,1546523697,'squeue_med_armv7el',0),(795,1546523697,'squeue_low_armv7el',1),(796,1546523697,'squeue_high_armv8el',0),(797,1546523697,'squeue_next_armv8el',0),(798,1546523697,'squeue_med_armv8el',0),(799,1546523697,'squeue_low_armv8el',1),(800,1546523697,'squeue_high_i586',0),(801,1546523697,'squeue_next_i586',0),(802,1546523697,'squeue_med_i586',0),(803,1546523697,'squeue_low_i586',1),(804,1546523697,'squeue_high_x86_64',0),(805,1546523697,'squeue_next_x86_64',0),(806,1546523697,'squeue_med_x86_64',0),(807,1546523697,'squeue_low_x86_64',1),(808,1546523697,'building_x86_64',1),(809,1546523697,'idle_x86_64',0),(810,1546523727,'blocked_armv7el',0),(811,1546523727,'blocked_armv8el',1),(812,1546523727,'blocked_i586',1),(813,1546523727,'blocked_x86_64',1),(814,1546523727,'waiting_armv7el',0),(815,1546523727,'waiting_armv8el',0),(816,1546523727,'waiting_i586',0),(817,1546523727,'waiting_x86_64',1),(818,1546523727,'squeue_high_armv7el',0),(819,1546523727,'squeue_next_armv7el',0),(820,1546523727,'squeue_med_armv7el',0),(821,1546523727,'squeue_low_armv7el',1),(822,1546523727,'squeue_high_armv8el',0),(823,1546523727,'squeue_next_armv8el',0),(824,1546523727,'squeue_med_armv8el',0),(825,1546523727,'squeue_low_armv8el',1),(826,1546523727,'squeue_high_i586',0),(827,1546523727,'squeue_next_i586',0),(828,1546523727,'squeue_med_i586',0),(829,1546523727,'squeue_low_i586',1),(830,1546523727,'squeue_high_x86_64',0),(831,1546523727,'squeue_next_x86_64',0),(832,1546523727,'squeue_med_x86_64',0),(833,1546523727,'squeue_low_x86_64',1),(834,1546523727,'building_x86_64',1),(835,1546523727,'idle_x86_64',0),(836,1546523758,'blocked_armv7el',0),(837,1546523758,'blocked_armv8el',0),(838,1546523758,'blocked_i586',1),(839,1546523758,'blocked_x86_64',1),(840,1546523758,'waiting_armv7el',0),(841,1546523758,'waiting_armv8el',0),(842,1546523758,'waiting_i586',0),(843,1546523758,'waiting_x86_64',0),(844,1546523758,'squeue_high_armv7el',0),(845,1546523758,'squeue_next_armv7el',0),(846,1546523758,'squeue_med_armv7el',0),(847,1546523758,'squeue_low_armv7el',1),(848,1546523758,'squeue_high_armv8el',0),(849,1546523758,'squeue_next_armv8el',0),(850,1546523758,'squeue_med_armv8el',0),(851,1546523758,'squeue_low_armv8el',1),(852,1546523758,'squeue_high_i586',0),(853,1546523758,'squeue_next_i586',0),(854,1546523758,'squeue_med_i586',0),(855,1546523758,'squeue_low_i586',1),(856,1546523758,'squeue_high_x86_64',0),(857,1546523758,'squeue_next_x86_64',0),(858,1546523758,'squeue_med_x86_64',0),(859,1546523758,'squeue_low_x86_64',1),(860,1546523758,'building_x86_64',1),(861,1546523758,'idle_x86_64',0),(862,1546523788,'blocked_armv7el',0),(863,1546523788,'blocked_armv8el',0),(864,1546523788,'blocked_i586',1),(865,1546523788,'blocked_x86_64',1),(866,1546523788,'waiting_armv7el',0),(867,1546523788,'waiting_armv8el',0),(868,1546523788,'waiting_i586',0),(869,1546523788,'waiting_x86_64',0),(870,1546523788,'squeue_high_armv7el',0),(871,1546523788,'squeue_next_armv7el',0),(872,1546523788,'squeue_med_armv7el',0),(873,1546523788,'squeue_low_armv7el',1),(874,1546523788,'squeue_high_armv8el',0),(875,1546523788,'squeue_next_armv8el',0),(876,1546523788,'squeue_med_armv8el',0),(877,1546523788,'squeue_low_armv8el',1),(878,1546523788,'squeue_high_i586',0),(879,1546523788,'squeue_next_i586',0),(880,1546523788,'squeue_med_i586',0),(881,1546523788,'squeue_low_i586',1),(882,1546523788,'squeue_high_x86_64',0),(883,1546523788,'squeue_next_x86_64',0),(884,1546523788,'squeue_med_x86_64',0),(885,1546523788,'squeue_low_x86_64',1),(886,1546523788,'building_x86_64',1),(887,1546523788,'idle_x86_64',0),(888,1546523818,'blocked_armv7el',0),(889,1546523818,'blocked_armv8el',0),(890,1546523818,'blocked_i586',1),(891,1546523818,'blocked_x86_64',0),(892,1546523818,'waiting_armv7el',0),(893,1546523818,'waiting_armv8el',0),(894,1546523818,'waiting_i586',0),(895,1546523818,'waiting_x86_64',0),(896,1546523818,'squeue_high_armv7el',0),(897,1546523818,'squeue_next_armv7el',0),(898,1546523818,'squeue_med_armv7el',0),(899,1546523818,'squeue_low_armv7el',1),(900,1546523818,'squeue_high_armv8el',0),(901,1546523818,'squeue_next_armv8el',0),(902,1546523818,'squeue_med_armv8el',0),(903,1546523818,'squeue_low_armv8el',1),(904,1546523818,'squeue_high_i586',0),(905,1546523818,'squeue_next_i586',0),(906,1546523818,'squeue_med_i586',0),(907,1546523818,'squeue_low_i586',1),(908,1546523818,'squeue_high_x86_64',0),(909,1546523818,'squeue_next_x86_64',0),(910,1546523818,'squeue_med_x86_64',0),(911,1546523818,'squeue_low_x86_64',1),(912,1546523818,'building_x86_64',0),(913,1546523818,'idle_x86_64',1),(914,1546523848,'blocked_armv7el',0),(915,1546523848,'blocked_armv8el',0),(916,1546523848,'blocked_i586',1),(917,1546523848,'blocked_x86_64',0),(918,1546523848,'waiting_armv7el',0),(919,1546523848,'waiting_armv8el',0),(920,1546523848,'waiting_i586',0),(921,1546523848,'waiting_x86_64',0),(922,1546523848,'squeue_high_armv7el',0),(923,1546523848,'squeue_next_armv7el',0),(924,1546523848,'squeue_med_armv7el',0),(925,1546523848,'squeue_low_armv7el',1),(926,1546523848,'squeue_high_armv8el',0),(927,1546523848,'squeue_next_armv8el',0),(928,1546523848,'squeue_med_armv8el',0),(929,1546523848,'squeue_low_armv8el',1),(930,1546523848,'squeue_high_i586',0),(931,1546523848,'squeue_next_i586',0),(932,1546523848,'squeue_med_i586',0),(933,1546523848,'squeue_low_i586',1),(934,1546523848,'squeue_high_x86_64',0),(935,1546523848,'squeue_next_x86_64',0),(936,1546523848,'squeue_med_x86_64',0),(937,1546523848,'squeue_low_x86_64',1),(938,1546523848,'building_x86_64',0),(939,1546523848,'idle_x86_64',1),(940,1546523878,'blocked_armv7el',0),(941,1546523878,'blocked_armv8el',0),(942,1546523878,'blocked_i586',1),(943,1546523878,'blocked_x86_64',0),(944,1546523878,'waiting_armv7el',0),(945,1546523878,'waiting_armv8el',0),(946,1546523878,'waiting_i586',0),(947,1546523878,'waiting_x86_64',0),(948,1546523878,'squeue_high_armv7el',0),(949,1546523878,'squeue_next_armv7el',0),(950,1546523878,'squeue_med_armv7el',0),(951,1546523878,'squeue_low_armv7el',1),(952,1546523878,'squeue_high_armv8el',0),(953,1546523878,'squeue_next_armv8el',0),(954,1546523878,'squeue_med_armv8el',0),(955,1546523878,'squeue_low_armv8el',1),(956,1546523878,'squeue_high_i586',0),(957,1546523878,'squeue_next_i586',0),(958,1546523878,'squeue_med_i586',0),(959,1546523878,'squeue_low_i586',1),(960,1546523878,'squeue_high_x86_64',0),(961,1546523878,'squeue_next_x86_64',0),(962,1546523878,'squeue_med_x86_64',0),(963,1546523878,'squeue_low_x86_64',1),(964,1546523878,'building_x86_64',0),(965,1546523878,'idle_x86_64',1),(966,1546523963,'blocked_armv7el',0),(967,1546523963,'blocked_armv8el',0),(968,1546523963,'blocked_i586',1),(969,1546523963,'blocked_x86_64',0),(970,1546523963,'waiting_armv7el',0),(971,1546523963,'waiting_armv8el',0),(972,1546523963,'waiting_i586',0),(973,1546523963,'waiting_x86_64',0),(974,1546523963,'squeue_high_armv7el',0),(975,1546523963,'squeue_next_armv7el',0),(976,1546523963,'squeue_med_armv7el',0),(977,1546523963,'squeue_low_armv7el',1),(978,1546523963,'squeue_high_armv8el',0),(979,1546523963,'squeue_next_armv8el',0),(980,1546523963,'squeue_med_armv8el',0),(981,1546523963,'squeue_low_armv8el',1),(982,1546523963,'squeue_high_i586',0),(983,1546523963,'squeue_next_i586',0),(984,1546523963,'squeue_med_i586',0),(985,1546523963,'squeue_low_i586',1),(986,1546523963,'squeue_high_x86_64',0),(987,1546523963,'squeue_next_x86_64',0),(988,1546523963,'squeue_med_x86_64',0),(989,1546523963,'squeue_low_x86_64',1),(990,1546523963,'building_x86_64',0),(991,1546523963,'idle_x86_64',1),(992,1546523994,'blocked_armv7el',0),(993,1546523994,'blocked_armv8el',0),(994,1546523994,'blocked_i586',0),(995,1546523994,'blocked_x86_64',0),(996,1546523994,'waiting_armv7el',0),(997,1546523994,'waiting_armv8el',0),(998,1546523994,'waiting_i586',0),(999,1546523994,'waiting_x86_64',0),(1000,1546523994,'squeue_high_armv7el',0),(1001,1546523994,'squeue_next_armv7el',0),(1002,1546523994,'squeue_med_armv7el',0),(1003,1546523994,'squeue_low_armv7el',0),(1004,1546523994,'squeue_high_armv8el',0),(1005,1546523994,'squeue_next_armv8el',0),(1006,1546523994,'squeue_med_armv8el',0),(1007,1546523994,'squeue_low_armv8el',0),(1008,1546523994,'squeue_high_i586',0),(1009,1546523994,'squeue_next_i586',0),(1010,1546523994,'squeue_med_i586',0),(1011,1546523994,'squeue_low_i586',0),(1012,1546523994,'squeue_high_x86_64',0),(1013,1546523994,'squeue_next_x86_64',0),(1014,1546523994,'squeue_med_x86_64',0),(1015,1546523994,'squeue_low_x86_64',2),(1016,1546523994,'building_x86_64',0),(1017,1546523994,'idle_x86_64',1);
+INSERT INTO `status_histories` VALUES (1,1546933086,'blocked_armv7el',0),(2,1546933086,'blocked_armv8el',0),(3,1546933086,'blocked_i586',0),(4,1546933086,'blocked_x86_64',0),(5,1546933086,'waiting_armv7el',0),(6,1546933086,'waiting_armv8el',0),(7,1546933086,'waiting_i586',0),(8,1546933086,'waiting_x86_64',0),(9,1546933086,'squeue_high_armv7el',0),(10,1546933086,'squeue_next_armv7el',0),(11,1546933086,'squeue_med_armv7el',0),(12,1546933086,'squeue_low_armv7el',0),(13,1546933086,'squeue_high_armv8el',0),(14,1546933086,'squeue_next_armv8el',0),(15,1546933086,'squeue_med_armv8el',0),(16,1546933086,'squeue_low_armv8el',0),(17,1546933086,'squeue_high_i586',0),(18,1546933086,'squeue_next_i586',0),(19,1546933086,'squeue_med_i586',0),(20,1546933086,'squeue_low_i586',0),(21,1546933086,'squeue_high_x86_64',0),(22,1546933086,'squeue_next_x86_64',0),(23,1546933086,'squeue_med_x86_64',0),(24,1546933086,'squeue_low_x86_64',0),(25,1546933116,'blocked_armv7el',0),(26,1546933116,'blocked_armv8el',0),(27,1546933116,'blocked_i586',0),(28,1546933116,'blocked_x86_64',0),(29,1546933116,'waiting_armv7el',0),(30,1546933116,'waiting_armv8el',0),(31,1546933116,'waiting_i586',0),(32,1546933116,'waiting_x86_64',0),(33,1546933116,'building_x86_64',0),(34,1546933116,'idle_x86_64',1),(35,1546933116,'dead_x86_64',0),(36,1546933116,'down_x86_64',0),(37,1546933116,'away_x86_64',0),(38,1546933116,'squeue_high_armv7el',0),(39,1546933116,'squeue_next_armv7el',0),(40,1546933116,'squeue_med_armv7el',0),(41,1546933116,'squeue_low_armv7el',0),(42,1546933116,'squeue_high_armv8el',0),(43,1546933116,'squeue_next_armv8el',0),(44,1546933116,'squeue_med_armv8el',0),(45,1546933116,'squeue_low_armv8el',0),(46,1546933116,'squeue_high_i586',0),(47,1546933116,'squeue_next_i586',0),(48,1546933116,'squeue_med_i586',0),(49,1546933116,'squeue_low_i586',0),(50,1546933116,'squeue_high_x86_64',0),(51,1546933116,'squeue_next_x86_64',0),(52,1546933116,'squeue_med_x86_64',0),(53,1546933116,'squeue_low_x86_64',0),(54,1546933146,'blocked_armv7el',0),(55,1546933146,'blocked_armv8el',0),(56,1546933146,'blocked_i586',0),(57,1546933146,'blocked_x86_64',0),(58,1546933146,'waiting_armv7el',0),(59,1546933146,'waiting_armv8el',0),(60,1546933146,'waiting_i586',0),(61,1546933146,'waiting_x86_64',0),(62,1546933146,'building_x86_64',0),(63,1546933146,'idle_x86_64',1),(64,1546933146,'dead_x86_64',0),(65,1546933146,'down_x86_64',0),(66,1546933146,'away_x86_64',0),(67,1546933146,'squeue_high_armv7el',0),(68,1546933146,'squeue_next_armv7el',0),(69,1546933146,'squeue_med_armv7el',0),(70,1546933146,'squeue_low_armv7el',0),(71,1546933146,'squeue_high_armv8el',0),(72,1546933146,'squeue_next_armv8el',0),(73,1546933146,'squeue_med_armv8el',0),(74,1546933146,'squeue_low_armv8el',0),(75,1546933146,'squeue_high_i586',0),(76,1546933146,'squeue_next_i586',0),(77,1546933146,'squeue_med_i586',0),(78,1546933146,'squeue_low_i586',0),(79,1546933146,'squeue_high_x86_64',0),(80,1546933146,'squeue_next_x86_64',0),(81,1546933146,'squeue_med_x86_64',0),(82,1546933146,'squeue_low_x86_64',0),(83,1546933176,'blocked_armv7el',0),(84,1546933176,'blocked_armv8el',0),(85,1546933176,'blocked_i586',0),(86,1546933176,'blocked_x86_64',0),(87,1546933176,'waiting_armv7el',0),(88,1546933176,'waiting_armv8el',0),(89,1546933176,'waiting_i586',0),(90,1546933176,'waiting_x86_64',0),(91,1546933176,'building_x86_64',0),(92,1546933176,'idle_x86_64',1),(93,1546933176,'dead_x86_64',0),(94,1546933176,'down_x86_64',0),(95,1546933176,'away_x86_64',0),(96,1546933176,'squeue_high_armv7el',0),(97,1546933176,'squeue_next_armv7el',0),(98,1546933176,'squeue_med_armv7el',0),(99,1546933176,'squeue_low_armv7el',0),(100,1546933176,'squeue_high_armv8el',0),(101,1546933176,'squeue_next_armv8el',0),(102,1546933176,'squeue_med_armv8el',0),(103,1546933176,'squeue_low_armv8el',0),(104,1546933176,'squeue_high_i586',0),(105,1546933176,'squeue_next_i586',0),(106,1546933176,'squeue_med_i586',0),(107,1546933176,'squeue_low_i586',0),(108,1546933176,'squeue_high_x86_64',0),(109,1546933176,'squeue_next_x86_64',0),(110,1546933176,'squeue_med_x86_64',0),(111,1546933176,'squeue_low_x86_64',0),(112,1546933206,'blocked_armv7el',0),(113,1546933206,'blocked_armv8el',0),(114,1546933206,'blocked_i586',0),(115,1546933206,'blocked_x86_64',0),(116,1546933206,'waiting_armv7el',0),(117,1546933206,'waiting_armv8el',0),(118,1546933206,'waiting_i586',0),(119,1546933206,'waiting_x86_64',0),(120,1546933206,'building_x86_64',0),(121,1546933206,'idle_x86_64',1),(122,1546933206,'dead_x86_64',0),(123,1546933206,'down_x86_64',0),(124,1546933206,'away_x86_64',0),(125,1546933206,'squeue_high_armv7el',0),(126,1546933206,'squeue_next_armv7el',0),(127,1546933206,'squeue_med_armv7el',0),(128,1546933206,'squeue_low_armv7el',0),(129,1546933206,'squeue_high_armv8el',0),(130,1546933206,'squeue_next_armv8el',0),(131,1546933206,'squeue_med_armv8el',0),(132,1546933206,'squeue_low_armv8el',0),(133,1546933206,'squeue_high_i586',0),(134,1546933206,'squeue_next_i586',0),(135,1546933206,'squeue_med_i586',0),(136,1546933206,'squeue_low_i586',0),(137,1546933206,'squeue_high_x86_64',0),(138,1546933206,'squeue_next_x86_64',0),(139,1546933206,'squeue_med_x86_64',0),(140,1546933206,'squeue_low_x86_64',0),(141,1546933236,'blocked_armv7el',0),(142,1546933236,'blocked_armv8el',0),(143,1546933236,'blocked_i586',0),(144,1546933236,'blocked_x86_64',0),(145,1546933236,'waiting_armv7el',0),(146,1546933236,'waiting_armv8el',0),(147,1546933236,'waiting_i586',0),(148,1546933236,'waiting_x86_64',0),(149,1546933236,'building_x86_64',0),(150,1546933236,'idle_x86_64',1),(151,1546933236,'dead_x86_64',0),(152,1546933236,'down_x86_64',0),(153,1546933236,'away_x86_64',0),(154,1546933236,'squeue_high_armv7el',0),(155,1546933236,'squeue_next_armv7el',0),(156,1546933236,'squeue_med_armv7el',0),(157,1546933236,'squeue_low_armv7el',0),(158,1546933236,'squeue_high_armv8el',0),(159,1546933236,'squeue_next_armv8el',0),(160,1546933236,'squeue_med_armv8el',0),(161,1546933236,'squeue_low_armv8el',0),(162,1546933236,'squeue_high_i586',0),(163,1546933236,'squeue_next_i586',0),(164,1546933236,'squeue_med_i586',0),(165,1546933236,'squeue_low_i586',0),(166,1546933236,'squeue_high_x86_64',0),(167,1546933236,'squeue_next_x86_64',0),(168,1546933236,'squeue_med_x86_64',0),(169,1546933236,'squeue_low_x86_64',0),(170,1546933266,'blocked_armv7el',0),(171,1546933266,'blocked_armv8el',0),(172,1546933266,'blocked_i586',0),(173,1546933266,'blocked_x86_64',0),(174,1546933266,'waiting_armv7el',0),(175,1546933266,'waiting_armv8el',0),(176,1546933266,'waiting_i586',0),(177,1546933266,'waiting_x86_64',0),(178,1546933266,'building_x86_64',0),(179,1546933266,'idle_x86_64',1),(180,1546933266,'dead_x86_64',0),(181,1546933266,'down_x86_64',0),(182,1546933266,'away_x86_64',0),(183,1546933266,'squeue_high_armv7el',0),(184,1546933266,'squeue_next_armv7el',0),(185,1546933266,'squeue_med_armv7el',0),(186,1546933266,'squeue_low_armv7el',0),(187,1546933266,'squeue_high_armv8el',0),(188,1546933266,'squeue_next_armv8el',0),(189,1546933266,'squeue_med_armv8el',0),(190,1546933266,'squeue_low_armv8el',0),(191,1546933266,'squeue_high_i586',0),(192,1546933266,'squeue_next_i586',0),(193,1546933266,'squeue_med_i586',0),(194,1546933266,'squeue_low_i586',0),(195,1546933266,'squeue_high_x86_64',0),(196,1546933266,'squeue_next_x86_64',0),(197,1546933266,'squeue_med_x86_64',0),(198,1546933266,'squeue_low_x86_64',0),(199,1546933296,'blocked_armv7el',0),(200,1546933296,'blocked_armv8el',0),(201,1546933296,'blocked_i586',0),(202,1546933296,'blocked_x86_64',0),(203,1546933296,'waiting_armv7el',0),(204,1546933296,'waiting_armv8el',0),(205,1546933296,'waiting_i586',0),(206,1546933296,'waiting_x86_64',0),(207,1546933296,'building_x86_64',0),(208,1546933296,'idle_x86_64',1),(209,1546933296,'dead_x86_64',0),(210,1546933296,'down_x86_64',0),(211,1546933296,'away_x86_64',0),(212,1546933296,'squeue_high_armv7el',0),(213,1546933296,'squeue_next_armv7el',0),(214,1546933296,'squeue_med_armv7el',0),(215,1546933296,'squeue_low_armv7el',0),(216,1546933296,'squeue_high_armv8el',0),(217,1546933296,'squeue_next_armv8el',0),(218,1546933296,'squeue_med_armv8el',0),(219,1546933296,'squeue_low_armv8el',0),(220,1546933296,'squeue_high_i586',0),(221,1546933296,'squeue_next_i586',0),(222,1546933296,'squeue_med_i586',0),(223,1546933296,'squeue_low_i586',0),(224,1546933296,'squeue_high_x86_64',0),(225,1546933296,'squeue_next_x86_64',0),(226,1546933296,'squeue_med_x86_64',0),(227,1546933296,'squeue_low_x86_64',0),(228,1546933326,'blocked_armv7el',0),(229,1546933326,'blocked_armv8el',0),(230,1546933326,'blocked_i586',0),(231,1546933326,'blocked_x86_64',0),(232,1546933326,'waiting_armv7el',0),(233,1546933326,'waiting_armv8el',0),(234,1546933326,'waiting_i586',0),(235,1546933326,'waiting_x86_64',0),(236,1546933326,'building_x86_64',0),(237,1546933326,'idle_x86_64',1),(238,1546933326,'dead_x86_64',0),(239,1546933326,'down_x86_64',0),(240,1546933326,'away_x86_64',0),(241,1546933326,'squeue_high_armv7el',0),(242,1546933326,'squeue_next_armv7el',0),(243,1546933326,'squeue_med_armv7el',0),(244,1546933326,'squeue_low_armv7el',0),(245,1546933326,'squeue_high_armv8el',0),(246,1546933326,'squeue_next_armv8el',0),(247,1546933326,'squeue_med_armv8el',0),(248,1546933326,'squeue_low_armv8el',0),(249,1546933326,'squeue_high_i586',0),(250,1546933326,'squeue_next_i586',0),(251,1546933326,'squeue_med_i586',0),(252,1546933326,'squeue_low_i586',0),(253,1546933326,'squeue_high_x86_64',0),(254,1546933326,'squeue_next_x86_64',0),(255,1546933326,'squeue_med_x86_64',0),(256,1546933326,'squeue_low_x86_64',0),(257,1546933356,'blocked_armv7el',0),(258,1546933356,'blocked_armv8el',0),(259,1546933356,'blocked_i586',0),(260,1546933356,'blocked_x86_64',0),(261,1546933356,'waiting_armv7el',0),(262,1546933356,'waiting_armv8el',0),(263,1546933356,'waiting_i586',0),(264,1546933356,'waiting_x86_64',0),(265,1546933356,'building_x86_64',0),(266,1546933356,'idle_x86_64',1),(267,1546933356,'dead_x86_64',0),(268,1546933356,'down_x86_64',0),(269,1546933356,'away_x86_64',0),(270,1546933356,'squeue_high_armv7el',0),(271,1546933356,'squeue_next_armv7el',0),(272,1546933356,'squeue_med_armv7el',0),(273,1546933356,'squeue_low_armv7el',0),(274,1546933356,'squeue_high_armv8el',0),(275,1546933356,'squeue_next_armv8el',0),(276,1546933356,'squeue_med_armv8el',0),(277,1546933356,'squeue_low_armv8el',0),(278,1546933356,'squeue_high_i586',0),(279,1546933356,'squeue_next_i586',0),(280,1546933356,'squeue_med_i586',0),(281,1546933356,'squeue_low_i586',0),(282,1546933356,'squeue_high_x86_64',0),(283,1546933356,'squeue_next_x86_64',0),(284,1546933356,'squeue_med_x86_64',0),(285,1546933356,'squeue_low_x86_64',0),(286,1546933386,'blocked_armv7el',0),(287,1546933386,'blocked_armv8el',0),(288,1546933386,'blocked_i586',0),(289,1546933386,'blocked_x86_64',0),(290,1546933386,'waiting_armv7el',0),(291,1546933386,'waiting_armv8el',0),(292,1546933386,'waiting_i586',0),(293,1546933386,'waiting_x86_64',0),(294,1546933386,'building_x86_64',0),(295,1546933386,'idle_x86_64',1),(296,1546933386,'dead_x86_64',0),(297,1546933386,'down_x86_64',0),(298,1546933386,'away_x86_64',0),(299,1546933386,'squeue_high_armv7el',0),(300,1546933386,'squeue_next_armv7el',0),(301,1546933386,'squeue_med_armv7el',0),(302,1546933386,'squeue_low_armv7el',0),(303,1546933386,'squeue_high_armv8el',0),(304,1546933386,'squeue_next_armv8el',0),(305,1546933386,'squeue_med_armv8el',0),(306,1546933386,'squeue_low_armv8el',0),(307,1546933386,'squeue_high_i586',0),(308,1546933386,'squeue_next_i586',0),(309,1546933386,'squeue_med_i586',0),(310,1546933386,'squeue_low_i586',0),(311,1546933386,'squeue_high_x86_64',0),(312,1546933386,'squeue_next_x86_64',0),(313,1546933386,'squeue_med_x86_64',0),(314,1546933386,'squeue_low_x86_64',0),(315,1546933416,'blocked_armv7el',0),(316,1546933416,'blocked_armv8el',0),(317,1546933416,'blocked_i586',0),(318,1546933416,'blocked_x86_64',0),(319,1546933416,'waiting_armv7el',0),(320,1546933416,'waiting_armv8el',0),(321,1546933416,'waiting_i586',0),(322,1546933416,'waiting_x86_64',0),(323,1546933416,'building_x86_64',0),(324,1546933416,'idle_x86_64',1),(325,1546933416,'dead_x86_64',0),(326,1546933416,'down_x86_64',0),(327,1546933416,'away_x86_64',0),(328,1546933416,'squeue_high_armv7el',0),(329,1546933416,'squeue_next_armv7el',0),(330,1546933416,'squeue_med_armv7el',0),(331,1546933416,'squeue_low_armv7el',0),(332,1546933416,'squeue_high_armv8el',0),(333,1546933416,'squeue_next_armv8el',0),(334,1546933416,'squeue_med_armv8el',0),(335,1546933416,'squeue_low_armv8el',0),(336,1546933416,'squeue_high_i586',0),(337,1546933416,'squeue_next_i586',0),(338,1546933416,'squeue_med_i586',0),(339,1546933416,'squeue_low_i586',0),(340,1546933416,'squeue_high_x86_64',0),(341,1546933416,'squeue_next_x86_64',0),(342,1546933416,'squeue_med_x86_64',0),(343,1546933416,'squeue_low_x86_64',0),(344,1546933446,'blocked_armv7el',0),(345,1546933446,'blocked_armv8el',0),(346,1546933446,'blocked_i586',0),(347,1546933446,'blocked_x86_64',0),(348,1546933446,'waiting_armv7el',0),(349,1546933446,'waiting_armv8el',0),(350,1546933446,'waiting_i586',0),(351,1546933446,'waiting_x86_64',0),(352,1546933446,'building_x86_64',0),(353,1546933446,'idle_x86_64',1),(354,1546933446,'dead_x86_64',0),(355,1546933446,'down_x86_64',0),(356,1546933446,'away_x86_64',0),(357,1546933446,'squeue_high_armv7el',0),(358,1546933446,'squeue_next_armv7el',0),(359,1546933446,'squeue_med_armv7el',0),(360,1546933446,'squeue_low_armv7el',0),(361,1546933446,'squeue_high_armv8el',0),(362,1546933446,'squeue_next_armv8el',0),(363,1546933446,'squeue_med_armv8el',0),(364,1546933446,'squeue_low_armv8el',0),(365,1546933446,'squeue_high_i586',0),(366,1546933446,'squeue_next_i586',0),(367,1546933446,'squeue_med_i586',0),(368,1546933446,'squeue_low_i586',0),(369,1546933446,'squeue_high_x86_64',0),(370,1546933446,'squeue_next_x86_64',0),(371,1546933446,'squeue_med_x86_64',0),(372,1546933446,'squeue_low_x86_64',0),(373,1546933476,'blocked_armv7el',0),(374,1546933476,'blocked_armv8el',0),(375,1546933476,'blocked_i586',0),(376,1546933476,'blocked_x86_64',0),(377,1546933476,'waiting_armv7el',0),(378,1546933476,'waiting_armv8el',0),(379,1546933476,'waiting_i586',0),(380,1546933476,'waiting_x86_64',0),(381,1546933476,'building_x86_64',0),(382,1546933476,'idle_x86_64',1),(383,1546933476,'dead_x86_64',0),(384,1546933476,'down_x86_64',0),(385,1546933476,'away_x86_64',0),(386,1546933476,'squeue_high_armv7el',0),(387,1546933476,'squeue_next_armv7el',0),(388,1546933476,'squeue_med_armv7el',0),(389,1546933476,'squeue_low_armv7el',0),(390,1546933476,'squeue_high_armv8el',0),(391,1546933476,'squeue_next_armv8el',0),(392,1546933476,'squeue_med_armv8el',0),(393,1546933476,'squeue_low_armv8el',0),(394,1546933476,'squeue_high_i586',0),(395,1546933476,'squeue_next_i586',0),(396,1546933476,'squeue_med_i586',0),(397,1546933476,'squeue_low_i586',0),(398,1546933476,'squeue_high_x86_64',0),(399,1546933476,'squeue_next_x86_64',0),(400,1546933476,'squeue_med_x86_64',0),(401,1546933476,'squeue_low_x86_64',0),(402,1546933506,'blocked_armv7el',0),(403,1546933506,'blocked_armv8el',0),(404,1546933506,'blocked_i586',0),(405,1546933506,'blocked_x86_64',0),(406,1546933506,'waiting_armv7el',0),(407,1546933506,'waiting_armv8el',0),(408,1546933506,'waiting_i586',0),(409,1546933506,'waiting_x86_64',0),(410,1546933506,'building_x86_64',0),(411,1546933506,'idle_x86_64',1),(412,1546933506,'dead_x86_64',0),(413,1546933506,'down_x86_64',0),(414,1546933506,'away_x86_64',0),(415,1546933506,'squeue_high_armv7el',0),(416,1546933506,'squeue_next_armv7el',0),(417,1546933506,'squeue_med_armv7el',0),(418,1546933506,'squeue_low_armv7el',0),(419,1546933506,'squeue_high_armv8el',1),(420,1546933506,'squeue_next_armv8el',0),(421,1546933506,'squeue_med_armv8el',0),(422,1546933506,'squeue_low_armv8el',2),(423,1546933506,'squeue_high_i586',0),(424,1546933506,'squeue_next_i586',0),(425,1546933506,'squeue_med_i586',0),(426,1546933506,'squeue_low_i586',1),(427,1546933506,'squeue_high_x86_64',0),(428,1546933506,'squeue_next_x86_64',0),(429,1546933506,'squeue_med_x86_64',0),(430,1546933506,'squeue_low_x86_64',0),(431,1546933536,'blocked_armv7el',0),(432,1546933536,'blocked_armv8el',0),(433,1546933536,'blocked_i586',0),(434,1546933536,'blocked_x86_64',0),(435,1546933536,'waiting_armv7el',0),(436,1546933536,'waiting_armv8el',0),(437,1546933536,'waiting_i586',0),(438,1546933536,'waiting_x86_64',0),(439,1546933536,'building_x86_64',0),(440,1546933536,'idle_x86_64',1),(441,1546933536,'dead_x86_64',0),(442,1546933536,'down_x86_64',0),(443,1546933536,'away_x86_64',0),(444,1546933536,'squeue_high_armv7el',0),(445,1546933536,'squeue_next_armv7el',0),(446,1546933536,'squeue_med_armv7el',0),(447,1546933536,'squeue_low_armv7el',0),(448,1546933536,'squeue_high_armv8el',1),(449,1546933536,'squeue_next_armv8el',0),(450,1546933536,'squeue_med_armv8el',0),(451,1546933536,'squeue_low_armv8el',2),(452,1546933536,'squeue_high_i586',0),(453,1546933536,'squeue_next_i586',0),(454,1546933536,'squeue_med_i586',0),(455,1546933536,'squeue_low_i586',1),(456,1546933536,'squeue_high_x86_64',0),(457,1546933536,'squeue_next_x86_64',0),(458,1546933536,'squeue_med_x86_64',0),(459,1546933536,'squeue_low_x86_64',0),(460,1546933566,'blocked_armv7el',0),(461,1546933566,'blocked_armv8el',0),(462,1546933566,'blocked_i586',0),(463,1546933566,'blocked_x86_64',0),(464,1546933566,'waiting_armv7el',0),(465,1546933566,'waiting_armv8el',0),(466,1546933566,'waiting_i586',0),(467,1546933566,'waiting_x86_64',0),(468,1546933566,'building_x86_64',0),(469,1546933566,'idle_x86_64',1),(470,1546933566,'dead_x86_64',0),(471,1546933566,'down_x86_64',0),(472,1546933566,'away_x86_64',0),(473,1546933566,'squeue_high_armv7el',0),(474,1546933566,'squeue_next_armv7el',0),(475,1546933566,'squeue_med_armv7el',0),(476,1546933566,'squeue_low_armv7el',0),(477,1546933566,'squeue_high_armv8el',1),(478,1546933566,'squeue_next_armv8el',0),(479,1546933566,'squeue_med_armv8el',0),(480,1546933566,'squeue_low_armv8el',2),(481,1546933566,'squeue_high_i586',0),(482,1546933566,'squeue_next_i586',0),(483,1546933566,'squeue_med_i586',0),(484,1546933566,'squeue_low_i586',1),(485,1546933566,'squeue_high_x86_64',0),(486,1546933566,'squeue_next_x86_64',0),(487,1546933566,'squeue_med_x86_64',0),(488,1546933566,'squeue_low_x86_64',0),(489,1546933596,'blocked_armv7el',0),(490,1546933596,'blocked_armv8el',0),(491,1546933596,'blocked_i586',0),(492,1546933596,'blocked_x86_64',0),(493,1546933596,'waiting_armv7el',0),(494,1546933596,'waiting_armv8el',0),(495,1546933596,'waiting_i586',0),(496,1546933596,'waiting_x86_64',0),(497,1546933596,'building_x86_64',0),(498,1546933596,'idle_x86_64',1),(499,1546933596,'dead_x86_64',0),(500,1546933596,'down_x86_64',0),(501,1546933596,'away_x86_64',0),(502,1546933596,'squeue_high_armv7el',0),(503,1546933596,'squeue_next_armv7el',0),(504,1546933596,'squeue_med_armv7el',0),(505,1546933596,'squeue_low_armv7el',0),(506,1546933596,'squeue_high_armv8el',1),(507,1546933596,'squeue_next_armv8el',0),(508,1546933596,'squeue_med_armv8el',0),(509,1546933596,'squeue_low_armv8el',2),(510,1546933596,'squeue_high_i586',0),(511,1546933596,'squeue_next_i586',0),(512,1546933596,'squeue_med_i586',0),(513,1546933596,'squeue_low_i586',1),(514,1546933596,'squeue_high_x86_64',0),(515,1546933596,'squeue_next_x86_64',0),(516,1546933596,'squeue_med_x86_64',0),(517,1546933596,'squeue_low_x86_64',0),(518,1546933626,'blocked_armv7el',0),(519,1546933626,'blocked_armv8el',0),(520,1546933626,'blocked_i586',0),(521,1546933626,'blocked_x86_64',0),(522,1546933626,'waiting_armv7el',0),(523,1546933626,'waiting_armv8el',0),(524,1546933626,'waiting_i586',0),(525,1546933626,'waiting_x86_64',0),(526,1546933626,'building_x86_64',0),(527,1546933626,'idle_x86_64',1),(528,1546933626,'dead_x86_64',0),(529,1546933626,'down_x86_64',0),(530,1546933626,'away_x86_64',0),(531,1546933626,'squeue_high_armv7el',0),(532,1546933626,'squeue_next_armv7el',0),(533,1546933626,'squeue_med_armv7el',0),(534,1546933626,'squeue_low_armv7el',0),(535,1546933626,'squeue_high_armv8el',1),(536,1546933626,'squeue_next_armv8el',0),(537,1546933626,'squeue_med_armv8el',0),(538,1546933626,'squeue_low_armv8el',2),(539,1546933626,'squeue_high_i586',0),(540,1546933626,'squeue_next_i586',0),(541,1546933626,'squeue_med_i586',0),(542,1546933626,'squeue_low_i586',1),(543,1546933626,'squeue_high_x86_64',0),(544,1546933626,'squeue_next_x86_64',0),(545,1546933626,'squeue_med_x86_64',0),(546,1546933626,'squeue_low_x86_64',0),(547,1546933656,'blocked_armv7el',0),(548,1546933656,'blocked_armv8el',0),(549,1546933656,'blocked_i586',0),(550,1546933656,'blocked_x86_64',0),(551,1546933656,'waiting_armv7el',0),(552,1546933656,'waiting_armv8el',0),(553,1546933656,'waiting_i586',0),(554,1546933656,'waiting_x86_64',0),(555,1546933656,'building_x86_64',0),(556,1546933656,'idle_x86_64',1),(557,1546933656,'dead_x86_64',0),(558,1546933656,'down_x86_64',0),(559,1546933656,'away_x86_64',0),(560,1546933656,'squeue_high_armv7el',0),(561,1546933656,'squeue_next_armv7el',0),(562,1546933656,'squeue_med_armv7el',0),(563,1546933656,'squeue_low_armv7el',0),(564,1546933656,'squeue_high_armv8el',1),(565,1546933656,'squeue_next_armv8el',0),(566,1546933656,'squeue_med_armv8el',0),(567,1546933656,'squeue_low_armv8el',2),(568,1546933656,'squeue_high_i586',0),(569,1546933656,'squeue_next_i586',0),(570,1546933656,'squeue_med_i586',0),(571,1546933656,'squeue_low_i586',1),(572,1546933656,'squeue_high_x86_64',0),(573,1546933656,'squeue_next_x86_64',0),(574,1546933656,'squeue_med_x86_64',0),(575,1546933656,'squeue_low_x86_64',0),(576,1546933686,'blocked_armv7el',0),(577,1546933686,'blocked_armv8el',0),(578,1546933686,'blocked_i586',0),(579,1546933686,'blocked_x86_64',0),(580,1546933686,'waiting_armv7el',0),(581,1546933686,'waiting_armv8el',0),(582,1546933686,'waiting_i586',0),(583,1546933686,'waiting_x86_64',0),(584,1546933686,'building_x86_64',0),(585,1546933686,'idle_x86_64',1),(586,1546933686,'dead_x86_64',0),(587,1546933686,'down_x86_64',0),(588,1546933686,'away_x86_64',0),(589,1546933686,'squeue_high_armv7el',0),(590,1546933686,'squeue_next_armv7el',0),(591,1546933686,'squeue_med_armv7el',0),(592,1546933686,'squeue_low_armv7el',0),(593,1546933686,'squeue_high_armv8el',1),(594,1546933686,'squeue_next_armv8el',0),(595,1546933686,'squeue_med_armv8el',0),(596,1546933686,'squeue_low_armv8el',2),(597,1546933686,'squeue_high_i586',0),(598,1546933686,'squeue_next_i586',0),(599,1546933686,'squeue_med_i586',0),(600,1546933686,'squeue_low_i586',1),(601,1546933686,'squeue_high_x86_64',0),(602,1546933686,'squeue_next_x86_64',0),(603,1546933686,'squeue_med_x86_64',0),(604,1546933686,'squeue_low_x86_64',0);
 /*!40000 ALTER TABLE `status_histories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2099,63 +2544,6 @@ LOCK TABLES `status_messages` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `taggings`
---
-
-DROP TABLE IF EXISTS `taggings`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `taggings` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `taggable_id` int(11) DEFAULT NULL,
-  `taggable_type` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `tag_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `taggings_taggable_id_index` (`taggable_id`,`taggable_type`,`tag_id`,`user_id`),
-  KEY `index_taggings_on_taggable_type` (`taggable_type`),
-  KEY `tag_id` (`tag_id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `taggings_ibfk_1` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`id`),
-  CONSTRAINT `taggings_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `taggings`
---
-
-LOCK TABLES `taggings` WRITE;
-/*!40000 ALTER TABLE `taggings` DISABLE KEYS */;
-/*!40000 ALTER TABLE `taggings` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tags`
---
-
-DROP TABLE IF EXISTS `tags`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tags` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `tags_name_unique_index` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tags`
---
-
-LOCK TABLES `tags` WRITE;
-/*!40000 ALTER TABLE `tags` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tags` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `tokens`
 --
 
@@ -2167,6 +2555,7 @@ CREATE TABLE `tokens` (
   `string` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `package_id` int(11) DEFAULT NULL,
+  `type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_tokens_on_string` (`string`),
   KEY `user_id` (`user_id`),
@@ -2186,13 +2575,13 @@ LOCK TABLES `tokens` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `updateinfo_counter`
+-- Table structure for table `updateinfo_counters`
 --
 
-DROP TABLE IF EXISTS `updateinfo_counter`;
+DROP TABLE IF EXISTS `updateinfo_counters`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `updateinfo_counter` (
+CREATE TABLE `updateinfo_counters` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `maintenance_db_project_id` int(11) DEFAULT NULL,
   `day` int(11) DEFAULT NULL,
@@ -2204,12 +2593,12 @@ CREATE TABLE `updateinfo_counter` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `updateinfo_counter`
+-- Dumping data for table `updateinfo_counters`
 --
 
-LOCK TABLES `updateinfo_counter` WRITE;
-/*!40000 ALTER TABLE `updateinfo_counter` DISABLE KEYS */;
-/*!40000 ALTER TABLE `updateinfo_counter` ENABLE KEYS */;
+LOCK TABLES `updateinfo_counters` WRITE;
+/*!40000 ALTER TABLE `updateinfo_counters` DISABLE KEYS */;
+/*!40000 ALTER TABLE `updateinfo_counters` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -2251,21 +2640,23 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
+  `updated_at` datetime(6) DEFAULT NULL,
   `last_logged_in_at` datetime DEFAULT NULL,
   `login_failure_count` int(11) NOT NULL DEFAULT '0',
   `login` text COLLATE utf8_bin,
   `email` varchar(200) CHARACTER SET utf8 NOT NULL DEFAULT '',
   `realname` varchar(200) CHARACTER SET utf8 NOT NULL DEFAULT '',
-  `password` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '',
-  `password_hash_type` varchar(20) CHARACTER SET utf8 NOT NULL DEFAULT '',
-  `password_salt` varchar(10) CHARACTER SET utf8 NOT NULL DEFAULT '1234512345',
-  `password_crypted` varchar(64) CHARACTER SET utf8 DEFAULT NULL,
-  `state` int(11) NOT NULL DEFAULT '1',
+  `password_digest` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `deprecated_password` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `deprecated_password_hash_type` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `deprecated_password_salt` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `adminnote` text CHARACTER SET utf8,
+  `state` enum('unconfirmed','confirmed','locked','deleted','subaccount') COLLATE utf8_bin DEFAULT 'unconfirmed',
+  `owner_id` int(11) DEFAULT NULL,
+  `ignore_auth_services` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_login_index` (`login`(255)),
-  KEY `users_password_index` (`password`)
+  KEY `users_password_index` (`deprecated_password`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2275,7 +2666,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'2018-12-31 08:31:22','2018-12-31 08:31:22',NULL,0,'Admin','root@localhost','OBS Instance Superuser','38bfbba7fed0cd6fb2924243bcde8d0a','md5','Wp7AFZTrUJ','osQq6OKjF0f8I',2,NULL),(2,'2018-12-31 08:31:22','2018-12-31 08:31:22',NULL,0,'_nobody_','nobody@localhost','Anonymous User','72e8fb4c992e4b608f0f4223b4e1fe8d','md5','2MuteeZyBY','osEJSjdDGtlBY',3,NULL);
+INSERT INTO `users` VALUES (1,'2019-01-08 07:34:30','2019-01-08 07:46:51.472958','2019-01-08 07:46:51',0,'Admin','root@localhost','OBS Instance Superuser','$2a$10$Rrmfm9ym.erwM3AWA7k64uoNUzQCOBzpq6/yPWSNDeDG0BivcJtB2',NULL,NULL,NULL,NULL,'confirmed',NULL,0),(2,'2019-01-08 07:34:30','2019-01-08 07:34:30.000000',NULL,0,'_nobody_','nobody@localhost','Anonymous User',NULL,'416333d0da34b99107b6ca037caf13e9','md5','WyxsC9GKF5',NULL,'locked',NULL,0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2314,4 +2705,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-03 15:00:11
+-- Dump completed on 2019-01-08  8:48:06
