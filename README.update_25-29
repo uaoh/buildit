@@ -1,0 +1,79 @@
+# Upgrading OBS 2.5 to 2.9
+
+## Prerequisites
+
+The process described here assumes a fairly standard OBS 2.5 setup, "like the
+ones Jolla runs."  *¡But*, does not cover any integration with e.g. LDAP or CI*!*
+
+## Demo/test
+
+Please see `buildit.sh`.
+
+## The process
+
+Roughly, the steps are:
+
+1. (Back up your stuff!)
+2. Shut down services
+3. Juggle repos
+4. Update packages
+5. Run migrations
+6. Update conf
+7. Apply misc fixes (tm)
+8. Enable & start services
+
+Backing up stuff is left as an excercise for the reader.
+
+_N.B. Steps 2 - 8 are covered by `shared/scripts/0080-obs_update-25-29.sh`_
+
+### Step 2: Shut down services
+
+    # systemctl stop obssrcserver
+    # systemctl stop obsrepserver
+    # systemctl stop apache2
+
+### Step 3: Juggle repos
+
+_N.B. This assumes the old OBS repo is `obs_server_mer-2.5_42.1`, please adjust
+accordingly._
+
+    # zypper rr obs_server_mer-2.5_42.1
+    # zypper ar "<path_to/shared/obs:server:2.9:mer.repo>"
+
+### Step 4: Update packages
+
+    # zypper dup -y --no-recommends
+
+### Step 5: Run migrations
+
+First, eliminate a couple of troublesome migrations:
+
+    # rm /srv/www/obs/api/db/migrate/20181030161701_add_package_column_to_flags_table.rb
+    # rm /srv/www/obs/api/db/migrate/20141002130129_new_suse_bugzillas.rb
+
+Then, run the remaining set:
+
+    # cd /srv/www/obs/api/
+    # RAILS_ENV="production" rails.ruby2.5 db:migrate:with_data
+
+### Step 6: Update conf
+
+    # sed -ri '
+          s@^(\s*PassengerRuby\s+"/usr/bin/ruby)(".*)$@\1.ruby2.5\2@
+        ' /etc/apache2/conf.d/mod_passenger.conf
+
+### Step 7: Apply misc fixes (tm)
+
+    # chown -R wwwrun:www /srv/www/obs/api/log
+    # chown -R wwwrun:www /srv/www/obs/api/tmp
+    # mkdir -p /srv/obs/dods
+    # chown -R obsrun:obsrun /srv/obs/dods
+
+### Step 8: Enable & start services
+
+    # systemctl enable obsrepserver obssrcserver mysql obsscheduler  \
+     obsdispatcher obspublisher obsservice memcached apache2 obsapidelayed  \
+     obswarden obsworker obsservicedispatch obsdodup obsdeltastore
+    # systemctl start obsrepserver obssrcserver mysql obsscheduler  \
+     obsdispatcher obspublisher obsservice memcached apache2 obsapidelayed  \
+     obswarden obsworker obsservicedispatch obsdodup obsdeltastore
