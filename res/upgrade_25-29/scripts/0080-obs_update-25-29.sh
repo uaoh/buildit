@@ -18,9 +18,10 @@ do
     echo "Adding repo from ${repo}"
     zypper ar "${repo}"
 done
+
 zypper ref
 rpm -qa | sort -u > /tmp/ci-preupdate_rpm-qa.txt
-zypper dup -y --no-recommends --details
+zypper dup -y --replacefiles --force-resolution --no-recommends --details
 rpm -qa | sort -u > /tmp/ci-postupdate_rpm-qa.txt
 
 # This is not super nice but is currently required
