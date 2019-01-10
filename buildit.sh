@@ -2,6 +2,7 @@
 set -eu
 
 d_my="$( dirname "$( readlink -e "${0}" )" )"
+d_mnt="$( mktemp -d )"
 #d_tmp="$( mktemp -d )"
 
 d_tmp="${d_my}/tmp"
@@ -14,6 +15,8 @@ mkdir -p "${d_tmp}"
 cleanup()
 {
     rm -rf "${d_tmp}"
+    umount "${d_mnt}" || :
+    rmdir "${d_mnt}"
 }
 trap cleanup EXIT
 
@@ -136,20 +139,20 @@ setup_storage(){
 
 mount_guest(){
     echo "*** Mounting guest ***"
-    mount "/dev/${VG}/${VM}-root-snap" /mnt
+    mount "/dev/${VG}/${VM}-root-snap" "${d_mnt}"
 }
 
 fixup_snapshot() {
     echo "*** Fixing up snapshot ***"
-    cat <<EOF > /mnt/etc/fstab
+    cat <<EOF > "${d_mnt}/etc/fstab"
 /dev/vda        /       ext4    rw,noatime,user_xattr,acl,barrier=1,data=ordered                                  0  1
 EOF
-    chroot /mnt systemctl enable cloud-init.service
-    chroot /mnt systemctl enable cloud-config.service
-    chroot /mnt systemctl enable cloud-final.service
+    chroot "${d_mnt}" systemctl enable cloud-init.service
+    chroot "${d_mnt}" systemctl enable cloud-config.service
+    chroot "${d_mnt}" systemctl enable cloud-final.service
 
-    echo "gpgcheck      = 0" >> /mnt/etc/zypp/zypp.conf
-    for f in /mnt/etc/zypp/repos.d/openSUSE-*.repo
+    echo "gpgcheck      = 0" >> "${d_mnt}/etc/zypp/zypp.conf"
+    for f in "${d_mnt}"/etc/zypp/repos.d/openSUSE-*.repo
     do
 	sed -ri '/^\s*priority\s*=\s*[0-9]+\s*/ d' "${f}"
 	echo "priority = 99" >> "${f}"
@@ -160,13 +163,13 @@ get_kernel() {
     echo "*** Getting the kernel ***"
     rm -rf "/kvmboot/${VM}"
     mkdir -p "/kvmboot/${VM}"
-    cp /mnt/boot/vmlinuz-* "/kvmboot/${VM}/"
-    cp /mnt/boot/initrd-* "/kvmboot/${VM}/"
+    cp "${d_mnt}"/boot/vmlinuz-* "/kvmboot/${VM}/"
+    cp "${d_mnt}"/boot/initrd-* "/kvmboot/${VM}/"
 }
 
 umount_guest(){
     echo "*** Unmounting guest ***"
-    umount /mnt
+    umount "${d_mnt}"
 }
 create_network(){
     echo "*** Creating the network ***"
