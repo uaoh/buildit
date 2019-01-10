@@ -24,7 +24,7 @@ Roughly, the steps are:
 
 Backing up stuff is left as an excercise for the reader.
 
-_N.B. Steps 2 - 8 are covered by `shared/scripts/0080-obs_update-25-29.sh`_
+_N.B. Steps 2 - 8 are covered by `res/upgrade_25-29/scripts/0080-obs_update-25-29.sh`_
 
 ### Step 2: Shut down services
 
@@ -38,7 +38,7 @@ _N.B. This assumes the old OBS repo is `obs_server_mer-2.5_42.1`, please adjust
 accordingly._
 
     # zypper rr obs_server_mer-2.5_42.1
-    # zypper ar "<path_to/shared/obs:server:2.9:mer.repo>"
+    # zypper ar "<path_to/res/upgrade_25-29/obs:server:2.9:mer.repo>"
 
 ### Step 4: Update packages
 

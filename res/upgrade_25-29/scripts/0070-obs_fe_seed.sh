@@ -12,8 +12,9 @@ then
 else
     echo "No SQL dump for ${db}, ignoring."
 fi
-{
-    find /host/sql -name "${db}.patch-*.sql" -print0 |
-        sort -zn |
-        xargs -0 -r -n 1 -I @ cat @
-} | mysql -u root -p'skytree' "${db}"
+test -d /host/sql &&
+    {
+	find /host/sql -name "${db}.patch-*.sql" -print0 |
+            sort -zn |
+            xargs -0 -r -n 1 -I @ cat @
+    } | mysql -u root -p'skytree' "${db}"

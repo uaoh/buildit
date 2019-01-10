@@ -1,41 +1,145 @@
 #!/bin/bash
+set -eu
 
-export VM=ci
-export VG=ubuntu-vg
+d_my="$( dirname "$( readlink -e "${0}" )" )"
+#d_tmp="$( mktemp -d )"
 
-function clean_old_vm(){
-    echo "*** Cleaning old VM ***"
-    virsh destroy $VM
-    virsh undefine $VM
+d_tmp="${d_my}/tmp"
+test -e "${d_tmp}" && {
+    echo "${d_tmp} exists, stop."
+    exit 42
+}
+mkdir -p "${d_tmp}"
+
+cleanup()
+{
+    rm -rf "${d_tmp}"
+}
+trap cleanup EXIT
+
+usage()
+{
+    bn="$( basename "${0}" )"
+    bs="${bn//?/ }"
+    {
+	echo "Usage: ${bn} [-l|<resource_set>]"
+	echo "       ${bs} [-vm <vm_prefix>]"
+	echo "       ${bs} [-vg <vol_group>]"
+    } >&2
+    exit 1
 }
 
-function setup_storage(){
+VM=ci
+VG=ubuntu-vg
+
+res_sets=(
+    $(
+	rd="$( readlink -e "${d_my}/res" )"
+	find "${rd}" -regex "${rd}/[^/]+/scripts/[0-9]+-[a-z_-]+\.sh" -print0 |
+	    xargs -0 -n 1 -r dirname -z |
+	    sort -zu |
+	    xargs -0 -n 1 -r dirname -z |
+	    xargs -0 -n 1 -r basename
+    )
+)
+res_set=
+
+while test ${#} -gt 0
+do
+    case "${1}" in
+	-l)
+	    for ss in "${res_sets[@]}"
+	    do
+		echo "${ss}"
+	    done
+	    shift
+	    exit 0
+	    ;;
+	-vm)
+	    [[ "${2:-}" =~ ^[^-] ]] || {
+		echo "Missing value for -vm"
+		exit 42
+	    }
+	    VM="${2}"
+	    shift 2
+	    ;;
+	-vg)
+	    [[ "${2:-}" =~ ^[^-] ]] || {
+		echo "Missing value for -vg"
+		exit 42
+	    }
+	    VG="${2}"
+	    shift 2
+	    ;;
+	*)
+	    c="$( basename "${1}" )"
+	    shift
+	    for ss in "${res_sets[@]}"
+	    do
+		test "${c}" = "${ss}" && {
+		    res_set="${c}"
+		    break
+		}
+	    done
+	    test -z "${res_set}" && {
+		echo "No such script set '${c}'"
+		exit 42
+	    }
+	    ;;
+    esac
+done
+
+test -z "${res_set}" &&
+    select res_set in "${res_sets[@]}"
+    do
+	test -z "${res_set}" ||
+	    break
+    done
+
+export VM VG
+
+mkdir "${d_tmp}/share"
+rsync -a "${d_my}/res/${res_set}/" "${d_tmp}/share/"
+rsync -a "${d_my}/res/common/" "${d_tmp}/share/"
+
+clean_old_vm(){
+    echo "*** Cleaning old VM ***"
+    virsh destroy "$VM" || :
+    virsh undefine "$VM" || :
+}
+
+setup_storage(){
     echo "*** Setting up storage ***"
-    if ! lvs -S 'lv_name = thinpool' -o lv_name --noheading |grep "^  thinpool$" > /dev/null; then
-        echo No thin pool. Creating...
-        lvcreate -L 1G -T ${VG}/thinpool || exit 1
+    if
+	! lvs -S 'lv_name = thinpool' -o lv_name --noheading |
+	    grep -q "^  thinpool$"
+    then
+        echo "No thin pool. Creating..."
+        lvcreate -L 1G -T "${VG}/thinpool"
     fi
-    if [[ ! -e /dev/${VG}/${VM}-root ]]; then
-        echo No root fs
+    if
+	[[ ! -e "/dev/${VG}/${VM}-root" ]]
+    then
+        echo "No root fs" >&2
         exit 1
     fi
 
-    lvremove -f /dev/${VG}/${VM}-root-snap
-    lvcreate --snapshot --name ${VM}-root-snap --size 5G /dev/${VG}/${VM}-root || exit 1
+    lvremove -f "/dev/${VG}/${VM}-root-snap"
+    lvcreate --snapshot --name "${VM}-root-snap" --size 5G "/dev/${VG}/${VM}-root"
     # Make thin data and swap LVs
-    lvremove -f /dev/${VG}/${VM}-data
-    lvremove -f /dev/${VG}/${VM}-swap
-    lvcreate --name ${VM}-data -V 10G ${VG}/thinpool
-    lvcreate --name ${VM}-swap -V 1G ${VG}/thinpool
-    mkswap /dev/${VG}/${VM}-swap
+    lvremove -f "/dev/${VG}/${VM}-data"
+    lvremove -f "/dev/${VG}/${VM}-swap"
+    lvcreate --name "${VM}-data" -V 10G "${VG}/thinpool"
+    lvcreate --name "${VM}-swap" -V 1G "${VG}/thinpool"
+    mkswap "/dev/${VG}/${VM}-swap"
 }
 
-function mount_guest(){
+mount_guest(){
     echo "*** Mounting guest ***"
-    mount /dev/${VG}/${VM}-root-snap /mnt || exit 1
+    mount "/dev/${VG}/${VM}-root-snap" /mnt
 }
 
-function fixup_snapshot() {
+fixup_snapshot() {
     echo "*** Fixing up snapshot ***"
     cat <<EOF > /mnt/etc/fstab
 /dev/vda        /       ext4    rw,noatime,user_xattr,acl,barrier=1,data=ordered                                  0  1
@@ -52,21 +156,21 @@ EOF
     done
 }
 
-function get_kernel() {
+get_kernel() {
     echo "*** Getting the kernel ***"
-    rm -rf /kvmboot/${VM}
-    mkdir -p /kvmboot/${VM}
-    cp /mnt/boot/vmlinuz-*  /kvmboot/${VM}/
-    cp /mnt/boot/initrd-*  /kvmboot/${VM}/
+    rm -rf "/kvmboot/${VM}"
+    mkdir -p "/kvmboot/${VM}"
+    cp /mnt/boot/vmlinuz-* "/kvmboot/${VM}/"
+    cp /mnt/boot/initrd-* "/kvmboot/${VM}/"
 }
 
-function umount_guest(){
+umount_guest(){
     echo "*** Unmounting guest ***"
-    umount /mnt || exit 1
+    umount /mnt
 }
-function create_network(){
+create_network(){
     echo "*** Creating the network ***"
-    nw_tmp=$(mktemp)
+    nw_tmp="$( mktemp )"
     cat <<EOF > "${nw_tmp}"
 <network>
   <name>${VM}-network</name>
@@ -79,31 +183,41 @@ function create_network(){
   </ip>
 </network>
 EOF
-   virsh net-destroy ${VM}-network
-   virsh net-undefine ${VM}-network
-   virsh net-create "${nw_tmp}" || exit 1
-   rm "${nw_tmp}"
-}
-function create_config_iso(){
-    echo "*** Creating a config ISO ***"
-    genisoimage -o ${VM}_config.iso -V cidata -r -J meta-data user-data
-}
-function create_vm() {
-    echo "*** Creating the VM ***"
-    virt-install --name ${VM} --memory 2048 --os-type linux \
-         -w network=${VM}-network,model=virtio,mac=da:9c:4a:e0:bb:9f \
-         --disk path=/dev/${VG}/${VM}-root-snap,bus=virtio,cache=none,format=raw --import \
-         --disk path=/dev/${VG}/${VM}-swap,bus=virtio,cache=none,format=raw \
-         --disk path=/dev/${VG}/${VM}-data,bus=virtio,cache=none,format=raw \
-         --filesystem ${PWD}/share,host0 \
-         --graphics none \
-         --disk path=./${VM}_config.iso,device=cdrom\
-         --boot kernel=/kvmboot/${VM}/vmlinuz-4.4.165-81-default,initrd=/kvmboot/${VM}/initrd-4.4.165-81-default,kernel_args="root=/dev/vda console=ttyS0" || exit 1
+   virsh net-destroy "${VM}-network" || :
+   virsh net-undefine "${VM}-network" || :
+   virsh net-create "${nw_tmp}"
+   rm -f "${nw_tmp}"
 }
 
-function show_console() {
+create_config_iso(){
+    echo "*** Creating a config ISO ***"
+    genisoimage -o "${d_tmp}/${VM}_config.iso" -V cidata -r -J meta-data user-data
+}
+
+create_vm() {
+    boot=
+    boot="${boot}kernel=/kvmboot/${VM}/vmlinuz-4.4.165-81-default,"
+    boot="${boot}initrd=/kvmboot/${VM}/initrd-4.4.165-81-default,"
+    boot="${boot}kernel_args=\"root=/dev/vda console=ttyS0\""
+    disks=(
+        "path=/dev/${VG}/${VM}-root-snap,bus=virtio,cache=none,format=raw --import"
+        "path=/dev/${VG}/${VM}-swap,bus=virtio,cache=none,format=raw"
+        "path=/dev/${VG}/${VM}-data,bus=virtio,cache=none,format=raw"
+	"path=${d_tmp}/${VM}_config.iso,device=cdrom"
+    )
+
+    echo "*** Creating the VM ***"
+    virt-install --name "${VM}" --memory 2048 --os-type linux            \
+         -w network="${VM}-network",model=virtio,mac=da:9c:4a:e0:bb:9f   \
+         --filesystem "${d_tmp}/share",host0                             \
+         --graphics none                                                 \
+	 ${disks[@]/#/--disk }                                           \
+         --boot "${boot}"
+}
+
+show_console() {
     echo "*** Showing the console ***"
-    virsh console ${VM}
+    virsh console "${VM}"
 }
 
 
