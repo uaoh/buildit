@@ -142,6 +142,27 @@ mount_guest(){
     mount "/dev/${VG}/${VM}-root-snap" "${d_mnt}"
 }
 
+install_remove_packages()
+{
+    local pac_in=(
+	cloud-init
+	cloud-init-config-suse
+    )
+    local pac_rm=(
+    )
+
+    set -x
+    touch "${d_mnt}/etc/resolv.conf"
+    mv "${d_mnt}/etc/resolv.conf" "${d_mnt}/etc/resolv.conf.orig"
+    cp /etc/resolv.conf "${d_mnt}/etc/resolv.conf"
+    chroot "${d_mnt}" zypper --no-gpg-checks --non-interactive ref
+    test -z "${pac_in:-}" ||
+	chroot "${d_mnt}" zypper in -y --no-recommends "${pac_in[@]}"
+    test -z "${pac_rm:-}" ||
+	chroot "${d_mnt}" zypper rm -u -y "${pac_rm[@]}"
+    mv -f "${d_mnt}/etc/resolv.conf.orig" "${d_mnt}/etc/resolv.conf"
+}
+
 fixup_snapshot() {
     echo "*** Fixing up snapshot ***"
     cat <<EOF > "${d_mnt}/etc/fstab"
@@ -227,6 +248,7 @@ show_console() {
 clean_old_vm
 setup_storage
 mount_guest
+#install_remove_packages
 fixup_snapshot
 get_kernel
 umount_guest
