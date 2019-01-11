@@ -6,7 +6,11 @@ if
     test -r "/host/${bd}.tgz"
 then
     echo "Importing ${bd}.tgz"
-    tar xfzv /host/"${bd}".tgz -C /srv/obs/
+    tar xfzv "/host/${bd}.tgz" -C /srv/obs/
+    tar tzf "/host/${bd}.tgz" |
+	sed -r 's@(^[^/]+)/.*@\1@' |
+	sort -u |
+	xargs -r -n 1 -I @ chown -R obsrun:obsrun /srv/obs/@
     echo "Imported ${bd}.tgz"
 else
     echo "No OBS backend dump ${bd}.tgz found, ignoring."

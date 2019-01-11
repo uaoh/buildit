@@ -49,5 +49,13 @@ EOF
 
 zypper ref
 zypper up -y --no-recommends
-zypper rm -y -u "${pacs_rm[@]}" || :
-zypper in -y --no-recommends "${pacs_in[@]}"
+
+for p in "${pacs_rm[@]}"
+do
+    zypper rm -y -u "${p}" || :
+done
+
+for p in "${pacs_in[@]}"
+do
+    zypper in -y --no-recommends "${p}"
+done
