@@ -3,22 +3,20 @@ set -eu
 
 d_my="$( dirname "$( readlink -e "${0}" )" )"
 d_mnt="$( mktemp -d )"
-#d_tmp="$( mktemp -d )"
+d_tmp="$( mktemp -d "${d_my}/tmp_host0.XXXXXX" )"
+d_keys="$( mktemp -d "${d_my}/tmp_keys.XXXXXX" )"
 
-d_tmp="${d_my}/tmp"
-test -e "${d_tmp}" && {
-    echo "${d_tmp} exists, stop."
-    exit 42
-}
-mkdir -p "${d_tmp}"
+chmod 0777 "${d_tmp}"
+
 
 cleanup()
 {
-    rm -rf "${d_tmp}"
+    rm -rf "${d_tmp}" "${d_keys}"
     umount "${d_mnt}" || :
     rmdir "${d_mnt}"
 }
 trap cleanup EXIT
+
 
 usage()
 {
@@ -105,13 +103,17 @@ mkdir "${d_tmp}/share"
 rsync -a "${d_my}/res/${res_set}/" "${d_tmp}/share/"
 rsync -a "${d_my}/res/common/" "${d_tmp}/share/"
 
-clean_old_vm(){
+
+clean_old_vm()
+{
     echo "*** Cleaning old VM ***"
     virsh destroy "$VM" || :
     virsh undefine "$VM" || :
 }
 
-setup_storage(){
+
+setup_storage()
+{
     echo "*** Setting up storage ***"
     if
 	! lvs -S 'lv_name = thinpool' -o lv_name --noheading |
@@ -137,48 +139,42 @@ setup_storage(){
     mkswap "/dev/${VG}/${VM}-swap"
 }
 
-mount_guest(){
+
+mount_guest()
+{
     echo "*** Mounting guest ***"
     mount "/dev/${VG}/${VM}-root-snap" "${d_mnt}"
 }
 
-install_remove_packages()
-{
-    local pac_in=(
-	cloud-init
-	cloud-init-config-suse
-    )
-    local pac_rm=(
-    )
 
-    set -x
-    touch "${d_mnt}/etc/resolv.conf"
-    mv "${d_mnt}/etc/resolv.conf" "${d_mnt}/etc/resolv.conf.orig"
-    cp /etc/resolv.conf "${d_mnt}/etc/resolv.conf"
-    chroot "${d_mnt}" zypper --no-gpg-checks --non-interactive ref
-    test -z "${pac_in:-}" ||
-	chroot "${d_mnt}" zypper in -y --no-recommends "${pac_in[@]}"
-    test -z "${pac_rm:-}" ||
-	chroot "${d_mnt}" zypper rm -u -y "${pac_rm[@]}"
-    mv -f "${d_mnt}/etc/resolv.conf.orig" "${d_mnt}/etc/resolv.conf"
+create_keys()
+{
+    ssh-keygen -f "${d_keys}/key" -N ''
+    ls "${d_keys}"
 }
 
-fixup_snapshot() {
+
+fixup_snapshot()
+{
     echo "*** Fixing up snapshot ***"
     cat <<EOF > "${d_mnt}/etc/fstab"
 /dev/vda        /       ext4    rw,noatime,user_xattr,acl,barrier=1,data=ordered                                  0  1
 EOF
-    chroot "${d_mnt}" systemctl enable cloud-init.service
-    chroot "${d_mnt}" systemctl enable cloud-config.service
-    chroot "${d_mnt}" systemctl enable cloud-final.service
 
     echo "gpgcheck      = 0" >> "${d_mnt}/etc/zypp/zypp.conf"
+
     for f in "${d_mnt}"/etc/zypp/repos.d/openSUSE-*.repo
     do
 	sed -ri '/^\s*priority\s*=\s*[0-9]+\s*/ d' "${f}"
 	echo "priority = 99" >> "${f}"
     done
+
+    mkdir -p "${d_mnt}/root/.ssh"
+    cat "${d_keys}/key.pub" > "${d_mnt}/root/.ssh/authorized_keys"
+    chmod 0700 "${d_mnt}/root/.ssh"
+    chmod 0600 "${d_mnt}/root/.ssh/authorized_keys"
 }
+
 
 get_kernel() {
     echo "*** Getting the kernel ***"
@@ -188,11 +184,16 @@ get_kernel() {
     cp "${d_mnt}"/boot/initrd-* "/kvmboot/${VM}/"
 }
 
-umount_guest(){
+
+umount_guest()
+{
     echo "*** Unmounting guest ***"
     umount "${d_mnt}"
 }
-create_network(){
+
+
+create_network()
+{
     echo "*** Creating the network ***"
     nw_tmp="$( mktemp )"
     cat <<EOF > "${nw_tmp}"
@@ -213,12 +214,9 @@ EOF
    rm -f "${nw_tmp}"
 }
 
-create_config_iso(){
-    echo "*** Creating a config ISO ***"
-    genisoimage -o "${d_tmp}/${VM}_config.iso" -V cidata -r -J meta-data user-data
-}
 
-create_vm() {
+create_vm()
+{
     boot=
     boot="${boot}kernel=/kvmboot/${VM}/vmlinuz-4.4.165-81-default,"
     boot="${boot}initrd=/kvmboot/${VM}/initrd-4.4.165-81-default,"
@@ -227,33 +225,68 @@ create_vm() {
         "path=/dev/${VG}/${VM}-root-snap,bus=virtio,cache=none,format=raw --import"
         "path=/dev/${VG}/${VM}-swap,bus=virtio,cache=none,format=raw"
         "path=/dev/${VG}/${VM}-data,bus=virtio,cache=none,format=raw"
-	"path=${d_tmp}/${VM}_config.iso,device=cdrom"
     )
 
     echo "*** Creating the VM ***"
-    virt-install --name "${VM}" --memory 2048 --os-type linux            \
-         -w network="${VM}-network",model=virtio,mac=da:9c:4a:e0:bb:9f   \
-         --filesystem "${d_tmp}/share",host0                             \
-         --graphics none                                                 \
-	 ${disks[@]/#/--disk }                                           \
-         --boot "${boot}"
+    virt-install                                                        \
+	--name "${VM}"                                                  \
+	--memory 2048                                                   \
+	--os-type linux                                                 \
+	--os-variant opensuse42.3                                       \
+        -w network="${VM}-network",model=virtio,mac=da:9c:4a:e0:bb:9f   \
+        --filesystem "${d_tmp}/share",host0                             \
+	--noautoconsole                                                 \
+        --graphics none                                                 \
+	${disks[@]/#/--disk }                                           \
+        --boot "${boot}"
 }
 
-show_console() {
-    echo "*** Showing the console ***"
-    virsh console "${VM}"
+
+launch_scripts_on_guest()
+{
+    cmds=(
+	"mkdir /host"
+	"mount -t 9p -o \"trans=virtio,version=9p2000.L\" host0 /host"
+	"/host/run_scripts.sh"
+	"umount /host"
+	"rmdir /host"
+	"rm /root/.ssh/authorized_keys"
+    )
+    for c in "${cmds[@]}"
+    do
+	ssh                                      \
+	    -i "${d_keys}/key"                   \
+	    -o StrictHostKeyChecking=no          \
+	    -o ControlMaster=auto                \
+	    -o ControlPath="${d_keys}/%r@%h-%p"  \
+	    -o ControlPersist=1h                 \
+	    root@10.10.10.2                      \
+	    "${c}"
+    done
+}
+
+
+do_sleep()
+{
+    echo "*** Sleeping ***"
+    for i in $( seq -w ${1:-10} -1 0 )
+    do
+	echo -ne "${i}\r"
+	sleep 1
+    done
+    echo
 }
 
 
 clean_old_vm
 setup_storage
 mount_guest
-#install_remove_packages
+create_keys
 fixup_snapshot
 get_kernel
 umount_guest
 create_network
-create_config_iso
 create_vm
-#show_console
+do_sleep 25
+launch_scripts_on_guest
 exit 0
