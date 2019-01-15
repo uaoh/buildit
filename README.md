@@ -14,16 +14,16 @@ Roughly
 1. Prepare the host, install KVM kit, thin-provisioning-tools if needed.
 2. Set up a logical volume, `ci-root`, of 5GB or more.
 3. Prepare the kiwi runner, _for example_:
-  1. set up a VM with leap 42.3, and
-  2. expose `ci-root` to the kiwi runner via virtio, raw-backed vmdk or somesuch.
+  * set up a VM with leap 42.3, and
+  * expose `ci-root` to the kiwi runner via virtio, raw-backed vmdk or somesuch.
 4. Build the base image; _on the kiwi runner_:
-  1. check that `TARGET` in `rebuild-ci-root.sh` makes sense for your setup, and
-  2. run `rebuild-ci-root.sh`.
+  * check that `TARGET` in `rebuild-ci-root.sh` makes sense for your setup, and
+  * run `rebuild-ci-root.sh`.
 5. Run the cloud-init provisioning kit, _on the host_:
-  1. check that `VG` in `buildit.sh` makes sense, and
-  2. run `buildit.sh` (requires `root`.)
+  * check that `VG` in `buildit.sh` makes sense, and
+  * run `buildit.sh` (requires `root`.)
 
 
-## The steps
+## The data
 
-See `shared/scripts`.
+See `res/`.

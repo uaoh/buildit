@@ -1,6 +1,0 @@
-- Seeding OBS projects and packages
--- Database is read from file api_production.sql  
--- Backend is extracted at /srv/obs from file be.tgz 
--- Should be in OBS 2.5 format
-- OBS upgrade repositories
--- RPM repositories for 2.9 upgrade are read from *.repo files
