@@ -11,8 +11,6 @@ egrep -q "^${TARGET}" /etc/mtab && {
 
 PKGS=(
     bash-completion
-    cloud-init
-    cloud-init-config-suse
     curl
     emacs-nox
     iptables
