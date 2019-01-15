@@ -15,8 +15,8 @@ mkdir -p "${d_tmp}"
 cleanup()
 {
     rm -rf "${d_tmp}"
-    umount "${d_mnt}" || :
-    rmdir "${d_mnt}"
+    mountpoint -q "${d_mnt}" && umount "${d_mnt}" || :
+    test -d "${d_mnt}" && rmdir "${d_mnt}"
 }
 trap cleanup EXIT
 
@@ -102,8 +102,8 @@ test -z "${res_set}" &&
 export VM VG
 
 mkdir "${d_tmp}/share"
-rsync -a "${d_my}/res/${res_set}/" "${d_tmp}/share/"
-rsync -a "${d_my}/res/common/" "${d_tmp}/share/"
+rsync -r -L -p -t -o -g -v "${d_my}/res/${res_set}/" "${d_tmp}/share/"
+rsync -r -L -p -t -o -g -v "${d_my}/res/common/" "${d_tmp}/share/"
 
 clean_old_vm(){
     echo "*** Cleaning old VM ***"
