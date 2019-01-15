@@ -19,4 +19,7 @@ chmod 0640 config/database.yml
 # Adding our default archs. Maybe just write the whole configuration.xml?
 sed -i "s/armv7l i586/armv7el armv8el i586/" db/seeds.rb
 
+# TODO: drop me!
+patch -p1 < <( sed -r 's@src/api/db/@db/@g' /host/0001-fix-structure.sql.patch )
+
 RAILS_ENV="production" rake db:setup writeconfiguration ts:index ts:start
