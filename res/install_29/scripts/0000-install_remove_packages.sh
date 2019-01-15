@@ -18,6 +18,10 @@ pacs_in=(
     memcached
 )
 
+find "$( dirname "$( dirname "$( readlink -e "${0}" )" )" )"  \
+     -maxdepth 1 -mindepth 1 -type f -name '*.repo' -print0 |
+    xargs -0 -r -n 1 -I @ zypper ar @
+
 cat <<EOF > /etc/zypp/repos.d/obs_server_mer-2.9_42.3.repo
 [obs_server_2.9_mer]
 name=obs:server:2.9:mer (openSUSE_42.3)
