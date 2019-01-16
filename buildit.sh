@@ -38,8 +38,8 @@ res_sets=(
 	rd="$( readlink -e "${d_my}/res" )"
 	find "${rd}" -regex "${rd}/[^/]+/scripts/[0-9]+-[a-z_-]+\.sh" -print0 |
 	    xargs -0 -n 1 -r dirname -z |
-	    sort -zu |
 	    xargs -0 -n 1 -r dirname -z |
+	    sort -zu |
 	    xargs -0 -n 1 -r basename
     )
 )
@@ -90,12 +90,14 @@ do
     esac
 done
 
-test -z "${res_set}" &&
+while test -z "${res_set}"
+do
     select res_set in "${res_sets[@]}"
     do
 	test -z "${res_set}" ||
 	    break
     done
+done
 
 export VM VG
 
