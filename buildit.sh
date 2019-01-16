@@ -131,7 +131,7 @@ setup_storage()
         exit 1
     fi
 
-    lvremove -f "/dev/${VG}/${VM}-root-snap"
+    lvremove -f "/dev/${VG}/${VM}-root-snap" || :
     lvcreate --snapshot --name "${VM}-root-snap" --size 5G "/dev/${VG}/${VM}-root"
     # Make thin data and swap LVs
     lvremove -f "/dev/${VG}/${VM}-data"
