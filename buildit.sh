@@ -26,6 +26,7 @@ usage()
 	echo "Usage: ${bn} [-l|<resource_set>]"
 	echo "       ${bs} [-vm <vm_prefix>]"
 	echo "       ${bs} [-vg <vol_group>]"
+	echo "       ${bs} [-a [<arg1> [<arg2> [...]]]]"
     } >&2
     exit 1
 }
@@ -44,6 +45,7 @@ res_sets=(
     )
 )
 res_set=
+script_args=()
 
 while test ${#} -gt 0
 do
@@ -72,6 +74,14 @@ do
 	    VG="${2}"
 	    shift 2
 	    ;;
+	-a)
+	    shift
+	    while test ${#} -gt 0
+	    do
+		script_args+=( "${1}" )
+		shift
+	    done
+	    ;;
 	*)
 	    c="$( basename "${1}" )"
 	    shift
@@ -98,6 +108,8 @@ do
 	    break
     done
 done
+
+echo "${res_set}"
 
 export VM VG
 
@@ -249,7 +261,7 @@ launch_scripts_on_guest()
     cmds=(
 	"mkdir /host"
 	"mount -t 9p -o \"trans=virtio,version=9p2000.L\" host0 /host"
-	"/host/run_scripts.sh"
+	"/host/run_scripts.sh \"${script_args[@]}\""
 	"umount /host"
 	"rmdir /host"
 	"rm /root/.ssh/authorized_keys"

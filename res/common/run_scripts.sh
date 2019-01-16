@@ -18,10 +18,10 @@ do
 	then
 	    l="$( readlink "${s}" )"
 	    echo "${0}: running '${s}' -> '${l}'" >&2
-	    "${l}"
+	    "${l}" "${@}"
 	else
 	    echo "${0}: running '${s}'" >&2
-	    "${s}"
+	    "${s}" "${@}"
 	fi
     )
 done
