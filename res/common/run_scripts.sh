@@ -13,9 +13,7 @@ do
 	    ! test -x "${s}"
 	then
 	    echo "${0}: '${s}' is not executable, skipping" >&2
-	    continue
-	fi
-	if
+	elif
 	    test -L "${s}"
 	then
 	    l="$( readlink "${s}" )"
